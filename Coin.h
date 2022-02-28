@@ -21,14 +21,12 @@ private:
    //int count_;        // the number of this coin
 
 
-   std::string processCoinConstruction(std::string& instructions);
-
 public:
 
    //-------------------------- Constructor -----------------------------------
    // Creates a completely empty coin with empty fields
    // Postconditions: an empty coin is created
-   Coin(std::string type = "");
+   Coin(std::string type = "M");
 
 
    //-------------------------- destructor -----------------------------------

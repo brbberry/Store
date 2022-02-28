@@ -17,13 +17,12 @@ private:
    int year_;              // the year the comic was published
    std::string grade_;     // the grade of the comic
 
-
 public:
 
    //-------------------------- Constructor -----------------------------------
    // Creates a completely empty comic with empty fields
    // Postconditions: an empty comic is created
-   Comic();
+   Comic(std::string id = "C");
 
    //-------------------------- destructor -----------------------------------
    // Frees any dynamic memory associated with the Comic
@@ -90,7 +89,7 @@ public:
    //-------------------------- print --------------------------------------
    // Prints the comics publisher, title, year, and grade on one line
    // Postconditions: prints to the console a representation of the Comic
-   virtual void print();
+   virtual void print() const;
 
 };
 

@@ -44,6 +44,39 @@ has access to
 class Collectible : public HashableObject, public Comparable
 {
 
+protected:
+
+   std::string processConstruction(std::string& instructions) {
+      // format {, data} position 2 is the first char of the data
+      int startPosition = 2;
+      int endPosition = 2;
+
+      if (instructions == "" || startPosition > instructions.length()) {
+         return "";
+      }
+
+      // format {, data} position 2 is the first char of the data
+      while (endPosition < instructions.length() &&
+         instructions[endPosition] != ',') {
+
+         endPosition++;
+      }
+
+      std::string data;
+
+      if (endPosition == instructions.length()) {
+         data = instructions.substr(startPosition, endPosition);
+      }
+      else {
+         data = instructions.substr(startPosition, endPosition - 2);
+      }
+
+      // update the instructions to get the next piece of data
+      instructions.erase(0, endPosition);
+      return data;
+   }
+
+
 public : 
    
    Collectible(std::string type): HashableObject(type) {};
@@ -90,7 +123,10 @@ public :
    // generates an int from the value that the Collectible holds
    // Postconditions: an integer is returned based off the value held by the 
    //                 Collectible object
-   virtual int hash() const = 0;
+   virtual int hash() const {
+      std::string comparableType = HashableObject::getID();
+      return comparableType[0] - 'A';
+   };
 
 
    //-------------------------- print -----------------------------------------

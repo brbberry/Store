@@ -26,59 +26,29 @@ Coin::~Coin()
 }
 
 
-std::string Coin::processCoinConstruction(std::string& instructions)
-{
-   // format {, data} position 2 is the first char of the data
-   int startPosition = 2;
-   int endPosition = 2;
-
-   if (instructions == "" || startPosition > instructions.length()) {
-      return "";
-   }
-
-   // format {, data} position 2 is the first char of the data
-   while (endPosition < instructions.length() &&
-          instructions[endPosition] != ',') {
-
-      endPosition++;
-   } 
-
-   std::string data;
-
-   if (endPosition == instructions.length()) {
-      data = instructions.substr(startPosition, endPosition);
-   }
-   else {
-      data = instructions.substr(startPosition, endPosition - 2);
-   }
-
-   // update the instructions to get the next piece of data
-   instructions.erase(0, endPosition);
-   return data;
-}
 
 const Coin* Coin::create(std::string toMakeFrom)
 {
    // makes a new coin becuase we dont want to edit the one produced 
    // by the factory
 
-   Coin* dummy = new Coin("M");
+   Coin* dummy = new Coin();
    // assumes that year comes first
    
-   dummy->year_ = std::stoi(processCoinConstruction(toMakeFrom));
+   dummy->year_ = std::stoi(Collectible::processConstruction(toMakeFrom));
 
    if (dummy->year_ < 1000 || dummy->year_ > 2022) {
       //throw error
    }
 
    // assumes grade comes second
-   dummy->grade_ = std::stoi(processCoinConstruction(toMakeFrom));
+   dummy->grade_ = std::stoi(Collectible::processConstruction(toMakeFrom));
    if (dummy->grade_ < 0) {
       //throw error
    }
 
    // assumes type comes last
-   dummy->type_ = processCoinConstruction(toMakeFrom);
+   dummy->type_ = Collectible::processConstruction(toMakeFrom);
 
    return dummy;
 }
@@ -147,16 +117,14 @@ bool Coin::operator<(const Comparable& right) const
  
 int Coin::hash() const
 {
-   std::string comparableType = HashableObject::getID();
-
-   return comparableType[0] - 'A';
+   return Collectible::hash();
 }
 
 void Coin::print() const
 {
-   std::cout << "Coin :" << year_ << " " << grade_ << " " << type_;
+   std::cout << "Coin : " << year_ << ", " << grade_ << ", " << type_;
 }
-/*
+
 int main() {
    Collectible* testCoin = new Coin("M");
    const Collectible* created = testCoin->create(", 1913, 70, Liberty Nickel");
@@ -232,4 +200,3 @@ int main() {
    delete anotherCoinCreated;
    return 0;
 }
-*/
