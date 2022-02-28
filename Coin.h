@@ -13,18 +13,22 @@ class Coin : public Collectible
 {
 
 private:
-   
-   std::string type_; // the string type the coin is
+
    int year_;         // the year the coin originated from
    int grade_;        // the coins grade
+   std::string type_; // the string type the coin is
 
+   //int count_;        // the number of this coin
+
+
+   std::string processCoinConstruction(std::string& instructions);
 
 public:
 
    //-------------------------- Constructor -----------------------------------
    // Creates a completely empty coin with empty fields
    // Postconditions: an empty coin is created
-   Coin();
+   Coin(std::string type = "");
 
 
    //-------------------------- destructor -----------------------------------
@@ -91,6 +95,8 @@ public:
    //-------------------------- print --------------------------------------
    // Prints the coins type year and grade on one line
    // Postconditions: prints to the console a representation of the Coin
-   virtual void print();
+   virtual void print() const;
+
+
 };
 

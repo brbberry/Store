@@ -45,6 +45,8 @@ class Collectible : public HashableObject, public Comparable
 {
 
 public : 
+   
+   Collectible(std::string type): HashableObject(type) {};
 
    //-------------------------- operator== ------------------------------------
    // Checks if two Collectibles are equivilent. Equivilance is defined by the 
@@ -94,13 +96,13 @@ public :
    //-------------------------- print -----------------------------------------
    // Prints the Collectible as defined by the dervied classes
    // Postconditions: prints to the console a representation of the Collectible
-   virtual void print() = 0;
+   virtual void print() const = 0;
 
 
    //-------------------------- Create --------------------------------------
    // creates a Collectible from a given string returning itself
    // PreConditions : It is assumed that the collectible type is valid
    // Postconditions: returns a constant pointer to the created collectible
-   virtual const Comparable* create(std::string toMakeFrom) = 0;
+   virtual const Collectible* create(std::string toMakeFrom) = 0;
 };
 

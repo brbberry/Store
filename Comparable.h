@@ -61,7 +61,7 @@ public:
    // Postconditions: prints to the console a representation of the comparable
    virtual void print() const = 0;
 
-
+   /*
    //-------------------------- operator<< ---------------------------------------
    // Streams the comparable out listing the held comparable. A single char.
    // Preconditions : The comparable to be stream out must be defined
@@ -77,4 +77,5 @@ public:
    //                  requires the input stream is defined
    // Postconditions:  fills the comparable with a given character 
    friend std::istream& operator>>(std::istream& input, Comparable& toStream);
+   */
 };
