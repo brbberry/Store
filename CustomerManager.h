@@ -18,6 +18,8 @@
 #pragma once
 #include "Customer.h"
 #include "HashTable.h"
+#include <iostream>
+#include <fstream>
 
 class CustomerManager
 {
@@ -31,12 +33,13 @@ private:
    //                  If it is not found an error is thrown
    // Function Calls:  retrieve is called to check the search tree for a given
    //                  comparable
-   bool checkCustomerLog(const Comparable& toGet) const;
+   bool checkCustomerLog(const HashableObject& toGet) const;
    //PSUEDOCODE
    /*
       cast comparable to a customer
 
    */
+   
 
 
 public:
@@ -72,7 +75,7 @@ public:
    // 
    // Postconditions: The ItemManagers inventory is filled, exceptions are 
    //                 thrown if invalid data is attempted
-   void fillCustomerLog(/* file */);
+   void fillCustomerLog(const std::ifstream& readFrom);
    // PSUEDOCODE
    /*
       while we are not at the end of the file do

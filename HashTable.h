@@ -70,6 +70,7 @@ public:
    
    */
 
+   // takes in a dummy object
    //-------------------------- getValue -----------------------------------
    // From a given key a value is returned if it exists
    // Postconditions: a constant Hashable object pointer is returned from a key

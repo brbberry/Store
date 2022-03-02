@@ -113,7 +113,3 @@ void SportsCard::print() const
    std::cout << "Comic : " << year_ << ", " << grade_ << ", " + manufacturer_
       << ", " + player_;
 }
-
-int main() {
-   return 0;
-}
