@@ -124,7 +124,7 @@ void Coin::print() const
 {
    std::cout << "Coin : " << year_ << ", " << grade_ << ", " << type_;
 }
-
+/*
 int main() {
    Collectible* testCoin = new Coin("M");
    const Collectible* created = testCoin->create(", 1913, 70, Liberty Nickel");
@@ -200,3 +200,4 @@ int main() {
    delete anotherCoinCreated;
    return 0;
 }
+*/

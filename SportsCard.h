@@ -14,7 +14,7 @@ class SportsCard : public Collectible
 private:
 
    std::string player_;       // the name of the baseball player
-   std::string Manufacturer_; // the card manufacturer
+   std::string manufacturer_; // the card manufacturer
    int year_;                 // the year the cards from
    std::string grade_;        // the grade of the card
 
@@ -24,7 +24,7 @@ public:
    //-------------------------- Constructor -----------------------------------
    // Creates a completely empty SportsCard with empty fields
    // Postconditions: an empty SportsCard is created
-   SportsCard();
+   SportsCard(std::string key = "S");
 
    //-------------------------- destructor -----------------------------------
    // Frees any dynamic memory associated with the SportsCard
@@ -94,6 +94,6 @@ public:
    //-------------------------- print ----------------------------------------
    // Prints the SportsCard player, manufacturer, year, and grade on one line
    // Postconditions: prints to the console a representation of the SportsCard
-   virtual void print();
+   virtual void print() const;
 };
 

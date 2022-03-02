@@ -115,3 +115,81 @@ void Comic::print() const
              << ", "  + title_;
 }
 
+/*
+int main() {
+   Collectible* testCoin = new Comic();
+   const Collectible* created = testCoin->create(", 1938, Mint, Superman, DC");
+
+   std::cout << "Printing test comic" << std::endl;
+   testCoin->print();
+   std::cout << std::endl << "Printing created comic" << std::endl;
+   created->print();
+
+   std::cout << std::endl << "Printing test comic hash" << std::endl;
+   std::cout << testCoin->hash() << std::endl;
+   std::cout << std::endl << "Printing created comic" << std::endl;
+   std::cout << std::endl << created->hash() << std::endl;
+
+   const Collectible* checkingBools = created;
+
+   bool testEqualsY = created == checkingBools;
+   // checking the bools
+   std::cout << std::endl << "testing the bools == (true)" << std::endl;
+   std::cout << std::endl << testEqualsY << std::endl;
+
+   bool testEqualsN = created == testCoin;
+   // checking the bools
+   std::cout << std::endl << "testing the bools == (false)" << std::endl;
+   std::cout << std::endl << testEqualsN << std::endl;
+
+   bool testLEQN = created < checkingBools;
+   // checking the bools
+   std::cout << std::endl << "testing the bools < (false)" << std::endl;
+   std::cout << std::endl << testLEQN << std::endl;
+
+   bool testGEQN = created > checkingBools;
+   // checking the bools
+   std::cout << std::endl << "testing the bools > (false)" << std::endl;
+   std::cout << std::endl << testGEQN << std::endl;
+
+
+   const Collectible* anotherCoinCreated = testCoin->create(", 2010, Excellent, X-Men, Marvel");
+
+   std::cout << "testing with an addition comic" << std::endl;
+   std::cout << std::endl;
+   std::cout << std::endl << "Printing test comic hash" << std::endl;
+   std::cout << anotherCoinCreated->hash() << std::endl;
+   std::cout << std::endl << "Printing created comic" << std::endl;
+   std::cout << std::endl << created->hash() << std::endl;
+
+
+   testEqualsY = created == anotherCoinCreated;
+   // checking the bools
+   std::cout << std::endl << "testing the bools ==" << std::endl;
+   std::cout << std::endl << testEqualsY << std::endl;
+
+   testEqualsN = created > anotherCoinCreated;
+   // checking the bools
+   std::cout << std::endl << "testing the bools > created first " << std::endl;
+   std::cout << std::endl << testEqualsN << std::endl;
+
+   testLEQN = created < anotherCoinCreated;
+   // checking the bools
+   std::cout << std::endl << "testing the bools < created first" << std::endl;
+   std::cout << std::endl << testLEQN << std::endl;
+
+   testGEQN = anotherCoinCreated > created;
+   // checking the bools
+   std::cout << std::endl << "testing the bools > another first " << std::endl;
+   std::cout << std::endl << testGEQN << std::endl;
+
+
+
+
+   delete testCoin;
+   delete created;
+   delete anotherCoinCreated;
+   return 0;
+
+}
+*/

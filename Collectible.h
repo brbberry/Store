@@ -77,9 +77,9 @@ protected:
    }
 
 
-public : 
-   
-   Collectible(std::string type): HashableObject(type) {};
+public:
+
+   Collectible(std::string type) : HashableObject(type) {};
 
    //-------------------------- operator== ------------------------------------
    // Checks if two Collectibles are equivilent. Equivilance is defined by the 
@@ -141,4 +141,3 @@ public :
    // Postconditions: returns a constant pointer to the created collectible
    virtual const Collectible* create(std::string toMakeFrom) = 0;
 };
-
