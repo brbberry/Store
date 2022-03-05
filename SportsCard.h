@@ -95,5 +95,7 @@ public:
    // Prints the SportsCard player, manufacturer, year, and grade on one line
    // Postconditions: prints to the console a representation of the SportsCard
    virtual void print() const;
+
+   virtual const SportsCard* copy() const;
 };
 

@@ -124,6 +124,11 @@ void Coin::print() const
 {
    std::cout << "Coin : " << year_ << ", " << grade_ << ", " << type_;
 }
+const Coin* Coin::copy() const
+{
+   const Coin* toCopy = new Coin(*this);
+   return toCopy;
+}
 /*
 int main() {
    Collectible* testCoin = new Coin("M");

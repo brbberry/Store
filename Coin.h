@@ -95,6 +95,8 @@ public:
    // Postconditions: prints to the console a representation of the Coin
    virtual void print() const;
 
+   virtual const Coin* copy() const;
+
 
 };
 

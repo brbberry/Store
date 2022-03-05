@@ -91,5 +91,8 @@ public:
    // Postconditions: prints to the console a representation of the Comic
    virtual void print() const;
 
+   // makes a copy
+   virtual const Comic* copy() const;
+
 };
 

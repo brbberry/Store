@@ -56,19 +56,25 @@ public:
    virtual bool operator<(const Comparable& right) const = 0;
 
 
+   //returns a new copy of itself
+   virtual const Comparable* copy() const = 0;
+
    //-------------------------- print --------------------------------------
    // Prints the comparable as defined by the dervied classes
    // Postconditions: prints to the console a representation of the comparable
    virtual void print() const = 0;
 
-   /*
+   
    //-------------------------- operator<< ---------------------------------------
    // Streams the comparable out listing the held comparable. A single char.
    // Preconditions : The comparable to be stream out must be defined
    //                 The output stream must be defined
    // Postconditions:  outputs the comparable as a signle char to the output
-   friend std::ostream& operator<<(std::ostream& output, const Comparable& toStream);
-
+   friend std::ostream& operator<<(std::ostream& output, const Comparable& toStream) {
+     toStream.print();
+     return output;
+   }
+   /*
 
    //-------------------------- operator>> ---------------------------------------
    // Streams a char into a comparable to hold

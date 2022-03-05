@@ -115,6 +115,12 @@ void Comic::print() const
              << ", "  + title_;
 }
 
+const Comic* Comic::copy() const
+{
+   const Comic* copied = new Comic(*this);
+   return copied;
+}
+
 /*
 int main() {
    Collectible* testCoin = new Comic();

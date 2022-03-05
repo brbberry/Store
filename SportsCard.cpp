@@ -113,3 +113,9 @@ void SportsCard::print() const
    std::cout << "Comic : " << year_ << ", " << grade_ << ", " + manufacturer_
       << ", " + player_;
 }
+
+const SportsCard* SportsCard::copy() const
+{
+   const SportsCard* copied = new SportsCard(*this);
+   return copied;
+}

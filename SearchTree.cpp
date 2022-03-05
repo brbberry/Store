@@ -34,6 +34,7 @@ SearchTree::STNode* SearchTree::copy(STNode* root) const
    toAdd->left_ = copy(root->left_);
    toAdd->right_ = copy(root->right_);
    toAdd->count_ = root->count_;
+   Comparable* toAdd = new Comparable(root->held_);
    toAdd->held_ = new Comparable(*root->held_);
    return toAdd;
 }
@@ -72,7 +73,7 @@ void SearchTree::emptyTreeHelper(STNode*& root)
 
    // if we are not at the calling trees root, free the memory completely
    if (root != root_) {
-      Comparable* compToDel = root->held_;
+      const Comparable* compToDel = root->held_;
       STNode* nodeToDel = root;
       root->held_ = nullptr;
       root = nullptr;

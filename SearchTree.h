@@ -7,7 +7,7 @@
 //------------------------------------------------------------------------------
 #pragma once
 #include <iostream>
-#include "Comparable.h"
+#include "Collectible.h"
 
 class SearchTree
 {
@@ -17,7 +17,7 @@ private:
    // inner node struct
    struct STNode {
 
-      Comparable* held_;       // pointer to a comparable
+      const Comparable* held_;       // pointer to a comparable
       STNode* left_;       // pointer to the left child
       STNode* right_;      // pointer to the right child
       int     count_;      // the number of occurances of the comparable

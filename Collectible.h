@@ -140,4 +140,7 @@ public:
    // PreConditions : It is assumed that the collectible type is valid
    // Postconditions: returns a constant pointer to the created collectible
    virtual const Collectible* create(std::string toMakeFrom) const = 0;
+
+   // returns a new copy of iteself
+   virtual const Collectible* copy() const = 0;
 };
