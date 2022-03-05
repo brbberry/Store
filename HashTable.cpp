@@ -41,7 +41,3 @@ const HashableObject* HashTable::getValue(HashableObject*& toGet)
       return table_[index];
    }
 }
-
-int main() {
-   return 0;
-}

@@ -16,6 +16,7 @@ std::string Customer::getName() const
 {
    return customerName_;
 }
+
 /*
 int main() {
    return 0;

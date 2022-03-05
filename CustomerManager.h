@@ -25,7 +25,8 @@ class CustomerManager
 {
 private:
 
-   HashTable customerLog_;
+   HashableObject**  customerLog_;
+   int              numCustomers_;
 
    //-------------------------- CheckCustomerLog ------------------------------
    // Checks if a given customer is in the customer log
@@ -40,7 +41,11 @@ private:
 
    */
    
+   std::string processCustomer(std::string& curLine) const;
 
+   int hashCustomer(std::string customerNumber) const;
+
+   bool validCustomerHash(int customerIndex) const;
 
 public:
 
@@ -52,7 +57,7 @@ public:
    // Preconditions : The factory must be intialized with the items that are
    //                 allowed in the collections store
    // Postconditions: a new item manager is created
-   CustomerManager();
+   CustomerManager(int numCustomers = 1000);
 
 
    //-------------------------- Destructor -----------------------------------
@@ -75,7 +80,7 @@ public:
    // 
    // Postconditions: The ItemManagers inventory is filled, exceptions are 
    //                 thrown if invalid data is attempted
-   void fillCustomerLog(const std::ifstream& readFrom);
+   void fillCustomerLog(std::ifstream& readFrom);
    // PSUEDOCODE
    /*
       while we are not at the end of the file do
