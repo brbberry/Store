@@ -46,7 +46,7 @@ class Collectible : public HashableObject, public Comparable
 
 protected:
 
-   std::string processConstruction(std::string& instructions) {
+   std::string processConstruction(std::string& instructions) const {
       // format {, data} position 2 is the first char of the data
       int startPosition = 2;
       int endPosition = 2;
@@ -139,5 +139,5 @@ public:
    // creates a Collectible from a given string returning itself
    // PreConditions : It is assumed that the collectible type is valid
    // Postconditions: returns a constant pointer to the created collectible
-   virtual const Collectible* create(std::string toMakeFrom) = 0;
+   virtual const Collectible* create(std::string toMakeFrom) const = 0;
 };

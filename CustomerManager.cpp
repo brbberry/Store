@@ -97,11 +97,13 @@ void CustomerManager::fillCustomerLog(std::ifstream& readFrom)
       int customerNumber = std::stoi(customerNumberString);
       int custIndex = hashCustomer(customerNumberString);
 
+      // if the customer is not in the log already
       if (customerLog_[custIndex] == nullptr) {
          std::string custName = processCustomer(curCust);
          HashableObject* newCustomer = new Customer(customerNumber, custName);
          customerLog_[custIndex] = newCustomer;
       }
+      // if it is throw an error
       else {
          // throw an error
       }
@@ -123,6 +125,7 @@ const Customer* CustomerManager::findCustomer(std::string ID)
       }
    }
 }
+
 /*
 int main() {
    

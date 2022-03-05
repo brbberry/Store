@@ -35,7 +35,7 @@ public:
    // PreConditions : The comic data must be formatted correctly in the string
    // Postconditions: returns a constant pointer to the created Comic
    //                 throws an exception if any of the information is invalid
-   virtual const Comic* create(std::string toMakeFrom);
+   virtual const Comic* create(std::string toMakeFrom) const;
 
    //-------------------------- operator== ------------------------------------
    // Checks if two Comics are equivilent. Equivilance is defined as each 

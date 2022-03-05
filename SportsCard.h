@@ -38,7 +38,7 @@ public:
    //                 string
    // Postconditions: returns a constant pointer to the created SportsCard
    //                 throws an exception if any of the information is invalid
-   virtual const SportsCard* create(std::string toMakeFrom);
+   virtual const SportsCard* create(std::string toMakeFrom) const;
 
 
    //-------------------------- operator== ------------------------------------

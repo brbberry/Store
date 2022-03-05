@@ -15,7 +15,7 @@ Comic::~Comic()
 {
 }
 
-const Comic* Comic::create(std::string toMakeFrom)
+const Comic* Comic::create(std::string toMakeFrom) const
 {
    Comic* dummy = new Comic();
    // assumes that year comes first

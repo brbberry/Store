@@ -27,7 +27,7 @@ Coin::~Coin()
 
 
 
-const Coin* Coin::create(std::string toMakeFrom)
+const Coin* Coin::create(std::string toMakeFrom) const
 {
    // makes a new coin becuase we dont want to edit the one produced 
    // by the factory

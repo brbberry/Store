@@ -9,12 +9,10 @@
 
 
 #pragma once
-#include "HashTable.h"
 #include "Collectible.h"
 #include "Coin.h"
 #include "SportsCard.h"
 #include "Comic.h"
-#include <vector>
 
 class CollectionFactory
 {
@@ -23,7 +21,13 @@ private:
    static const int FACTORY_SIZE = 26; // the number of collectibles possible
                                        // for this factory
 
-   HashTable itemsFactory;             // hashtable filled with collectibles
+   HashableObject** itemsFactory_;             // hashtable filled with collectibles
+   int size_;
+
+
+   int hashCollectible(std::string collectionType) const;
+
+   bool validCollectibleHash(int collectionIndex) const;
 
 
 public:
@@ -33,7 +37,7 @@ public:
    // be able to create
    // Preconditions : the collectible objects will need to be hashable
    // Postconditions: The hashtable will be filled with the dummy nodes
-   CollectionFactory();
+   CollectionFactory(int size = FACTORY_SIZE);
    // PSUEDOCDOE
    /*
       instantiate itemsFactory to size of FACTORY_SIZE
@@ -59,7 +63,7 @@ public:
    //-------------------------- create ----------------------------------------
    // From a given key a value is returned if it exists
    // Postconditions: a constant Hashable object pointer is returned from a key
-   const Collectible* create(const std::string& ID);
+   const Collectible* create(std::string key);
    // PSUEDOCODE
    /*
       creates a collectible from the given ID

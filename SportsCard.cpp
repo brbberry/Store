@@ -13,7 +13,7 @@ SportsCard::~SportsCard()
 {
 }
 
-const SportsCard* SportsCard::create(std::string toMakeFrom)
+const SportsCard* SportsCard::create(std::string toMakeFrom) const
 {
    SportsCard* dummy = new SportsCard();
    // assumes that year comes first

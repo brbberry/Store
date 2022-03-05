@@ -40,7 +40,7 @@ public:
    // PreConditions : The coin data must be formatted correctly in the string
    // Postconditions: returns a constant pointer to the created Coin
    //                 throws an exception if any of the information is invalid
-   virtual const Coin* create(std::string toMakeFrom);
+   virtual const Coin* create(std::string toMakeFrom) const;
 
    //-------------------------- operator== --------------------------------------
    // Checks if two Coins are equivilent. Equivilance is defined as each 
