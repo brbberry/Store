@@ -77,6 +77,7 @@ const Collectible* CollectionFactory::create(std::string key)
    return nullptr;
 }
 
+/*
 int main() {
 
    CollectionFactory* fact = new CollectionFactory();
@@ -87,3 +88,4 @@ int main() {
    delete fact;
    return 0;
 }
+*/

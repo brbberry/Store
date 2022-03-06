@@ -34,8 +34,7 @@ SearchTree::STNode* SearchTree::copy(STNode* root) const
    toAdd->left_ = copy(root->left_);
    toAdd->right_ = copy(root->right_);
    toAdd->count_ = root->count_;
-   Comparable* toAdd = new Comparable(root->held_);
-   toAdd->held_ = new Comparable(*root->held_);
+   toAdd->held_ = root->held_->copy();
    return toAdd;
 }
 
@@ -255,7 +254,7 @@ SearchTree::STNode* SearchTree::insertHelper(STNode* root,
 //                 comparable is increased. False is returned
 // Function Calls: InsertHelper() is called to return a pointer to the proper
 //                 insert location
-bool SearchTree::insert(Comparable* toInsert)
+bool SearchTree::insert(const Comparable* toInsert)
 {
 
    if (toInsert == nullptr) {
@@ -580,7 +579,9 @@ void SearchTree::streamInorder(STNode* root, std::ostream& output) const
    }
 
    streamInorder(root->left_, output);
-   output << *root->held_ << " " << root->count_ << std::endl;
+   // changed to use print
+   root->held_->print();
+   output << " " << root->count_ << std::endl;
    streamInorder(root->right_, output);
 }
 

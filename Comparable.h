@@ -20,6 +20,8 @@ private:
 
 public:
 
+   virtual ~Comparable() {};
+
    //-------------------------- operator== --------------------------------------
    // Checks if two comparables are equivilent. Equivilance is defined as each 
    // comparable storing the same character

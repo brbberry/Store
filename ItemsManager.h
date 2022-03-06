@@ -13,6 +13,10 @@
 #include "Collectible.h"
 #include "CollectionFactory.h"
 #include "SearchTree.h"
+#include <vector>
+#include <fstream>
+#include <iostream>
+#include <ctype.h>
 
 class ItemsManager
 {
@@ -20,9 +24,17 @@ class ItemsManager
 private:
 
    CollectionFactory makeCollectibles_;   // factory that makes collectibles 
-   std::vector<SearchTree> inventory_;    // stores one type of collectible
+   std::vector<SearchTree*> inventory_;    // stores one type of collectible (size of 6 most likely
                                           // at each index in sorted order
-
+   /*f
+   f
+   
+                     POSSIBLY ADD FACTOR SIZE HERE TO PASS TO THE FACTOPRY
+   f
+   f
+   f
+   f
+  f*/
 
    //-------------------------- CheckStore ------------------------------------
    // Checks if a given collectible is in the inventory
@@ -30,7 +42,7 @@ private:
    //                  If it is not found an error is thrown
    // Function Calls:  retrieve is called to check the search tree for a given
    //                  comparable
-   bool CheckStore(const Comparable& toGet) const;
+   bool CheckStore(std::string& key) const;
    //PSUEDOCODE
    /*
       cast comparable to a collectible
@@ -43,14 +55,8 @@ private:
             return true
    */
 
-
-   //-------------------------- makeDummyCollectible --------------------------
-   // Creates a dummy collectible based off of a string ID
-   // Preconditions :  The factory has to exist
-   // Postconditions:  returns a constant pointer that holds the appropriate
-   //                  collectible type if it exists
-   //                  otherwise an exception is thrown
-   const Collectible* makeDummyCollectible(std::string ID) const;
+   std::string getItemType(std::string& instructions) const;
+   int getQuantity(std::string& instructions) const;
 
 
 public:
@@ -84,7 +90,7 @@ public:
    // 
    // Postconditions: The ItemManagers inventory is filled, exceptions are 
    //                 thrown if invalid data is attempted
-   void fillInventory(/* file */);
+   void fillInventory(std::ifstream& inFile);
    // PSUEDOCODE
    /*
       while we are not at the end of the file do
@@ -120,7 +126,7 @@ public:
    // Postconditions: An item is sold and the inventory is updated and true
    //                 is returned. Throws an error if an invalid item is
    //                 attempted to be sold
-   bool manageSelling(std::string ID);
+   bool manageSelling(std::string collectible);
    // PSUEDOCODE
    /*
       generate and store with the item factor a comparable with they give ID
@@ -153,7 +159,7 @@ public:
    // Postconditions: An item is sold and the inventory is updated and true
    //                 is returned. Throws an error if an invalid item is
    //                 attempted to be purchased
-   bool manageBuying(std::string ID);
+   bool manageBuying(std::string collectible);
    // PSUEDOCODE
    /*
       generate and store with the item factor a comparable with they give ID

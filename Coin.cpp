@@ -85,13 +85,15 @@ bool Coin::operator>(const Comparable& right) const
 
    const Coin& toCheck = static_cast<const Coin&>(right);
    bool greaterThan = true;
-   if (static_cast<int>(type_.compare(toCheck.type_)) < 0) {
+   if (type_ < toCheck.type_) {
       return false;
    }
+   // a lesser year is greater
    if (year_ < toCheck.year_) {
       return false;
    }
-   if (grade_ < toCheck.grade_) {
+   // a higher grade is greater
+   if (grade_ > toCheck.grade_) {
       return false;
    }
 
@@ -103,12 +105,14 @@ bool Coin::operator<(const Comparable& right) const
 
    const Coin& toCheck = static_cast<const Coin&>(right);
    bool lessThan = true;
-   if (static_cast<int>(type_.compare(toCheck.type_)) > 0) {
+   if (type_ > toCheck.type_) {
       return false;
    }
-   if (year_ > toCheck.year_) {
+   // a smaller year is greater
+   if (year_ < toCheck.year_) {
       return false;
    }
+   // a higher grade is greater
    if (grade_ > toCheck.grade_) {
       return false;
    }

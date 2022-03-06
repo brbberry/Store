@@ -219,7 +219,7 @@ public:
    //                 comparable is increased. False is returned
    // Function Calls: InsertHelper() is called to return a pointer to the proper
    //                 insert location
-   bool insert(Comparable* toInsert);
+   bool insert(const Comparable* toInsert);
 
 
    //-------------------------- remove ---------------------------------------
