@@ -123,7 +123,7 @@ void ItemsManager::fillInventory(std::ifstream& inFile)
    }
 }
 
-bool ItemsManager::manageSelling(std::string collectible)
+const Collectible* ItemsManager::manageSelling(std::string collectible)
 {
 
    // we have the type
@@ -144,25 +144,44 @@ bool ItemsManager::manageSelling(std::string collectible)
    if (itemToSell->getID() == "M") {
       // if its already present free the memory as it isn't added
       if (!inventory_[0]->insert(comparableToSell)) {
+         const Comparable* actedOn = inventory_[0]->retrieve(*comparableToSell);
          delete itemToSell;
+         return static_cast<const Collectible*>(actedOn);
+      }
+      else {
+         const Comparable* actedOn = inventory_[0]->retrieve(*comparableToSell);
+         return static_cast<const Collectible*>(actedOn);
       }
    }
    else if (itemToSell->getID() == "C") {
       // if its already present free the memory as it isn't added
       if (!inventory_[1]->insert(comparableToSell)) {
+         const Comparable* actedOn = inventory_[1]->retrieve(*comparableToSell);
          delete itemToSell;
+         return static_cast<const Collectible*>(actedOn);
+      }
+      else {
+         const Comparable* actedOn = inventory_[1]->retrieve(*comparableToSell);
+         return static_cast<const Collectible*>(actedOn);
       }
    }
    else if (itemToSell->getID() == "S") {
       // if its already present free the memory as it isn't added
       if (!inventory_[2]->insert(comparableToSell)) {
+         const Comparable* actedOn = inventory_[2]->retrieve(*comparableToSell);
          delete itemToSell;
+         return static_cast<const Collectible*>(actedOn);
+      }
+      else {
+         const Comparable* actedOn = inventory_[2]->retrieve(*comparableToSell);
+         return static_cast<const Collectible*>(actedOn);
       }
    }
-   return true;
+
+   return nullptr;
 }
 
-bool ItemsManager::manageBuying(std::string collectible)
+const Collectible* ItemsManager::manageBuying(std::string collectible)
 {
    // we have the type
    std::string collectibleType = getItemType(collectible);
@@ -180,18 +199,25 @@ bool ItemsManager::manageBuying(std::string collectible)
    const Comparable* comparableToBuy = static_cast<const Comparable*>(itemToBuy);
 
    if (itemToBuy->getID() == "M") {
-
+      // if false throw 
       inventory_[0]->remove(*comparableToBuy);
+      const Comparable* actedOn = inventory_[0]->retrieve(*comparableToBuy);
+      return static_cast<const Collectible*>(actedOn);
    }
    else if (itemToBuy->getID() == "C") {
+      // if false throw
       inventory_[1]->remove(*comparableToBuy);
+      const Comparable* actedOn = inventory_[1]->retrieve(*comparableToBuy);
+      return static_cast<const Collectible*>(actedOn);
    }
    else if (itemToBuy->getID() == "S") {
+      // if false throw
       inventory_[2]->remove(*comparableToBuy);
+      const Comparable* actedOn = inventory_[2]->retrieve(*comparableToBuy);
+      return static_cast<const Collectible*>(actedOn);
    }
 
-
-   return false;
+   return nullptr;
 }
 
 void ItemsManager::showInventory() const
@@ -203,6 +229,7 @@ void ItemsManager::showInventory() const
 
 }
 
+/*
 int main() {
    ItemsManager* mgr = new ItemsManager();
 
@@ -212,3 +239,4 @@ int main() {
    delete mgr;
    return 0;
 }
+*/

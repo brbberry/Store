@@ -84,7 +84,7 @@ public:
    //                  
    //                 if the customer has not made a transaction an exception
    //                 is thrown
-   void displayCustomersHistroy(const Customer& reponsible) const;
+   void displayCustomersHistroy(const Customer*& responsible) const;
    //PSUEDOCODE
    /*
       create a dummy transitionLogEntry give the customer

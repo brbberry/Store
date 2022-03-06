@@ -126,7 +126,7 @@ public:
    // Postconditions: An item is sold and the inventory is updated and true
    //                 is returned. Throws an error if an invalid item is
    //                 attempted to be sold
-   bool manageSelling(std::string collectible);
+   const Collectible* manageSelling(std::string collectible);
    // PSUEDOCODE
    /*
       generate and store with the item factor a comparable with they give ID
@@ -159,7 +159,7 @@ public:
    // Postconditions: An item is sold and the inventory is updated and true
    //                 is returned. Throws an error if an invalid item is
    //                 attempted to be purchased
-   bool manageBuying(std::string collectible);
+   const Collectible* manageBuying(std::string collectible);
    // PSUEDOCODE
    /*
       generate and store with the item factor a comparable with they give ID

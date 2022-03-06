@@ -1,5 +1,8 @@
 #include "TransactionManager.h"
-
+#include "ItemsManager.h"
+#include "CustomerManager.h"
+#include <fstream>
+#include <iostream>
 TransactionManager::TransactionManager() :
    transactionHistory_(nullptr)
 {
@@ -39,24 +42,43 @@ bool TransactionManager::logTransaction(const Customer*& responsible, const Coll
 }
 
 
-//PSUEDOCODE
-/*
-   store the pointer from a Call the search trees retrieve method
-   if the pointer is nullptr
-      create a new transaction
-      create a new TransactionLogEntry
-      insert that into the tree using the BST insert method
-   else
-      create a new transaction
-      cast the comparable pointer to a TransactionLogEntry
-      call the transitionLogEntries add transaction method to log it
-*/
-
 void TransactionManager::displayTransactionHistory() const
 {
+
+   std::cout << *transactionHistory_ << std::endl;
+
 }
 
-void TransactionManager::displayCustomersHistroy(const Customer& reponsible) const
+void TransactionManager::displayCustomersHistroy(const Customer*& responsible) const
 {
+   TransactionLogEntry dummyToSearch(responsible);
+   const Comparable* toMatch = static_cast<const Comparable*>(&dummyToSearch);
+   const Comparable* found = transactionHistory_->retrieve(*toMatch);
+   if (found == nullptr) {
+      // throw error
+      std::cout << "error" << std::endl;
+   }
+   else {
+      std::cout << *found << std::endl;
+   }
+
 }
 
+int main() {
+
+   ItemsManager* mgrI = new ItemsManager();
+   CustomerManager* mgrC = new CustomerManager();
+   TransactionManager* mgrT = new TransactionManager();
+   std::ifstream inv("C:/Users/Trident/source/repos/StoreTesting/StoreTesting/Text1.txt");
+   std::ifstream cus("C:/Users/Trident/source/repos/StoreTesting/StoreTesting/Text.txt");
+   mgrI->fillInventory(inv);
+   mgrC->fillCustomerLog(cus);
+
+   // not new'd
+   const Customer* toUse = mgrC->findCustomer("999");
+   //const Collectible* item = mgrI->manageBuying("C, 1938, Mint, Superman, DC");
+
+   delete mgrI, mgrC, mgrT;
+
+   return 0;
+}

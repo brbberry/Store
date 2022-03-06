@@ -38,10 +38,13 @@ bool TransactionLogEntry::operator==(const Comparable& right) const
    if (customer_ != rightHandSide.customer_) {
       return false;
    }
+   // there will never be one without this customer name
+   /*
    // may not need this case as it is unlikely to show up
    else if (transactionLog_ != rightHandSide.transactionLog_) {
       return false;
    }
+   */
    else {
       return true;
    }
