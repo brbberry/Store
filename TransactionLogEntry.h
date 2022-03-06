@@ -37,13 +37,14 @@ public:
    // Creates a log entry given a customer and an initial transaction
    // Postconditions: Creates an entry for a given customer and logs the
    //                 transaction
-   TransactionLogEntry(const Customer*& cust, Transaction* initialTransaction);
+   TransactionLogEntry(const Customer* cust, Transaction* initialTransaction);
 
-
+   /*
    //-------------------------- Constructor -----------------------------------
    // Creates a dummy transitionLogEntry for a given customer
    // Postconditions: Creates an entry for a given customer
    TransactionLogEntry(const Customer*& cust);
+   */
 
    //------------------------- Destructor -------------------------------------
    // Frees the transaction of any dynamic memory, the transaction does not 
@@ -99,5 +100,6 @@ public:
    // Postconditions:  adds the transaction to the end of the customers log
    bool addTransaction(Transaction* toAdd);
 
-};
+   virtual const Comparable* copy() const;
 
+};

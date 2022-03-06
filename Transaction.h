@@ -8,6 +8,8 @@
 //-----------------------------------------------------------------------------
 
 #pragma once
+#include "Collectible.h"
+
 class Transaction
 {
 private :
@@ -23,19 +25,17 @@ public:
    // taken
    // Postconditions: couples a item with the transaction that was taken on
    //                 the item
-   Transaction(const Collectible*& item, std::string type) :
-      itemTransacted_(item),
-      transactionType_(type) {}
+   Transaction(const Collectible*& item, std::string type);
+
+   const Collectible* getItemTransacted() const;
+
+
+   std::string getTransactionType() const;
 
    //------------------------- Destructor -------------------------------------
    // Frees the transaction of any dynamic memory, the transaction does not 
    // own the item data -- it is to be freed by the itemManager.
    // Postconditions: frees any dynamic memory associated with the transaction
    ~Transaction();
-
-   //------------------------- getTransaction ---------------------------------
-   // returns a constant pointer to the current transaction
-   // Postconditions: returns a constant pointer to the current transaction
-   const Transaction* getTransaction() const;
 };
 

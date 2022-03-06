@@ -11,13 +11,6 @@
 class Comparable
 {
 
-private:
-
-   /*
-   char charComparable_; // held char
-   */
-
-
 public:
 
    virtual ~Comparable() {};

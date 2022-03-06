@@ -188,12 +188,21 @@ bool ItemsManager::manageBuying(std::string collectible)
    return false;
 }
 
+void ItemsManager::showInventory() const
+{
+   // make this FACTORY_SIZE
+   for (int i = 0; i < 3; i++) {
+      std::cout << *inventory_[i] << std::endl;
+   }
+
+}
+
 int main() {
    ItemsManager* mgr = new ItemsManager();
 
    std::ifstream ifs("C:/Users/Trident/source/repos/StoreTesting/StoreTesting/Text1.txt");
    mgr->fillInventory(ifs);
-
+   mgr->showInventory();
    delete mgr;
    return 0;
 }

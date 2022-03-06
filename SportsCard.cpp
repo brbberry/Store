@@ -110,7 +110,7 @@ int SportsCard::hash() const
 
 void SportsCard::print() const
 {
-   std::cout << "Comic : " << year_ << ", " << grade_ << ", " + manufacturer_
+   std::cout << "Sports Card : " << year_ << ", " << grade_ << ", " + manufacturer_
       << ", " + player_;
 }
 
