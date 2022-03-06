@@ -142,17 +142,23 @@ bool ItemsManager::manageSelling(std::string collectible)
    const Comparable* comparableToSell = static_cast<const Comparable*>(itemToSell);
 
    if (itemToSell->getID() == "M") {
-
-      inventory_[0]->insert(comparableToSell);
+      // if its already present free the memory as it isn't added
+      if (!inventory_[0]->insert(comparableToSell)) {
+         delete itemToSell;
+      }
    }
    else if (itemToSell->getID() == "C") {
-      inventory_[1]->insert(comparableToSell);
+      // if its already present free the memory as it isn't added
+      if (!inventory_[1]->insert(comparableToSell)) {
+         delete itemToSell;
+      }
    }
    else if (itemToSell->getID() == "S") {
-      inventory_[2]->insert(comparableToSell);
+      // if its already present free the memory as it isn't added
+      if (!inventory_[2]->insert(comparableToSell)) {
+         delete itemToSell;
+      }
    }
-
-
    return true;
 }
 

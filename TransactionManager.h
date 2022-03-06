@@ -12,6 +12,7 @@
 #include "SearchTree.h"
 #include "Customer.h"
 #include "Transaction.h"
+#include "TransactionLogEntry.h"
 
 
 class TransactionManager
@@ -19,7 +20,7 @@ class TransactionManager
 private:
 
    // search tree filled with TransactionLogEntry items
-   SearchTree TransactionHistory_;
+   SearchTree* transactionHistory_;
 
 public:
 
@@ -44,8 +45,8 @@ public:
    // Preconditions : Assumes that the collectibles and customers free their
    //                 own dynamic memory
    // Postconditions: Frees the memory associated with the transactionManager
-   bool logTransaction(const Customer*& reponsible, 
-                       const Comparable*& item, 
+   bool logTransaction(const Customer*& responsible, 
+                       const Collectible*& item, 
                        std::string transactionType);
 
    //PSUEDOCODE

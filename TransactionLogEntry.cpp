@@ -2,15 +2,22 @@
 
 TransactionLogEntry::TransactionLogEntry() :
    customer_(nullptr),
-   transactionLog_(std::vector<Transaction*>())
+   transactionLog_(std::vector<Transaction>())
 {
 }
 
-TransactionLogEntry::TransactionLogEntry(const Customer* cust, Transaction* initialTransaction) :
+TransactionLogEntry::TransactionLogEntry(const Customer*& cust, Transaction& initialTransaction) :
    customer_(cust),
-   transactionLog_(std::vector<Transaction*>())
+   transactionLog_(std::vector<Transaction>())
 {
    transactionLog_.push_back(initialTransaction);
+}
+
+
+TransactionLogEntry::TransactionLogEntry(const Customer*& cust) :
+   customer_(cust),
+   transactionLog_(std::vector<Transaction>())
+{
 }
 
 
@@ -18,9 +25,6 @@ TransactionLogEntry::~TransactionLogEntry()
 {
    int size = static_cast<int>(transactionLog_.size());
 
-   for (int i = 0; i < size; i++) {
-      transactionLog_[i] = nullptr;
-   }
    transactionLog_.clear();
    customer_ = nullptr;
 
@@ -91,8 +95,8 @@ void TransactionLogEntry::print() const
 
    for (int i = 0; i < size; i++) {
 
-      const Collectible* item = transactionLog_[i]->getItemTransacted();
-      std::string transactionType = transactionLog_[i]->getTransactionType();
+      const Collectible* item = transactionLog_[i].getItemTransacted();
+      std::string transactionType = transactionLog_[i].getTransactionType();
 
       if (transactionType == "B") {
          transactionType = "Purachased";
@@ -106,14 +110,12 @@ void TransactionLogEntry::print() const
 }
 
 
-bool TransactionLogEntry::addTransaction(Transaction* toAdd)
+bool TransactionLogEntry::addTransaction(Transaction& toAdd) const
 {
-   if (toAdd != nullptr) {
-      transactionLog_.push_back(toAdd);
+   Transaction copiedToAdd(toAdd);
+   transactionLog_.push_back(copiedToAdd);
 
-      return true;
-   }
-   return false;
+   return true;
 }
 
 const Comparable* TransactionLogEntry::copy() const

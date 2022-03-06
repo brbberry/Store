@@ -21,7 +21,7 @@ class TransactionLogEntry: public Comparable
 private:
 
    const Customer* customer_; // the customer making the transaction
-   std::vector<Transaction*> transactionLog_; // a chronological order of
+   mutable std::vector<Transaction> transactionLog_; // a chronological order of
                                              // the customers transactions
 
 public:
@@ -37,14 +37,14 @@ public:
    // Creates a log entry given a customer and an initial transaction
    // Postconditions: Creates an entry for a given customer and logs the
    //                 transaction
-   TransactionLogEntry(const Customer* cust, Transaction* initialTransaction);
+   TransactionLogEntry(const Customer*& cust, Transaction& initialTransaction);
 
-   /*
+   
    //-------------------------- Constructor -----------------------------------
    // Creates a dummy transitionLogEntry for a given customer
    // Postconditions: Creates an entry for a given customer
    TransactionLogEntry(const Customer*& cust);
-   */
+   
 
    //------------------------- Destructor -------------------------------------
    // Frees the transaction of any dynamic memory, the transaction does not 
@@ -98,7 +98,7 @@ public:
    // Preconditions:   Assumes that the transaction is valid and that the
    //                  customer is valid
    // Postconditions:  adds the transaction to the end of the customers log
-   bool addTransaction(Transaction* toAdd);
+   bool addTransaction(Transaction& toAdd) const;
 
    virtual const Comparable* copy() const;
 
