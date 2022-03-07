@@ -10,6 +10,8 @@
 #pragma once
 #include "Command.h"
 #include <string>
+#include <ctype.h>
+
 class CommandBuy : public Command
 {
 
@@ -38,22 +40,23 @@ public:
    
    */
 
+   /*
    //-------------------------- Create -----------------------------------
    // Creates a specific CommandBuy based off a string type that is stored
    // in the command class's field (B for commandBuy)
    // Postconditions: The commandBuy object is created and returned
-   virtual const Command* create(std::string type = "B");
-
+   virtual const CommandBuy* create(std::string type = "B");
+   */
 
    //-------------------------- Execute -----------------------------------
    // Facilitates the purchase of an items to the store. Exceptions are
    // thrown at a lower level allowing us to avoid if statements
    // Postconditions: The purchase of an item to the store is executed
    //                 if there is any invalid inputs an exception is thrown
-   virtual void execute(TransactionManager& tManager,
-      ItemsManager& iManager,
-      CustomerManager& cManager,
-      std::string command) const;
+   virtual void execute(TransactionManager*& tManager,
+      ItemsManager*& iManager,
+      CustomerManager*& cManager,
+      std::string& command) const;
    //PSUEDOCODE
    /*
    

@@ -83,7 +83,7 @@ int main() {
    const Collectible* item2 = mgrI->manageBuying("C, 1938, Mint, Superman, DC");
    mgrT->logTransaction(toUse, item2, "B");
    mgrT->displayCustomersHistroy(toUse);
-
+   mgrT->displayTransactionHistory();
    mgrI->showInventory();
    delete mgrI, mgrC, mgrT;
 

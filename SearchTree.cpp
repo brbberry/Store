@@ -536,6 +536,10 @@ SearchTree::STNode* SearchTree::searchHelper(STNode* root,
 
    // recursively search the tree for a comparable
    if (*root->held_ == toFind) {
+      // becuase we are soft deleting if the count is zero dont access it//NEWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+      if (root->count_ == 0) {
+         return nullptr;
+      }
       return root;
    }
    else if (*root->held_ > toFind) {

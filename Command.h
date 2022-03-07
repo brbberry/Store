@@ -47,10 +47,12 @@ class Command : public HashableObject
 
 public:
 
+   Command(std::string key = "") : HashableObject(key) {};
+
    //-------------------------- destructor -----------------------------------
    // Frees any dynamic memory associated with the command objects
    // Postconditions: The command is freed of any dynamic memory
-   ~Command() {};
+   virtual ~Command() {};
 
 
    //-------------------------------- Hash -----------------------------------
@@ -59,12 +61,13 @@ public:
    //                 command object
    int hash() const = 0;
 
+   /*
    //-------------------------- Create -----------------------------------
    // Creates a specific Command based off a string type that is stored
    // in the command class's field
    // Postconditions: The command object is created
    virtual const Command* create(std::string type) = 0;
-
+   */
 
    //-------------------------- Execute -----------------------------------
    // Creates a specific Command based off a string type that is stored
