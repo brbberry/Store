@@ -12,7 +12,6 @@
 #include <string>
 #include "TransactionManager.h"
 #include "CustomerManager.h"
-#include "StoreCommandFactroy.h"
 #include "ItemsManager.h"
 
 /*
@@ -73,10 +72,10 @@ public:
    // Creates a specific Command based off a string type that is stored
    // in the command class's field
    // Postconditions: The command object is created
-   virtual void execute(TransactionManager& tManager,
-                        ItemsManager& iManager,
-                        CustomerManager& cManager,
-                        std::string command) const = 0;
+   virtual void execute(TransactionManager*& tManager,
+                        ItemsManager*& iManager,
+                        CustomerManager*& cManager,
+                        std::string& command) const = 0;
 
 };
 

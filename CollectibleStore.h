@@ -11,23 +11,23 @@
 
 #pragma once
 #include "Store.h"
+#include "CommandBuy.h"
+#include "CommandHistory.h"
+#include "CommandSell.h"
+#include "CommandDisplay.h"
+#include "CommandCustomer.h"
+#include <vector>
+#include <string>
 
 class CollectibleStore : public Store
 {
+private:
+
+
+   std::string getCommandType(std::string& instructions) const;
+
 
 protected:
-
-   ItemsManager         iManager; // manages the stores invetory
-                                  // and the items associated
-
-   TransactionManager   tManager; // manages the transactions
-                                  // and the transaction history
-
-   CustomerManager      cManager; // manages the list of customers
-
-   // the commands will take in all three managers as we dont know
-   // which command is needed to execute
-   StoreCommandFactroy  generateCommand; // processes store commands
 
 
    //------------------------ initalizeItemsManager ---------------------------
@@ -37,7 +37,7 @@ protected:
    //                 necessarily valid
    // Postconditions: The Item store manager is created along with the stores
    //                 inventory
-   void initalizeItemsManager(/* file */);
+   virtual void initalizeItemsManager(std::ifstream& readInventory);
    // PsuedoCode
    /*
    
@@ -69,7 +69,7 @@ protected:
    //                 valid
    // Postconditions: The customer manager is created along with the stores
    //                 customerlist
-   virtual void initalizeCustomerManager(/* file */) = 0;
+   virtual void initalizeCustomerManager(std::ifstream& readCustomers);
    // PsuedoCode
    /*
       // including loops 
@@ -81,6 +81,7 @@ protected:
 
    */
 
+   virtual int hashCommands(std::string key) const;
 
 public:
 
@@ -91,7 +92,7 @@ public:
    //                 implimented
    // Postconditions: A store with an inventory, customer list, and empty 
    //                 transaction log is created and can be ran for operation
-   CollectibleStore(/*itemsFile, CustomerFile*/);
+   CollectibleStore();
    // PsuedoCode
    /*
 
@@ -125,7 +126,7 @@ public:
    // Postconditions: The store managers are modified by the commands file
    //                 and the store operations that can display to the console
    //                 display to the console.
-   void runStore(/* file */);
+   void runStore(std::ifstream& readCommands);
    //Psuedocode
    /*
 
@@ -143,6 +144,9 @@ public:
             
 
    */
+   void fillStoreInventory(std::ifstream& readInventory);
+
+   void fillStoreCustomers(std::ifstream& readCustomers);
 
 
    //------------------------ main ----------------------------------------

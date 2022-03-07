@@ -11,7 +11,6 @@
 #include "ItemsManager.h"
 #include "TransactionManager.h"
 #include "CustomerManager.h"
-#include "StoreCommandFactroy.h"
 #include "Command.h"
 #include <iostream>
 #include <fstream>
@@ -21,18 +20,19 @@ class Store
 
 protected:
 
-   ItemsManager*        iManager; // manages the stores invetory
+   ItemsManager*        iManager_; // manages the stores invetory
                                   // and the items associated
 
-   TransactionManager*  tManager; // manages the transactions
+   TransactionManager*  tManager_; // manages the transactions
                                   // and the transaction history
 
-   CustomerManager*     cManager; // manages the list of customers
+   CustomerManager*     cManager_; // manages the list of customers
 
    // the commands will take in all three managers as we dont know
    // which command is needed to execute
-   StoreCommandFactroy* generateCommand; // processes store commands
+   Command** generateCommand_; // processes store commands
 
+   static const int NUM_COMMANDS = 26;
 
    //------------------------ initalizeItemsManager ---------------------------
    // Creates the stores inventory from a file of items.
@@ -41,7 +41,7 @@ protected:
    //                 necessarily valid
    // Postconditions: The Item store manager is created along with the stores
    //                 inventory
-   virtual void initalizeItemsManager(/* file */) = 0;
+   virtual void initalizeItemsManager(std::ifstream& readInventory) = 0;
 
 
    //----------------- initalizeTransactionManager ----------------------------
@@ -58,8 +58,9 @@ protected:
    //                 valid
    // Postconditions: The customer manager is created along with the stores
    //                 customerlist
-   virtual void initalizeCustomerManager(/* file */) = 0;
+   virtual void initalizeCustomerManager(std::ifstream& readCustomers) = 0;
 
+   virtual int hashCommands(std::string key) const = 0;
 
 public:
 
@@ -79,6 +80,6 @@ public:
    // Postconditions: The store managers are modified by the commands file
    //                 and the store operations that can display to the console
    //                 display to the console.
-   virtual void runStore(/* file */) = 0;
+   virtual void runStore(std::ifstream& readCommands) = 0;
 };
 

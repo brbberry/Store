@@ -64,6 +64,7 @@ void TransactionManager::displayCustomersHistroy(const Customer*& responsible) c
 
 }
 
+/*
 int main() {
 
    ItemsManager* mgrI = new ItemsManager();
@@ -89,3 +90,4 @@ int main() {
 
    return 0;
 }
+*/
