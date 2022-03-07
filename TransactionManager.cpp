@@ -76,8 +76,15 @@ int main() {
 
    // not new'd
    const Customer* toUse = mgrC->findCustomer("999");
-   //const Collectible* item = mgrI->manageBuying("C, 1938, Mint, Superman, DC");
+   // not new'd
+   const Collectible* item = mgrI->manageBuying("C, 1938, Mint, Superman, DC");
 
+   mgrT->logTransaction(toUse, item, "B");
+   const Collectible* item2 = mgrI->manageBuying("C, 1938, Mint, Superman, DC");
+   mgrT->logTransaction(toUse, item2, "B");
+   mgrT->displayCustomersHistroy(toUse);
+
+   mgrI->showInventory();
    delete mgrI, mgrC, mgrT;
 
    return 0;

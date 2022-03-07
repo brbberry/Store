@@ -101,6 +101,9 @@ void TransactionLogEntry::print() const
       const Collectible* item = transactionLog_[i].getItemTransacted();
       std::string transactionType = transactionLog_[i].getTransactionType();
 
+      // bc friend access
+      //const Comparable* toPrint = static_cast<const Comparable*>(item);
+
       if (transactionType == "B") {
          transactionType = "Purachased";
       }
@@ -108,7 +111,7 @@ void TransactionLogEntry::print() const
          transactionType = "Sold";
       }
 
-      std::cout << "\t" << transactionType << " " << item << std::endl;
+      std::cout << "\t" << transactionType << " " << *item << std::endl;
    }
 }
 

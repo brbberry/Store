@@ -193,27 +193,27 @@ const Collectible* ItemsManager::manageBuying(std::string collectible)
    //catch
 
    // try
-   const Collectible* itemToBuy = itemShell->create(collectibleType);
+   const Collectible* itemToBuy = itemShell->create(collectible);
    // catch
 
    const Comparable* comparableToBuy = static_cast<const Comparable*>(itemToBuy);
 
    if (itemToBuy->getID() == "M") {
       // if false throw 
-      inventory_[0]->remove(*comparableToBuy);
       const Comparable* actedOn = inventory_[0]->retrieve(*comparableToBuy);
+      inventory_[0]->remove(*comparableToBuy);
       return static_cast<const Collectible*>(actedOn);
    }
    else if (itemToBuy->getID() == "C") {
       // if false throw
-      inventory_[1]->remove(*comparableToBuy);
       const Comparable* actedOn = inventory_[1]->retrieve(*comparableToBuy);
+      inventory_[1]->remove(*comparableToBuy);
       return static_cast<const Collectible*>(actedOn);
    }
    else if (itemToBuy->getID() == "S") {
       // if false throw
-      inventory_[2]->remove(*comparableToBuy);
       const Comparable* actedOn = inventory_[2]->retrieve(*comparableToBuy);
+      inventory_[2]->remove(*comparableToBuy);
       return static_cast<const Collectible*>(actedOn);
    }
 

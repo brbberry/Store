@@ -314,9 +314,19 @@ bool SearchTree::deleteNode(STNode*& root, const Comparable& toDel)
 
    // recursively search for a node to delete
    else if (*root->held_ == toDel) {
-      root->count_--;
+
+      // adding this in bc we dont want engative inventories
+      // meaning the count is already 0
       if (root->count_ == 0) {
-         deleteRoot(root);
+         return false;
+      }
+      else {
+         root->count_--;
+      }
+
+      if (root->count_ == 0) {
+         // commenting this out so that it just says the inv is zero
+         //deleteRoot(root);
       }
       return true;
    }
