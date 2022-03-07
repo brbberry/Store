@@ -36,22 +36,23 @@ public:
 
    */
 
+   /*
    //-------------------------- Create -----------------------------------
    // Creates a specific CommandBuy based off a string type that is stored
    // in the command class's field (S for commandSell)
    // Postconditions: The commandBuy object is created and returned
    virtual const Command* create(std::string type);
-
+   */
 
    //-------------------------- Execute -----------------------------------
    // Facilitates the sale of an items from the store. Exceptions are
    // thrown at a lower level allowing us to avoid if statements
    // Postconditions: The sale of an item to the store is executed
    //                 if there is any invalid inputs an exception is thrown
-   virtual void execute(TransactionManager& tManager,
-      ItemsManager& iManager,
-      CustomerManager& cManager,
-      std::string command) const;
+   virtual void execute(TransactionManager*& tManager,
+      ItemsManager*& iManager,
+      CustomerManager*& cManager,
+      std::string& command) const;
    //PSUEDOCODE
    /*
 

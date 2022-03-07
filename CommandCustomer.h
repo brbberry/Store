@@ -37,12 +37,13 @@ public:
 
    */
 
+   /*
    //-------------------------- Create -----------------------------------
    // Creates a specific CommandBuy based off a string type that is stored
    // in the command class's field (C for commandCustomer)
    // Postconditions: The commandBuy object is created and returned
    virtual const Command* create(std::string type ="C");
-
+   */
 
    //-------------------------- Execute -----------------------------------
    // Facilitates the display of a customer entire transaction history.
@@ -53,10 +54,10 @@ public:
    // 
    //                 If there is no such customer or transaction history an 
    //                 exception is thrown
-   virtual void execute(TransactionManager& tManager,
-      ItemsManager& iManager,
-      CustomerManager& cManager,
-      std::string command) const;
+   virtual void execute(TransactionManager*& tManager,
+      ItemsManager*& iManager,
+      CustomerManager*& cManager,
+      std::string& command) const;
    //PSUEDOCODE
    /*
       uses the customer manager to check if the customer exists

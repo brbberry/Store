@@ -36,22 +36,23 @@ public:
 
    */
 
+   /*
    //-------------------------- Create -----------------------------------
    // Creates a specific CommandBuy based off a string type that is stored
    // in the command class's field (D for commandDisplay)
    // Postconditions: The commandBuy object is created and returned
    virtual const Command* create(std::string type = "D");
-
+   */
 
    //-------------------------- Execute -----------------------------------
    // Facilitates the display of the stores entire inventory.
    // Postconditions: The entire stores inventory is displayed with the
    //                 the coins printed first, the comics second and the
    //                 sports cards last each in sorted order
-   virtual void execute(TransactionManager& tManager,
-      ItemsManager& iManager,
-      CustomerManager& cManager,
-      std::string command) const;
+   virtual void execute(TransactionManager*& tManager,
+      ItemsManager*& iManager,
+      CustomerManager*& cManager,
+      std::string& command) const;
    //PSUEDOCODE
    /*
          
