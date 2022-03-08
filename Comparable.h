@@ -69,14 +69,5 @@ public:
      toStream.print();
      return output;
    }
-   /*
-
-   //-------------------------- operator>> ---------------------------------------
-   // Streams a char into a comparable to hold
-   // Preconditions:   Assumes that a single char is streamed
-   //                  requires the comparable to be streamed into to be defined
-   //                  requires the input stream is defined
-   // Postconditions:  fills the comparable with a given character 
-   friend std::istream& operator>>(std::istream& input, Comparable& toStream);
-   */
+   
 };

@@ -1,6 +1,6 @@
 // Blake Berry
-// 02/22/2022
-// Homework 4 design
+// 03/08/2022
+// Homework 4
 // This file is an interface for the ItemManager class. The ItemManager 
 //  class has a collectible Factory and stores a sorted inventory seperated
 // by collectible type. The ItemManager class is responsible for making sure
@@ -25,47 +25,49 @@ private:
 
    static const int NUM_ITEM_TYPES = 26; // must be above 1+
 
-   CollectionFactory makeCollectibles_;   // factory that makes collectibles 
-    // stores one type of collectible (size of 6 most likely
-                                          // at each index in sorted order
 
-   SearchTree** betterInventory_;
-   /*f
-   f
-   
-                     POSSIBLY ADD FACTOR SIZE HERE TO PASS TO THE FACTOPRY
-   f
-   f
-   f
-   f
-  f*/
+   CollectionFactory makeCollectibles_;   // factory that makes collectibles                               
 
-   //-------------------------- CheckStore ------------------------------------
-   // Checks if a given collectible is in the inventory
-   // Postconditions:  If a collectible is found in the store true is returned
-   //                  If it is not found an error is thrown
-   // Function Calls:  retrieve is called to check the search tree for a given
-   //                  comparable
-   bool CheckStore(std::string& key) const;
-   //PSUEDOCODE
-   /*
-      cast comparable to a collectible
-      get and store Collectible Type
-      if its a coin
-         call retrieve on the first slot in the inventory
-         if nullptr is returned
-            throw error
-         else
-            return true
-   */
+   SearchTree** betterInventory_;         // a hashtable of the inventory Trees
 
+
+   //------------------------ getItemType ------------------------------------
+   // Processes a line of instructions getting the item type from them and
+   // returning it
+   // Postconditions:  The item type must be 1 char and must be the first char
+   //                  in the instructions
    std::string getItemType(std::string& instructions) const;
+
+
+   //------------------------ getQuantity -------------------------------------
+   // Processes a line of input instructions extracting the quantity of a given
+   // item
+   // Preconditions : The instructions must lead with ", "
+   // Postconditions:  returns the quantity if valid and returns -1
+   //                  if invalid
    int getQuantity(std::string& instructions) const;
 
+
+   //------------------------ getItemShell ------------------------------------
+   // Takes a given string and checks the item factory for a collectible of 
+   // that type. 
+   // Postconditions: returns a pointer to a dummy item of the correct type
+   //                 otherwise an error is thrown
    const Collectible* getItemShell(std::string& type) const;
 
+
+   //------------------------ getInventoryAmount ------------------------------
+   // Converts the string representation of item quantity to an integer 
+   // Postconditions:  returns the quantity integer if a valid quanitity
+   //                  string is passed in otherwise an error is thrown
    int getInventoryAmount(std::string& item) const;
 
+
+   //------------------------ hashStoreInventory ------------------------------
+   // Creates an index in the invertory for a given item type
+   // Preconditions : Each collectible must have a unique item type
+   //                 the first char must between 'A' and 'Z' inclusive
+   // Postconditions:  returns a hash for an item type
    int hashStoreInventory(std::string itemType) const;
 
 
@@ -101,28 +103,7 @@ public:
    // Postconditions: The ItemManagers inventory is filled, exceptions are 
    //                 thrown if invalid data is attempted
    void fillInventory(std::ifstream& inFile);
-   // PSUEDOCODE
-   /*
-      while we are not at the end of the file do
-         store first char as a string
 
-         use that string to get a dummy collectible from the factory
-         if nullptr is returned
-            throw an invalid error and keep processing
-         else
-            try
-               call the collectibles create method on the remainder of
-               the string
-
-            catch
-               the exception and go to the next line of the file
-
-           if the collectible is in the store
-               increase the count
-           else
-               add call insert to add it to the inventory
-
-   */
 
 
    //-------------------------- ManageSelling ---------------------------------
@@ -137,25 +118,7 @@ public:
    //                 is returned. Throws an error if an invalid item is
    //                 attempted to be sold
    const Collectible* manageSelling(std::string collectible);
-   // PSUEDOCODE
-   /*
-      generate and store with the item factor a comparable with they give ID
-      int index;
-      if its a coin
-         set index to 0
-      if its a Comic
-         set index to 1
-      if its a SportsCard
-         set index to 2
 
-      search the stores inventory at index
-
-      if the item is found 
-         increase the count
-      if the item is not 
-         throw not able to sell to store exception
-
-   */
 
 
    //-------------------------- ManageBuying ---------------------------------
@@ -170,28 +133,7 @@ public:
    //                 is returned. Throws an error if an invalid item is
    //                 attempted to be purchased
    const Collectible* manageBuying(std::string collectible);
-   // PSUEDOCODE
-   /*
-      generate and store with the item factor a comparable with they give ID
-      int index;
-      if its a coin
-         set index to 0
-      if its a Comic
-         set index to 1
-      if its a SportsCard
-         set index to 2
-
-      search the stores inventory at index
-
-      if the item is found && the count is not 0
-         decrease the count
-      if the item is not
-         throw not able to buy exception
-
-   */
 
    void showInventory() const;
-
-
 };
 

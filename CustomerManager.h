@@ -1,6 +1,6 @@
 // Blake Berry
-// 02/22/2022
-// Homework 4 design
+// 03/08/2022
+// Homework 4
 // This file is an interface for the CustomerManager class. The Customermanager 
 //  class stores a hashtable of customers for quick look up based upon a 
 // customers customer number. This class is responsible for checking for valid
@@ -8,117 +8,84 @@
 // is also repsonsible for filling in the stores original customer list
 //-----------------------------------------------------------------------------
 
-
-
-// assumes that if a customer is not in the customer log that they will not
-// be added and that an exception is thrown
-
-// all customers will be initialized from the file only
-
 #pragma once
 #include "Customer.h"
 #include <iostream>
 #include <fstream>
+#include <ctype.h>
+#include "CollectiblesStoreError.h"
 
 class CustomerManager
 {
 private:
 
-   HashableObject**  customerLog_;
-   int              numCustomers_;
+   static const int NUM_CUSTOMERS = 1000; // cannot be fewer than 1
 
-   //-------------------------- CheckCustomerLog ------------------------------
-   // Checks if a given customer is in the customer log
-   // Postconditions:  If a collectible is found in the store true is returned
-   //                  If it is not found an error is thrown
-   // Function Calls:  retrieve is called to check the search tree for a given
-   //                  comparable
-   bool checkCustomerLog(const HashableObject& toGet) const;
-   //PSUEDOCODE
-   /*
-      cast comparable to a customer
+   HashableObject**  customerLog_; // hashtable with customer objects
 
-   */
-   
+
+   //------------------- validCustomerNumber ----------------------------------
+   // Checks if a string represtation of an item is valid
+   // Postconditions: returns true if the customer number is valid and returns
+   //                 false otherwise
+   bool validCustomerNumber(std::string custNum) const;
+
+   //------------------- Process Customer ------------------------------------
+   // Parses a given input string returning data from a customer
+   // PreConditions : The input must be comma space seperated
+   // Postconditions: returns a string representation of the data following
+   //                 the comma
    std::string processCustomer(std::string& curLine) const;
 
+
+   //------------------- hashCustomer ------------------------------------
+   // Returns an integer hash from a customer's key, their customer number
+   // PreConditions : The customer number must be valid
+   // Postconditions: returns a string representation of the data following
+   //                 the comma
    int hashCustomer(std::string customerNumber) const;
 
+
+   //--------------------- validCustomerHash --------------------------------
+   // Checks if the hash is in the correct range
+   // Postconditions: returns true if the hash is in range and false otherwise
    bool validCustomerHash(int customerIndex) const;
 
 public:
 
 
-
    //-------------------------- Default Constructor ---------------------------
-   // Creates an Item manager with a fully working factory and an empty 
-   // inventory
-   // Preconditions : The factory must be intialized with the items that are
-   //                 allowed in the collections store
-   // Postconditions: a new item manager is created
-   CustomerManager(int numCustomers = 1000);
+   // Creates a customerManager capable of tracking NUM_CUSTOMER customers
+   // Preconditions : the NUM_CUSTOMERS must be greater than 1
+   // Postconditions: a new customer manager is created 
+   CustomerManager();
 
 
    //-------------------------- Destructor -----------------------------------
-   // Frees any dynamic memory associated with the items manager class
-   // Preconditions : The factory must be capable to freeing its dynamic memory
-   //                   
-   //                 the items inventory must be capable of freeing its 
+   // Frees any dynamic memory associated with the customer manager class
+   // Preconditions : the customer must be capable of freeing its own 
    //                 dynamic memory
-   // 
-   // Postconditions: frees the memory associated with the items manager
+   // Postconditions: frees the memory associated with the customer manager
    ~CustomerManager();
 
 
    //-------------------------- FillCustomerLog -------------------------------
-   // Fills the inventory from a file, Coins are index 0, Comics are index 2, 
-   // and SportsCards are index 3
-   // Preconditions : The factory must be initialized
-   // 
-   //                 The file must be formatted correctly
-   // 
-   // Postconditions: The ItemManagers inventory is filled, exceptions are 
-   //                 thrown if invalid data is attempted
+   // Fills the customer log from a given file. If any information is invalid
+   // an error is thrown to the cout and the file continues to be processed
+   // Preconditions : Assumes no two customers are in the file with the same
+   //                 customer number
+   // Postconditions: The customer list is filled from the file and any errors
+   //                 are thrown to cout
    void fillCustomerLog(std::ifstream& readFrom);
-   // PSUEDOCODE
-   /*
-      while we are not at the end of the file do
-         store first char as a string
-
-         use that string to get a dummy collectible from the factory
-         if nullptr is returned
-            throw an invalid error and keep processing
-         else
-            try
-               call the collectibles create method on the remainder of
-               the string
-
-            catch
-               the exception and go to the next line of the file
-
-           if the collectible is in the store
-               increase the count
-           else
-               add call insert to add it to the inventory
-
-   */
 
 
    //-------------------------- findCustomer ---------------------------------
-   // Given the ID of an item them method handles the sale of an item
-   // if the item is present its inventory count is incrimented appropriately
-   // Preconditions : the hashable object frees its own dynamically allocated
-   //                 memory
+   // Given the customer ID the customer manager will find a customer in the
+   // customer list
    // 
-   //                 The factory must be initalized
-   // 
-   // Postconditions: An item is sold and the inventory is updated and true
-   //                 is returned. Throws an error if an invalid item is
-   //                 attempted to be sold
+   // Postconditions: If the customer is found it is returned to the caller
+   //                 if the customer id is invalid or the customer cannot
+   //                 be found an error is thrown
    const Customer* findCustomer(std::string ID);
-   // PSUEDOCODE
-   /*
-
-   */
 };
 

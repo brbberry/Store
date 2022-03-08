@@ -1,12 +1,21 @@
+// Blake Berry
+// 03/08/2022
+// Homework 4
+// This file is an implimentation for the ItemManager class. The ItemManager 
+//  class has a collectible Factory and stores a sorted inventory seperated
+// by collectible type. The ItemManager class is responsible for making sure
+// an item to be acted on is valid or in the store. It is reponsible for
+// filling in the stores initial inventory
+//-----------------------------------------------------------------------------
+
 #include "ItemsManager.h"
 
 
-bool ItemsManager::CheckStore(std::string& key) const
-{
-   return false;
-}
-
-// assumes 
+//------------------------ getItemType ------------------------------------
+// Processes a line of instructions getting the item type from them and
+// returning it
+// Postconditions:  The item type must be 1 char and must be the first char
+//                  in the instructions
 std::string ItemsManager::getItemType(std::string& instructions) const
 {
 
@@ -18,6 +27,13 @@ std::string ItemsManager::getItemType(std::string& instructions) const
    return type;
 }
 
+
+//------------------------ getQuantity -------------------------------------
+// Processes a line of input instructions extracting the quantity of a given
+// item
+// Preconditions : The instructions must lead with ", "
+// Postconditions:  returns the quantity if valid and returns -1
+//                  if invalid
 int ItemsManager::getQuantity(std::string& instructions) const
 {
    // get rid of the leading ", "
@@ -33,7 +49,7 @@ int ItemsManager::getQuantity(std::string& instructions) const
 
    if (!validNumber) {
       // invalid inventory
-      return 0;
+      return -1;
    }
    else {
       std::string stringCopies = instructions.substr(numberStart, numberEnd);
@@ -43,6 +59,12 @@ int ItemsManager::getQuantity(std::string& instructions) const
    }
 }
 
+
+//------------------------ getItemShell ------------------------------------
+// Takes a given string and checks the item factory for a collectible of 
+// that type. 
+// Postconditions: returns a pointer to a dummy item of the correct type
+//                 otherwise an error is thrown
 const Collectible* ItemsManager::getItemShell(std::string& type) const
 {
 
@@ -67,11 +89,24 @@ int ItemsManager::getInventoryAmount(std::string& item) const
    }
 }
 
+
+//------------------------ hashStoreInventory ------------------------------
+// Creates an index in the invertory for a given item type
+// Preconditions : Each collectible must have a unique item type
+//                 the first char must between 'A' and 'Z' inclusive
+// Postconditions:  returns a hash for an item type
 int ItemsManager::hashStoreInventory(std::string itemType) const
 {
    return itemType[0] - 'A';
 }
 
+
+//-------------------------- Default Constructor ---------------------------
+// Creates an Item manager with a fully working factory and an empty 
+// inventory
+// Preconditions : The factory must be intialized with the items that are
+//                 allowed in the collections store
+// Postconditions: a new item manager is created
 ItemsManager::ItemsManager() :
    makeCollectibles_(CollectionFactory()),
    betterInventory_(nullptr)

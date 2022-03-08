@@ -1,6 +1,6 @@
 // Blake Berry
-// 02/22/2022
-// Homework 4 Design
+// 03/08/2022
+// Homework 4
 // This file is an interface for the HashableObject class. This class is an
 // abstract base class definig the necessary functionality of a hashable obj.
 // The class includes a string key and leaves the derived classes to assign
@@ -29,10 +29,6 @@ public:
    // Frees any dynamic memory associated with the HashableObject
    // Postconditions: The hashable Object is freed of any dynamic memory
    virtual ~HashableObject() {};
-
-
-
-
 
    //-------------------------------- getID ----------------------------------
    // returns the held string ID
