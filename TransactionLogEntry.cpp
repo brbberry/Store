@@ -23,11 +23,10 @@ TransactionLogEntry::TransactionLogEntry(const Customer*& cust) :
 
 TransactionLogEntry::~TransactionLogEntry()
 {
-   int size = static_cast<int>(transactionLog_.size());
 
    transactionLog_.clear();
+   // bc does not own the memory for customer
    customer_ = nullptr;
-
 }
 
 bool TransactionLogEntry::operator==(const Comparable& right) const
@@ -118,8 +117,7 @@ void TransactionLogEntry::print() const
 
 bool TransactionLogEntry::addTransaction(Transaction& toAdd) const
 {
-   Transaction copiedToAdd(toAdd);
-   transactionLog_.push_back(copiedToAdd);
+   transactionLog_.push_back(toAdd);
 
    return true;
 }

@@ -31,6 +31,7 @@ bool TransactionManager::logTransaction(const Customer*& responsible,
    const Comparable* toAdd = static_cast<const Comparable*>(transactionEntry);
 
    // insert returns false if the entry is already present
+   // that is an entry with that exact customer is already present still need to add transaction
    if (!transactionHistory_->insert(toAdd)) {
       // if the entry was already in the table the count was increased but we need to add the transaction
       const Comparable* entryToAddTo = transactionHistory_->retrieve(*toAdd);
@@ -42,7 +43,7 @@ bool TransactionManager::logTransaction(const Customer*& responsible,
       delete transactionEntry;
    }
 
-   return false;
+   return true;
 }
 
 

@@ -173,7 +173,7 @@ void ItemsManager::fillInventory(std::ifstream& inFile)
    }
 }
 
-const Collectible* ItemsManager::manageSelling(std::string collectible)
+const Collectible* ItemsManager::manageBuying(std::string collectible)
 {
 
    // we have the type
@@ -183,30 +183,31 @@ const Collectible* ItemsManager::manageSelling(std::string collectible)
 
    const Collectible* itemShell = makeCollectibles_.create(collectibleType);
    if (itemShell == nullptr) {
-      throw CollectiblesStoreError("Cannot Process Sale, Item cannot be Sold");
+      throw CollectiblesStoreError("Cannot Process Purchase, Item cannot be Bought");
    }
 
    // this statement will throw bc create throws
-   const Collectible* itemToSell = itemShell->create(collectible);
+   const Collectible* itemToBuy = itemShell->create(collectible);
 
-   const Comparable* comparableToSell = static_cast<const Comparable*>(itemToSell);
+   const Comparable* comparableToBuy = static_cast<const Comparable*>(itemToBuy);
 
    // assured to be valid
-   int inventoryIndex = hashStoreInventory(itemToSell->getID());
-   if (!betterInventory_[inventoryIndex]->insert(comparableToSell)) {
-      const Comparable* actedOn = betterInventory_[inventoryIndex]->retrieve(*comparableToSell);
-      delete itemToSell;
+   int inventoryIndex = hashStoreInventory(itemToBuy->getID());
+   if (!betterInventory_[inventoryIndex]->insert(comparableToBuy)) {
+      const Comparable* actedOn = betterInventory_[inventoryIndex]->retrieve(*comparableToBuy);
+      delete itemToBuy;
       return static_cast<const Collectible*>(actedOn);
    }
    else {
-      return itemToSell;
+      return itemToBuy;
    }
    
 }
 
-const Collectible* ItemsManager::manageBuying(std::string collectible)
+const Collectible* ItemsManager::manageSelling(std::string collectible)
 {
-   std::string err1 = "Cannot Process Purchase";
+   std::string origin = collectible;
+   std::string err1 = "Cannot Process Sale";
    // we have the type
    std::string collectibleType = getItemType(collectible);
    // we know the first is the customer number
@@ -217,22 +218,25 @@ const Collectible* ItemsManager::manageBuying(std::string collectible)
    //catch
    if (itemShell == nullptr) {
 
-      throw CollectiblesStoreError(err1+" Invalid Item Type");
+      throw CollectiblesStoreError(err1+" Invalid Item Type " + collectible);
    }
  
-   // throws its own errors
+   // throws its own errors makes new memory
    const Collectible* itemToBuy = itemShell->create(collectible);
 
    const Comparable* comparableToBuy = static_cast<const Comparable*>(itemToBuy);
 
    int inventoryIndex = hashStoreInventory(itemToBuy->getID());
-   if (!betterInventory_[inventoryIndex]->insert(comparableToBuy)) {
+   // if it fails to remove an item free the memory and report back
+   if (!betterInventory_[inventoryIndex]->remove(*comparableToBuy)) {
+      delete itemToBuy;
+      throw CollectiblesStoreError(origin +" is out of stock cannot be sold\n");
+   }
+   // if the item is removed successfully then go ahead and return it
+   else {
       const Comparable* actedOn = betterInventory_[inventoryIndex]->retrieve(*comparableToBuy);
       delete itemToBuy;
       return static_cast<const Collectible*>(actedOn);
-   }
-   else {
-      return itemToBuy;
    }
 
 }
@@ -253,4 +257,5 @@ void ItemsManager::showInventory() const
       int index = hashStoreInventory(printInOrder[i]->getID());
       std::cout << *betterInventory_[index];
    }
+   std::cout << "\n" << std::endl;
 }
