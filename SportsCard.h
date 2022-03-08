@@ -77,18 +77,7 @@ public:
    virtual bool operator<(const Comparable& right) const;
 
 
-   //-------------------------------- Hash -----------------------------------
-   // generates an int from the value that the SportsCard holds
-   // Preconditions : Assumes that the key is a capital ASCII value A-Z
-   // Postconditions: an integer is returned based off the value held by the 
-   //                 hashable object
-   virtual int hash() const;
-   //PSUEDOCODE
-   /*
 
-      Subtracts ASCII for A from the given string version of the comparable
-
-   */
 
 
    //-------------------------- print ----------------------------------------

@@ -1,58 +1,72 @@
+// Blake Berry
+// 03/08/2022
+// Homework 4
+// This file is an implimentation for the Coin class. The Coin class inherted
+// from the collectible interface. The Coin class represents an item that can
+// exist at a collectible store
+//-----------------------------------------------------------------------------
+
 #include "Coin.h"
 
-/*
-   std::string type_; // the string type the coin is
-   int year_;         // the year the coin originated from
-   int grade_;        // the coins grade
-*/
 
-
-
-
-// ignoring count becuase we can let the item manager add this to the BST
-// to increase the count when its found rather than it being a property
-// of the coin.
+//-------------------------- Constructor -----------------------------------
+// Creates a completely empty coin with empty fields
+// Postconditions: an empty coin is created
 Coin::Coin(std::string type) :
    Collectible(type),
    year_(0), 
    grade_(0),
-   type_("")//,
-   //count_(0)
+   type_("")
 {
 }
 
+
+//-------------------------- destructor -----------------------------------
+// Frees any dynamic memory associated with the Coin
+// Postconditions: The coin is freed of any dynamic memory
 Coin::~Coin()
 {
 }
 
 
-
+//-------------------------- Create --------------------------------------
+// Parses a given string and created a coin from a given string returning 
+// itself
+// PreConditions : The coin data must be formatted correctly in the string
+// Postconditions: returns a constant pointer to the created Coin
+//                 throws an exception if any of the information is invalid
 const Coin* Coin::create(std::string toMakeFrom) const
 {
-   // makes a new coin becuase we dont want to edit the one produced 
-   // by the factory
 
+   // creates a new coin
    Coin* dummy = new Coin();
-   // assumes that year comes first
-   
+
+   // assumes that year is first
    dummy->year_ = std::stoi(Collectible::processConstruction(toMakeFrom));
 
+   // validates year
    if (dummy->year_ < 1000 || dummy->year_ > 2022) {
       throw CollectiblesStoreError("Invalid Coin Year");
    }
 
-   // assumes grade comes second
+   // assumes grade is second
    dummy->grade_ = std::stoi(Collectible::processConstruction(toMakeFrom));
    if (dummy->grade_ < 0) {
       throw CollectiblesStoreError("Invalid Coin Grade");
    }
 
-   // assumes type comes last
+   // assumes is third
    dummy->type_ = Collectible::processConstruction(toMakeFrom);
 
    return dummy;
 }
 
+
+//-------------------------- operator== --------------------------------------
+// Checks if two Coins are equivilent. Equivilance is defined as each 
+// Coin having the sametype year and grade
+// Postconditions: Returns true if both Coins are equivilent
+//                 Returns false if the Coins are not equivilent.
 bool Coin::operator==(const Comparable& right) const
 {
 
@@ -71,15 +85,24 @@ bool Coin::operator==(const Comparable& right) const
    return equiv;
 }
 
+
+//-------------------------- operator!= --------------------------------------
+// Checks if two Coins are not equivilent. Equivilance is defined as each 
+// Coin having the sametype year and grade
+// Postconditions: Returns true if both Coins are not  equivilent
+//                 Returns false if the Coins are equivilent.
 bool Coin::operator!=(const Comparable& right) const
 {
     return !((*this) == right);
 }
 
+
+//-------------------------- operator> --------------------------------------
 // Checks if two Coins have a greater than relationship. Coins are weighted
 // such that we first consider them by type, then by year, then by grade.
 // The string type is compared then the following ints
-
+// Postconditions: Returns true if the right hand side coin is smaller
+//                 than the left hand side. Otherwise, false is returned
 bool Coin::operator>(const Comparable& right) const
 {
    if (*this == right) {
@@ -88,6 +111,8 @@ bool Coin::operator>(const Comparable& right) const
    else {
       const Coin& toCheck = static_cast<const Coin&>(right);
       bool greaterThan = true;
+
+      // uses string compare
       if (type_ < toCheck.type_) {
          return false;
       }
@@ -104,6 +129,13 @@ bool Coin::operator>(const Comparable& right) const
    }
 }
 
+
+//-------------------------- operator< --------------------------------------
+// Checks if two Coins have a less than relationship. Coins are weighted
+// such that we first consider them by type, then by year, then by grade.
+// The string type is compared then the following ints
+// Postconditions: Returns false if the right hand side Coin is smaller
+//                 than the left hand side. Otherwise, true is returned
 bool Coin::operator<(const Comparable& right) const
 {
    if (*this == right) {
@@ -112,6 +144,8 @@ bool Coin::operator<(const Comparable& right) const
    else {
       const Coin& toCheck = static_cast<const Coin&>(right);
       bool lessThan = true;
+
+      // uses string compare
       if (type_ > toCheck.type_) {
          return false;
       }
@@ -127,94 +161,26 @@ bool Coin::operator<(const Comparable& right) const
    }
 }
  
-int Coin::hash() const
-{
-   return Collectible::hash();
-}
 
+//-------------------------- print --------------------------------------
+// Prints the coins type year and grade on one line
+// Postconditions: prints to the console a representation of the Coin
 void Coin::print() const
 {
    std::cout << "Coin : " << year_ << ", " << grade_ << ", " << type_;
 }
+
+
+//-------------------------- copy ------------------------------------------
+// creates a deep copy of the current coin and returns a non-modifyable
+// pointer to it
+// preconditions : The caller must means to deallocate the memory
+//                 associated
+// Postconditions: returns a constant pointer deep copy of the current
+//                 coin
 const Coin* Coin::copy() const
 {
+   // default copy as coin contains only primatives
    const Coin* toCopy = new Coin(*this);
    return toCopy;
 }
-/*
-int main() {
-   Collectible* testCoin = new Coin("M");
-   const Collectible* created = testCoin->create(", 1913, 70, Liberty Nickel");
-
-   std::cout << "Printing test coin" << std::endl;
-   testCoin->print();
-   std::cout << std::endl << "Printing created coin" << std::endl;
-   created->print();
-
-   std::cout << std::endl << "Printing test coin hash" << std::endl;
-   std::cout << testCoin->hash() << std::endl;
-   std::cout << std::endl << "Printing created coin" << std::endl;
-   std::cout << std::endl << created->hash() << std::endl;
-
-   const Collectible* checkingBools = created;
-
-   bool testEqualsY = created == checkingBools;
-   // checking the bools
-   std::cout << std::endl << "testing the bools == (true)" << std::endl;
-   std::cout << std::endl << testEqualsY << std::endl;
-
-   bool testEqualsN = created == testCoin;
-   // checking the bools
-   std::cout << std::endl << "testing the bools == (false)" << std::endl;
-   std::cout << std::endl << testEqualsN << std::endl;
-
-   bool testLEQN = created < checkingBools;
-   // checking the bools
-   std::cout << std::endl << "testing the bools < (false)" << std::endl;
-   std::cout << std::endl << testLEQN << std::endl;
-
-   bool testGEQN = created > checkingBools;
-   // checking the bools
-   std::cout << std::endl << "testing the bools > (false)" << std::endl;
-   std::cout << std::endl << testGEQN << std::endl;
-
-
-   const Collectible* anotherCoinCreated = testCoin->create(", 2001, 65, Lincoln Cent");
-   
-   std::cout << "testing with an addition coin" << std::endl;
-   std::cout << std::endl;
-   std::cout << std::endl << "Printing test coin hash" << std::endl;
-   std::cout << anotherCoinCreated->hash() << std::endl;
-   std::cout << std::endl << "Printing created coin" << std::endl;
-   std::cout << std::endl << created->hash() << std::endl;
-
-
-   testEqualsY = created == anotherCoinCreated;
-   // checking the bools
-   std::cout << std::endl << "testing the bools ==" << std::endl;
-   std::cout << std::endl << testEqualsY << std::endl;
-
-   testEqualsN = created > anotherCoinCreated;
-   // checking the bools
-   std::cout << std::endl << "testing the bools > created first " << std::endl;
-   std::cout << std::endl << testEqualsN << std::endl;
-
-   testLEQN = created < anotherCoinCreated;
-   // checking the bools
-   std::cout << std::endl << "testing the bools < created first" << std::endl;
-   std::cout << std::endl << testLEQN << std::endl;
-
-   testGEQN = anotherCoinCreated > created;
-   // checking the bools
-   std::cout << std::endl << "testing the bools > another first " << std::endl;
-   std::cout << std::endl << testGEQN << std::endl;
-
-
-
-
-   delete testCoin;
-   delete created;
-   delete anotherCoinCreated;
-   return 0;
-}
-*/

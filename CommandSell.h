@@ -25,16 +25,6 @@ public:
    // Postconditions: The command is freed of any dynamic memory
    ~CommandSell();
 
-   //-------------------------------- Hash -----------------------------------
-   // generates an int from the value that the Command holds
-   // Postconditions: an integer is returned based off the value held by the 
-   //                 command object
-   int hash() const;
-   //PSUEDOCODE
-   /*
-      returns ASCII value for command - ASCII A
-
-   */
 
    /*
    //-------------------------- Create -----------------------------------

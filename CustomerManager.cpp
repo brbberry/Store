@@ -2,7 +2,8 @@
 
 bool CustomerManager::checkCustomerLog(const HashableObject& toGet) const
 {
-   int position = toGet.hash();
+   // uses customer has implicitly maybe make an actual method
+   int position = std::stoi(toGet.getID());
 
    if (position < 0 || position >= numCustomers_) {
       return false;
@@ -20,12 +21,15 @@ std::string CustomerManager::processCustomer(std::string& curLine) const
    int startPosition = 0;
    int endPosition = 0;
 
-   if (curLine == "" || startPosition > curLine.length()) {
+   int curLineLength = curLine.length();
+
+   if (curLine == "" || startPosition > curLineLength) {
       return "";
    }
 
    // format {, data} position 2 is the first char of the data
-   while (endPosition < curLine.length() &&
+   curLineLength = curLine.length();
+   while (endPosition < curLineLength &&
       curLine[endPosition] != ',') {
 
       endPosition++;
@@ -123,6 +127,9 @@ const Customer* CustomerManager::findCustomer(std::string ID)
       else {
          return static_cast<const Customer*>(customerLog_[customerIndex]);
       }
+   }
+   else {
+      return nullptr;
    }
 }
 

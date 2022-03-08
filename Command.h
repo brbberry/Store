@@ -14,59 +14,55 @@
 #include "CustomerManager.h"
 #include "ItemsManager.h"
 
-/*
-HAS ACCESS TO FROM HASHABLEOBJECT
-   //-------------------------------- getID ----------------------------------
-   // returns the held string ID
-   // Postconditions: the string ID is returned
-   std::string getID() const {
-      return id_;
-   }
-
-   //--------------------------- getDeleted -------------------------------
-   // returns the bool is a hashable object is deleted
-   // Postconditions: the deleted bool is returned
-   bool getDeleted() const {
-      return deleted_;
-   }
-
-
-   //------------------------------- setID -----------------------------------
-   // sets the hashable objects ID to that of the string passed in
-   // Postconditions: the hashable object ID is set
-   void setID(std::string id) {
-      id_ = id;
-   }
-
-*/
-
 
 class Command : public HashableObject
 {
 
+protected:
+
+   //-------------------------getCustomer -------------------------------------
+   // Returns a string of the customers number from a given command to process
+   // preconditions : Assumes the customer number is the first data and that
+   //                 it is 3 digits long
+   //                 
+   //                 assumes format ", XXX" where XXX is cust #
+   // Postconditions: The customer number is returned in string for,
+   //                 if an invalid customer number if found an empty string
+   //                 is returned
+   std::string getCustomer(std::string& command) const {
+
+      // for getting customer number get rid of ", "
+      command.erase(0, 2);
+
+      std::string custNum = command.substr(0, 3);
+      bool allDigits = true;
+      int custNumSize = custNum.size();
+
+      for (int i = 0; i < custNumSize; i++) {
+         allDigits = std::isdigit(custNum[i]);
+         if (!allDigits) {
+            custNum = "";
+         }
+      }
+
+      // gets rid of "XXX, "
+      command.erase(0, 5);
+      return custNum;
+   }
+
 public:
 
+   //-------------------------- Constructor -----------------------------------
+   // Initializes the key in the hashable object class for a given command
+   // postconditions : Assigns a key for a given command object
    Command(std::string key = "") : HashableObject(key) {};
+
 
    //-------------------------- destructor -----------------------------------
    // Frees any dynamic memory associated with the command objects
    // Postconditions: The command is freed of any dynamic memory
    virtual ~Command() {};
 
-
-   //-------------------------------- Hash -----------------------------------
-   // generates an int from the value that the Command holds
-   // Postconditions: an integer is returned based off the value held by the 
-   //                 command object
-   int hash() const = 0;
-
-   /*
-   //-------------------------- Create -----------------------------------
-   // Creates a specific Command based off a string type that is stored
-   // in the command class's field
-   // Postconditions: The command object is created
-   virtual const Command* create(std::string type) = 0;
-   */
 
    //-------------------------- Execute -----------------------------------
    // Creates a specific Command based off a string type that is stored

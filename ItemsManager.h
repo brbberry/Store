@@ -26,7 +26,7 @@ private:
    static const int NUM_ITEM_TYPES = 26; // must be above 1+
 
    CollectionFactory makeCollectibles_;   // factory that makes collectibles 
-  // std::vector<SearchTree*> inventory_;    // stores one type of collectible (size of 6 most likely
+    // stores one type of collectible (size of 6 most likely
                                           // at each index in sorted order
 
    SearchTree** betterInventory_;

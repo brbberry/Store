@@ -1,5 +1,9 @@
 #include "CommandCustomer.h"
 
+
+//-------------------------- constructor -----------------------------------
+// creates a CommandCustomer with a given string Indicator
+// Postconditions: A CommandCustomer is created
 CommandCustomer::CommandCustomer(std::string type) :
    Command(type)
 {
@@ -9,37 +13,25 @@ CommandCustomer::~CommandCustomer()
 {
 }
 
-int CommandCustomer::hash() const
+
+//-------------------------- Execute -----------------------------------
+// Facilitates the display of a customer entire transaction history.
+// If there is no such customer or transaction history an exception
+// is thrown
+// Postconditions: The entire transaction history for a given customer is
+//                 displayed in chronolgoical order
+// 
+//                 If there is no such customer or transaction history an 
+//                 exception is thrown
+void CommandCustomer::execute(TransactionManager*& tManager, 
+                              ItemsManager*& iManager, 
+                              CustomerManager*& cManager, 
+                              std::string& command) const
 {
-    return 0;
-}
 
-void CommandCustomer::execute(TransactionManager*& tManager, ItemsManager*& iManager, CustomerManager*& cManager, std::string& command) const
-{
-   //first we get the customer
-
-// possibly move this to command becuase will always be this format for getting customer number
-// get rid of ", "
-   command.erase(0, 2);
-   std::string custNum = command.substr(0, 3);
-   // check custNum;
-   bool allDigits = true;
-   for (int i = 0; i < custNum.size(); i++) {
-      allDigits = std::isdigit(custNum[i]);
-   }
-
-   if (!allDigits) {
-      // throw an error
-   }
-
-   // gets rid of "XXX, "
-   command.erase(0, 5);
+   std::string custNum = getCustomer(command);
 
    const Customer* customer = cManager->findCustomer(custNum);
-
-   if (customer == nullptr) {
-      //throw
-   }
 
    tManager->displayCustomersHistroy(customer);
 }

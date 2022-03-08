@@ -63,17 +63,7 @@ public:
    virtual ~Customer() {};
 
 
-   //-------------------------------- Hash -----------------------------------
-   // generates an int from the value that the HashableObject holds
-   // Preconditions : Assumes that the customer number is 3 digits
-   // Postconditions: an integer is returned based off the value held by the 
-   //                 hashable object
-   virtual int hash() const;
-   //PSUEDOCDOE
-   /*
-      return customerNumber_
-   
-   */
+
 
    std::string getName() const;
 

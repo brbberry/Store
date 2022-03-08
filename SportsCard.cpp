@@ -109,10 +109,7 @@ bool SportsCard::operator<(const Comparable& right) const
    }
 }
 
-int SportsCard::hash() const
-{
-   return Collectible::hash();
-}
+
 
 void SportsCard::print() const
 {

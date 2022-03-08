@@ -1,6 +1,6 @@
 // Blake Berry
-// 02/22/2022
-// Homework 4 Design
+// 03/08/2022
+// Homework 4
 // This file is an interface for the Collectible class. The collectible
 // class is an abstract base class that is hashable due to inheritance from
 // the hashable object class. The class lays out behavior for many collectibles
@@ -12,52 +12,34 @@
 #include "CollectiblesStoreError.h"
 
 
-/*
-has access to
-
-   //-------------------------------- getID ----------------------------------
-   // returns the held string ID
-   // Postconditions: the string ID is returned
-   std::string getID() const {
-      return id_;
-   }
-
-   //--------------------------- getDeleted -------------------------------
-   // returns the bool is a hashable object is deleted
-   // Postconditions: the deleted bool is returned
-   bool getDeleted() const {
-      return deleted_;
-   }
-
-
-   //------------------------------- setID -----------------------------------
-   // sets the hashable objects ID to that of the string passed in
-   // Postconditions: the hashable object ID is set
-   void setKey(std::string id) {
-      id_ = id;
-   }
-
-
-
-*/
-
-
 class Collectible : public HashableObject, public Comparable
 {
 
 protected:
 
+   //------------------- Process Construction -------------------------------
+   // Parses a given input string returning the data after a comma in an
+   // input string
+   // PreConditions : The input must be comma seperated and begin with
+   //                 ", " a comma and a space
+   // Postconditions: returns a string representation of the data following
+   //                 the comma
    std::string processConstruction(std::string& instructions) const {
+
       // format {, data} position 2 is the first char of the data
       int startPosition = 2;
       int endPosition = 2;
 
-      if (instructions == "" || startPosition > instructions.length()) {
+      // length of instructions
+      int instructionsLength = instructions.length();
+
+      // check if input string is valid
+      if (instructions == "" || startPosition > instructionsLength) {
          return "";
       }
 
       // format {, data} position 2 is the first char of the data
-      while (endPosition < instructions.length() &&
+      while (endPosition < instructionsLength &&
          instructions[endPosition] != ',') {
 
          endPosition++;
@@ -65,22 +47,30 @@ protected:
 
       std::string data;
 
-      if (endPosition == instructions.length()) {
+      // if we are at the end, take the rest
+      if (endPosition == instructionsLength) {
          data = instructions.substr(startPosition, endPosition);
       }
+      // -2 to subtract from the initial start poisiton of 2
       else {
          data = instructions.substr(startPosition, endPosition - 2);
       }
 
       // update the instructions to get the next piece of data
       instructions.erase(0, endPosition);
+
       return data;
    }
 
 
 public:
 
-   Collectible(std::string type) : HashableObject(type) {};
+
+   //-------------------------- Constructor ------------------------------------
+   // Initilizes the hashable object key field
+   // Postconditions: sets the key for the hashable collectible
+   Collectible(std::string type = "") : HashableObject(type) {};
+
 
    //-------------------------- operator== ------------------------------------
    // Checks if two Collectibles are equivilent. Equivilance is defined by the 
@@ -120,16 +110,6 @@ public:
    virtual ~Collectible() {};
 
 
-   //-------------------------------- Hash -----------------------------------
-   // generates an int from the value that the Collectible holds
-   // Postconditions: an integer is returned based off the value held by the 
-   //                 Collectible object
-   virtual int hash() const {
-      std::string comparableType = HashableObject::getID();
-      return comparableType[0] - 'A';
-   };
-
-
    //-------------------------- print -----------------------------------------
    // Prints the Collectible as defined by the dervied classes
    // Postconditions: prints to the console a representation of the Collectible
@@ -142,6 +122,11 @@ public:
    // Postconditions: returns a constant pointer to the created collectible
    virtual const Collectible* create(std::string toMakeFrom) const = 0;
 
-   // returns a new copy of iteself
+
+   //-------------------------- Copy --------------------------------------
+   // creates a constant deep copy of itself returning it to the caller
+   // PreConditions : It is assumed that the caller will manage the memory
+   // Postconditions: a constant deep copied pointer to that collectible is
+   //                 returned
    virtual const Collectible* copy() const = 0;
 };

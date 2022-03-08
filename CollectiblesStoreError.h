@@ -1,7 +1,7 @@
 // Blake Berry
-// 02/22/2022
-// Homework4 Design
-// This is a CollectiblesStoreErro which is to be thrown during store 
+// 03/08/2022
+// Homework 4 
+// This is a CollectiblesStoreError which is to be thrown during store 
 // opperations to provide context to the client about what went wrong
 //------------------------------------------------------------------------------
 #pragma once

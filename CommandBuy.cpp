@@ -1,83 +1,49 @@
+// Blake Berry
+// 03/08/2022
+// Homework 4
+// This file is an implimentation for the CommandCustomerclass. The 
+// CommandCustomer class inherits from the command interface. The 
+// CommandCustomer class is responsible for the end - to - end execution of 
+// displaying a customers transaction history with the store
+//-----------------------------------------------------------------------------
+
 #include "CommandBuy.h"
 
+
+//-------------------------- constructor -----------------------------------
+// creates a CommandBuy with a given Type indicator
+// Postconditions: A commandBuy object is created
 CommandBuy::CommandBuy(std::string type) :
    Command(type)
 {
 }
 
+
+//-------------------------- destructor -----------------------------------
+// Frees any dynamic memory associated with the Command object
+// Postconditions: The command is freed of any dynamic memory
 CommandBuy::~CommandBuy()
 {
 }
 
-int CommandBuy::hash() const
+
+//-------------------------- Execute -----------------------------------
+// Facilitates the purchase of an items to the store. Exceptions are
+// thrown at a lower level allowing us to avoid if statements
+// Postconditions: The purchase of an item to the store is executed
+//                 if there is any invalid inputs an exception is thrown
+void CommandBuy::execute(TransactionManager*& tManager, 
+                         ItemsManager*& iManager, 
+                         CustomerManager*& cManager, 
+                         std::string& command) const
 {
-    return HashableObject::getID()[0] - 'A';
-}
 
-/*
-const CommandBuy* CommandBuy::create(std::string type)
-{
-   
-   return nullptr;
-}
-*/
-
-void CommandBuy::execute(TransactionManager*& tManager, ItemsManager*& iManager, CustomerManager*& cManager, std::string& command) const
-{
-   //first we get the customer
-
-   // possibly move this to command becuase will always be this format for getting customer number
-   // get rid of ", "
-   command.erase(0, 2);
-   std::string custNum = command.substr(0, 3);
-   // check custNum;
-   bool allDigits = true;
-   for (int i = 0; i < custNum.size(); i++) {
-      allDigits = std::isdigit(custNum[i]);
-   }
-
-   if (!allDigits) {
-      // throw an error
-   }
-
-   // gets rid of "XXX, "
-   command.erase(0, 5);
+   std::string custNum = getCustomer(command);
 
    const Customer* customer = cManager->findCustomer(custNum);
 
-   if (customer == nullptr) {
-      // throw
-   }
-
    const Collectible* item = iManager->manageBuying(command);
 
-   if (item == nullptr) {
-      //throw
-   }
-
    tManager->logTransaction(customer, item, HashableObject::getID());
-
-
 }
-
-//PSUEDOCODE
-/*
-
-   read until the first comma storing the customer number
-
-   use the customer manager to check if that is a valid customer
-
-   read the string until the next comma storing the collectible type
-
-   check with the item manager that the collection type is valid
-
-   run the dummy collections create method
-
-   use the item manager to check if this item is in the store
-
-   use the item manager to increase the inventory
-
-   use the transaction manager to log the purchase
-
-*/
 

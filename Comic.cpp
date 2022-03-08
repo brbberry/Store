@@ -1,21 +1,41 @@
+// Blake Berry
+// 03/08/2022
+// Homework 4
+// This file is an implimentation for the Comic class. The Comic class inherted
+// from the collectible interface. The Comic class represents an item that can
+// exist at a collectible store
+//-----------------------------------------------------------------------------
+
 #include "Comic.h"
 
-// change id to type
+
+//-------------------------- Constructor -----------------------------------
+// Creates a completely empty comic with empty fields
+// Postconditions: an empty comic is created
 Comic::Comic(std::string id) :
 Collectible(id),
 publisher_(""),
 title_(""),
 year_(0),
 grade_("")
-//count_(0)
 {
 }
 
+
+//-------------------------- destructor -----------------------------------
+// Frees any dynamic memory associated with the Comic
+// Postconditions: The comic is freed of any dynamic memory
 Comic::~Comic()
 {
 }
 
-//assumes valid grade title and publisher
+
+//-------------------------- Create --------------------------------------
+// Parses a given string and created a comic from a given string returning 
+// itself
+// PreConditions : The comic data must be formatted correctly in the string
+// Postconditions: returns a constant pointer to the created Comic
+//                 throws an exception if any of the information is invalid
 const Comic* Comic::create(std::string toMakeFrom) const
 {
    Comic* dummy = new Comic();
@@ -36,6 +56,12 @@ const Comic* Comic::create(std::string toMakeFrom) const
    return dummy;
 }
 
+
+//-------------------------- operator== ------------------------------------
+// Checks if two Comics are equivilent. Equivilance is defined as each 
+// Comic having the same publisher, title year and grade.
+// Postconditions: Returns true if both Comics are equivilent
+//                 Returns false if the Comics are not equivilent.
 bool Comic::operator==(const Comparable& right) const
 {
    const Comic& toCheck = static_cast<const Comic&>(right);
@@ -55,11 +81,25 @@ bool Comic::operator==(const Comparable& right) const
    return equiv;
 }
 
+
+//-------------------------- operator!= ------------------------------------
+// Checks if two Comics are not  equivilent. Equivilance is defined as each 
+// Comic having the same publisher, title year and grade.
+// Preconditions : The right hand side comparable must be defined
+// Postconditions: Returns true if both Comics are not equivilent
+//                 Returns false if the Comics are equivilent.
 bool Comic::operator!=(const Comparable& right) const
 {
    return !((*this) == right);
 }
 
+
+//-------------------------- operator> -------------------------------------
+// Checks if two Comics have a greater than relationship. Comics are 
+// weighted such that we first consider them by publisher, then by title,
+// then by year, then by grade. The fields are compared using defined >
+// Postconditions: Returns true if the right hand side comic is smaller
+//                 than the left hand side. Otherwise, false is returned
 bool Comic::operator>(const Comparable& right) const
 {
    if (*this == right) {
@@ -84,6 +124,13 @@ bool Comic::operator>(const Comparable& right) const
    }
 }
 
+
+//-------------------------- operator< --------------------------------------
+// Checks if two Comics have a less than relationship. Comics are 
+// weighted such that we first consider them by publisher, then by title,
+// then by year, then by grade. The fields are compared using defined <
+// Postconditions: Returns true if the right hand side comic is larger
+//                 than the left hand side. Otherwise, false is returned
 bool Comic::operator<(const Comparable& right) const
 {
    if (*this == right) {
@@ -108,99 +155,26 @@ bool Comic::operator<(const Comparable& right) const
    }
 }
 
-// possibly define hashable at the comparable level becuase 
-int Comic::hash() const
-{
-   return Collectible::hash();
-}
 
+//-------------------------- print --------------------------------------
+// Prints the comics publisher, title, year, and grade on one line
+// Postconditions: prints to the console a representation of the Comic
 void Comic::print() const
 {
    std::cout << "Comic : " << year_ << ", " << grade_ << ", " + publisher_
              << ", "  + title_;
 }
 
+
+//-------------------------- copy ------------------------------------------
+// creates a deep copy of the current comic and returns a non-modifyable
+// pointer to it
+// preconditions : The caller must means to deallocate the memory
+//                 associated
+// Postconditions: returns a constant pointer deep copy of the current
+//                 comic
 const Comic* Comic::copy() const
 {
    const Comic* copied = new Comic(*this);
    return copied;
 }
-
-/*
-int main() {
-   Collectible* testCoin = new Comic();
-   const Collectible* created = testCoin->create(", 1938, Mint, Superman, DC");
-
-   std::cout << "Printing test comic" << std::endl;
-   testCoin->print();
-   std::cout << std::endl << "Printing created comic" << std::endl;
-   created->print();
-
-   std::cout << std::endl << "Printing test comic hash" << std::endl;
-   std::cout << testCoin->hash() << std::endl;
-   std::cout << std::endl << "Printing created comic" << std::endl;
-   std::cout << std::endl << created->hash() << std::endl;
-
-   const Collectible* checkingBools = created;
-
-   bool testEqualsY = created == checkingBools;
-   // checking the bools
-   std::cout << std::endl << "testing the bools == (true)" << std::endl;
-   std::cout << std::endl << testEqualsY << std::endl;
-
-   bool testEqualsN = created == testCoin;
-   // checking the bools
-   std::cout << std::endl << "testing the bools == (false)" << std::endl;
-   std::cout << std::endl << testEqualsN << std::endl;
-
-   bool testLEQN = created < checkingBools;
-   // checking the bools
-   std::cout << std::endl << "testing the bools < (false)" << std::endl;
-   std::cout << std::endl << testLEQN << std::endl;
-
-   bool testGEQN = created > checkingBools;
-   // checking the bools
-   std::cout << std::endl << "testing the bools > (false)" << std::endl;
-   std::cout << std::endl << testGEQN << std::endl;
-
-
-   const Collectible* anotherCoinCreated = testCoin->create(", 2010, Excellent, X-Men, Marvel");
-
-   std::cout << "testing with an addition comic" << std::endl;
-   std::cout << std::endl;
-   std::cout << std::endl << "Printing test comic hash" << std::endl;
-   std::cout << anotherCoinCreated->hash() << std::endl;
-   std::cout << std::endl << "Printing created comic" << std::endl;
-   std::cout << std::endl << created->hash() << std::endl;
-
-
-   testEqualsY = created == anotherCoinCreated;
-   // checking the bools
-   std::cout << std::endl << "testing the bools ==" << std::endl;
-   std::cout << std::endl << testEqualsY << std::endl;
-
-   testEqualsN = created > anotherCoinCreated;
-   // checking the bools
-   std::cout << std::endl << "testing the bools > created first " << std::endl;
-   std::cout << std::endl << testEqualsN << std::endl;
-
-   testLEQN = created < anotherCoinCreated;
-   // checking the bools
-   std::cout << std::endl << "testing the bools < created first" << std::endl;
-   std::cout << std::endl << testLEQN << std::endl;
-
-   testGEQN = anotherCoinCreated > created;
-   // checking the bools
-   std::cout << std::endl << "testing the bools > another first " << std::endl;
-   std::cout << std::endl << testGEQN << std::endl;
-
-
-
-
-   delete testCoin;
-   delete created;
-   delete anotherCoinCreated;
-   return 0;
-
-}
-*/

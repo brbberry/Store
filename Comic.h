@@ -1,6 +1,6 @@
 // Blake Berry
-// 02/22/2022
-// Homework 4 Design
+// 03/08/2022
+// Homework 4
 // This file is an interface for the Comic class. The Comic class inherted
 // from the collectible interface. The Comic class represents an item that can
 // exist at a collectible store
@@ -72,27 +72,19 @@ public:
    virtual bool operator<(const Comparable& right) const;
 
 
-   //-------------------------------- Hash -----------------------------------
-   // generates an int from the value that the Comic holds
-   // Preconditions : Assumes that the key is a capital ASCII value A-Z
-   // Postconditions: an integer is returned based off the value held by the 
-   //                 hashable object
-   virtual int hash() const;
-   //PSUEDOCODE
-   /*
-
-      Subtracts ASCII for A from the given string version of the comparable
-
-   */
-
-
    //-------------------------- print --------------------------------------
    // Prints the comics publisher, title, year, and grade on one line
    // Postconditions: prints to the console a representation of the Comic
    virtual void print() const;
 
-   // makes a copy
-   virtual const Comic* copy() const;
 
+   //-------------------------- copy ------------------------------------------
+   // creates a deep copy of the current comic and returns a non-modifyable
+   // pointer to it
+   // preconditions : The caller must means to deallocate the memory
+   //                 associated
+   // Postconditions: returns a constant pointer deep copy of the current
+   //                 comic
+   virtual const Comic* copy() const;
 };
 

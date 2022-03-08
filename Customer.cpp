@@ -7,10 +7,7 @@ Customer::Customer(int customerNumber, std::string customerName) :
 {
 }
 
-int Customer::hash() const
-{
-   return 0;
-}
+
 
 std::string Customer::getName() const
 {

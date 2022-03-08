@@ -3,6 +3,8 @@
 #include "CustomerManager.h"
 #include <fstream>
 #include <iostream>
+
+
 TransactionManager::TransactionManager() :
    transactionHistory_(nullptr)
 {
@@ -14,7 +16,9 @@ TransactionManager::~TransactionManager()
    delete transactionHistory_;
 }
 
-bool TransactionManager::logTransaction(const Customer*& responsible, const Collectible*& item, std::string transactionType)
+bool TransactionManager::logTransaction(const Customer*& responsible, 
+                                        const Collectible*& item, 
+                                        std::string transactionType)
 {
 
    if (responsible == nullptr) {

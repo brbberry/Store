@@ -9,10 +9,7 @@ CommandSell::~CommandSell()
 {
 }
 
-int CommandSell::hash() const
-{
-    return 0;
-}
+
 
 void CommandSell::execute(TransactionManager*& tManager, ItemsManager*& iManager, CustomerManager*& cManager, std::string& command) const
 {
@@ -24,7 +21,8 @@ void CommandSell::execute(TransactionManager*& tManager, ItemsManager*& iManager
    std::string custNum = command.substr(0, 3);
    // check custNum;
    bool allDigits = true;
-   for (int i = 0; i < custNum.size(); i++) {
+   int custNumSize = custNum.size();
+   for (int i = 0; i < custNumSize; i++) {
       allDigits = std::isdigit(custNum[i]);
    }
 

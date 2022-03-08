@@ -74,16 +74,11 @@ int ItemsManager::hashStoreInventory(std::string itemType) const
 
 ItemsManager::ItemsManager() :
    makeCollectibles_(CollectionFactory()),
-  // inventory_(std::vector<SearchTree*>())
    betterInventory_(nullptr)
 {
    // really need to make a size variable
    betterInventory_ = new SearchTree * [NUM_ITEM_TYPES];
    for (int i = 0; i < NUM_ITEM_TYPES; i++) {
-      // to remove
-      /*
-      inventory_.push_back(new SearchTree());
-      */
       betterInventory_[i] = new SearchTree();
    }
 }
@@ -91,13 +86,11 @@ ItemsManager::ItemsManager() :
 ItemsManager::~ItemsManager()
 {
    for (int i = 0; i < NUM_ITEM_TYPES; i++) {
-      /*
-      delete inventory_[i];
-      */
+
       delete betterInventory_[i];
       betterInventory_[i] = nullptr;
    }
-   delete betterInventory_;
+   delete[] betterInventory_;
 }
 
 
@@ -168,36 +161,7 @@ void ItemsManager::fillInventory(std::ifstream& inFile)
          }
 
          betterInventory_[inventoryIndex]->insert(comparableToAdd);
-         /*
-         if (itemToAdd->getID() == "M") {
-            if (numAdded == 0) {
-               if (inventory_[0]->retrieve(*comparableToAdd) != nullptr) {
-                  alreadyInInventory = true;
-               }
-            }
 
-            inventory_[0]->insert(comparableToAdd);
-
-         }
-         else if (itemToAdd->getID() == "C") {
-            if (numAdded == 0) {
-               if (inventory_[1]->retrieve(*comparableToAdd) != nullptr) {
-                  alreadyInInventory = true;
-               }
-            }
-
-            inventory_[1]->insert(comparableToAdd);
-         }
-         else if (itemToAdd->getID() == "S") {
-            if (numAdded == 0) {
-               if (inventory_[2]->retrieve(*comparableToAdd) != nullptr) {
-                  alreadyInInventory = true;
-               }
-            }
-
-            inventory_[2]->insert(comparableToAdd);
-         }
-         */
          numAdded++;
       }
       // insert will not add the memeory twice free it
@@ -238,57 +202,6 @@ const Collectible* ItemsManager::manageSelling(std::string collectible)
       return itemToSell;
    }
    
-   //if (itemToSell->getID() == "M") {
-   //   // if its already present free the memory as it isn't added
-   //   // keeps the memory owned by the items manager -- hence retrieve call
-   //   if (!inventory_[0]->insert(comparableToSell)) {
-   //      const Comparable* actedOn = inventory_[0]->retrieve(*comparableToSell);
-   //      delete itemToSell;
-   //      return static_cast<const Collectible*>(actedOn);
-   //   }
-   //   else {
-   //      /*
-   //      * 
-   //      * GETTING RID OF THIS BC Same pointer would be in the table
-   //      const Comparable* actedOn = inventory_[0]->retrieve(*comparableToSell);
-   //      return static_cast<const Collectible*>(actedOn);
-   //      */
-   //      return itemToSell;
-   //   }
-   //}
-   //else if (itemToSell->getID() == "C") {
-   //   // if its already present free the memory as it isn't added
-   //   if (!inventory_[1]->insert(comparableToSell)) {
-   //      const Comparable* actedOn = inventory_[1]->retrieve(*comparableToSell);
-   //      delete itemToSell;
-   //      return static_cast<const Collectible*>(actedOn);
-   //   }
-   //   else {
-   //      /*
-   //      const Comparable* actedOn = inventory_[1]->retrieve(*comparableToSell);
-   //      return static_cast<const Collectible*>(actedOn);
-   //      */
-   //      return itemToSell;
-   //   }
-   //}
-   //else if (itemToSell->getID() == "S") {
-   //   // if its already present free the memory as it isn't added
-   //   if (!inventory_[2]->insert(comparableToSell)) {
-   //      const Comparable* actedOn = inventory_[2]->retrieve(*comparableToSell);
-   //      delete itemToSell;
-   //      return static_cast<const Collectible*>(actedOn);
-   //   }
-   //   else {
-   //      /*
-   //      const Comparable* actedOn = inventory_[2]->retrieve(*comparableToSell);
-   //      return static_cast<const Collectible*>(actedOn);
-   //      */
-   //      return itemToSell;
-   //   }
-   //}
-
-   //return nullptr;
-   
 }
 
 const Collectible* ItemsManager::manageBuying(std::string collectible)
@@ -322,38 +235,6 @@ const Collectible* ItemsManager::manageBuying(std::string collectible)
       return itemToBuy;
    }
 
-
-   //if (itemToBuy->getID() == "M") {
-   //   // if false throw 
-   //   const Comparable* actedOn = inventory_[0]->retrieve(*comparableToBuy);
-   //   if (actedOn == nullptr) {
-   //      throw CollectiblesStoreError(err1 + " Item Not Currently in Store");
-   //   }
-   //   inventory_[0]->remove(*comparableToBuy);
-   //   return static_cast<const Collectible*>(actedOn);
-   //}
-   //else if (itemToBuy->getID() == "C") {
-   //   
-   //   const Comparable* actedOn = inventory_[1]->retrieve(*comparableToBuy);
-   //   if (actedOn == nullptr) {
-   //      throw CollectiblesStoreError(err1 + " Item Not Currently in Store");
-   //   }
-   //   inventory_[1]->remove(*comparableToBuy);
-   //   return static_cast<const Collectible*>(actedOn);
-   //}
-   //else if (itemToBuy->getID() == "S") {
-   //   
-   //   const Comparable* actedOn = inventory_[2]->retrieve(*comparableToBuy);
-
-   //   if (actedOn == nullptr) {
-   //      throw CollectiblesStoreError(err1 + " Item Not Currently in Store");
-   //   }
-
-   //   inventory_[2]->remove(*comparableToBuy);
-   //   return static_cast<const Collectible*>(actedOn);
-   //}
-
-   //return nullptr;
 }
 
 void ItemsManager::showInventory() const
@@ -366,28 +247,10 @@ void ItemsManager::showInventory() const
    printInOrder.push_back(static_cast<Collectible*>(&second));
    printInOrder.push_back(static_cast<Collectible*>(&third));
 
-   for (int i = 0; i < printInOrder.size(); i++) {
+   int printInOrderSize = printInOrder.size();
+
+   for (int i = 0; i < printInOrderSize; i++) {
       int index = hashStoreInventory(printInOrder[i]->getID());
       std::cout << *betterInventory_[index];
    }
-
-   /*
-   for (int i = 0; i < NUM_ITEM_TYPES; i++) {
-      if (!inventory_[i]->isEmpty()) {
-         std::cout << *inventory_[i] << std::endl;
-      }
-   }
-   */
 }
-
-/*
-int main() {
-   ItemsManager* mgr = new ItemsManager();
-
-   std::ifstream ifs("C:/Users/Trident/source/repos/StoreTesting/StoreTesting/Text1.txt");
-   mgr->fillInventory(ifs);
-   mgr->showInventory();
-   delete mgr;
-   return 0;
-}
-*/

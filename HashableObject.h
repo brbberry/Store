@@ -31,11 +31,7 @@ public:
    virtual ~HashableObject() {};
 
 
-   //-------------------------------- Hash -----------------------------------
-   // generates an int from the value that the HashableObject holds
-   // Postconditions: an integer is returned based off the value held by the 
-   //                 hashable object
-   virtual int hash() const = 0;
+
 
 
    //-------------------------------- getID ----------------------------------
