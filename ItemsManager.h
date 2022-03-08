@@ -26,8 +26,10 @@ private:
    static const int NUM_ITEM_TYPES = 26; // must be above 1+
 
    CollectionFactory makeCollectibles_;   // factory that makes collectibles 
-   std::vector<SearchTree*> inventory_;    // stores one type of collectible (size of 6 most likely
+  // std::vector<SearchTree*> inventory_;    // stores one type of collectible (size of 6 most likely
                                           // at each index in sorted order
+
+   SearchTree** betterInventory_;
    /*f
    f
    
@@ -63,6 +65,8 @@ private:
    const Collectible* getItemShell(std::string& type) const;
 
    int getInventoryAmount(std::string& item) const;
+
+   int hashStoreInventory(std::string itemType) const;
 
 
 public:
