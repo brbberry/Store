@@ -42,10 +42,10 @@ CollectibleStore::CollectibleStore()
    std::vector<Command*> toProcess;
 
    Command* buy = new CommandBuy();
-   Command* sell = new CommandBuy();
-   Command* display = new CommandBuy();
-   Command* history = new CommandBuy();
-   Command* customer = new CommandBuy();
+   Command* sell = new CommandSell();
+   Command* display = new CommandDisplay();
+   Command* history = new CommandHistory();
+   Command* customer = new CommandCustomer();
 
    toProcess.push_back(buy);
    toProcess.push_back(sell);
@@ -107,8 +107,14 @@ void CollectibleStore::runStore(std::ifstream& readCommands)
             //throw
          }
          else {
-            // try
-            toDo->execute(tManager_, iManager_, cManager_, curCommand);
+            try {
+               toDo->execute(tManager_, iManager_, cManager_, curCommand);
+            }
+            catch (CollectiblesStoreError err) {
+               std::cout << err.what() << std::endl;
+               continue;
+            }
+            
          }
       }
    }
@@ -128,5 +134,15 @@ void CollectibleStore::fillStoreCustomers(std::ifstream& readCustomers)
 
 int main() {
 
+   std::ifstream custs("C:/Users/Trident/source/repos/StoreTesting/StoreTesting/Text.txt");
+   std::ifstream items("C:/Users/Trident/source/repos/StoreTesting/StoreTesting/Text1.txt");
+   std::ifstream commands("C:/Users/Trident/source/repos/StoreTesting/StoreTesting/Text2.txt");
+
+   CollectibleStore* store = new CollectibleStore();
+   store->fillStoreInventory(items);
+   store->fillStoreCustomers(custs);
+   store->runStore(commands);
+
+   delete store;
    return 0;
 }

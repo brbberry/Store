@@ -62,7 +62,7 @@ CollectionFactory::~CollectionFactory()
 }
 
 // possibly adjust to fill entire coin
-const Collectible* CollectionFactory::create(std::string key)
+const Collectible* CollectionFactory::create(std::string key) const
 {
    // possibly make a get type method -- just takes the first Char M so its ", " formatted still
 

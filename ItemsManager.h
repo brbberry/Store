@@ -9,7 +9,6 @@
 //-----------------------------------------------------------------------------
 
 #pragma once
-#include "HashTable.h"
 #include "Collectible.h"
 #include "CollectionFactory.h"
 #include "SearchTree.h"
@@ -17,11 +16,14 @@
 #include <fstream>
 #include <iostream>
 #include <ctype.h>
+#include "CollectiblesStoreError.h"
 
 class ItemsManager
 {
 
 private:
+
+   static const int NUM_ITEM_TYPES = 26; // must be above 1+
 
    CollectionFactory makeCollectibles_;   // factory that makes collectibles 
    std::vector<SearchTree*> inventory_;    // stores one type of collectible (size of 6 most likely
@@ -57,6 +59,10 @@ private:
 
    std::string getItemType(std::string& instructions) const;
    int getQuantity(std::string& instructions) const;
+
+   const Collectible* getItemShell(std::string& type) const;
+
+   int getInventoryAmount(std::string& item) const;
 
 
 public:

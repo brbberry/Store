@@ -32,7 +32,7 @@ int ItemsManager::getQuantity(std::string& instructions) const
    }
 
    if (!validNumber) {
-      //throw an error
+      // invalid inventory
       return 0;
    }
    else {
@@ -43,12 +43,36 @@ int ItemsManager::getQuantity(std::string& instructions) const
    }
 }
 
+const Collectible* ItemsManager::getItemShell(std::string& type) const
+{
+
+   const Collectible* itemShell = makeCollectibles_.create(type);
+
+   if (itemShell == nullptr) {
+      throw CollectiblesStoreError("Invalid Item Type");
+   }
+   else {
+      return itemShell;
+   }
+}
+
+int ItemsManager::getInventoryAmount(std::string& item) const
+{
+   int number = getQuantity(item);
+   if (number <= 0) {
+      throw CollectiblesStoreError("Invalid Item Quantity");
+   }
+   else {
+      return number;
+   }
+}
+
 ItemsManager::ItemsManager() :
    makeCollectibles_(CollectionFactory()),
    inventory_(std::vector<SearchTree*>())
 {
    // really need to make a size variable
-   for (int i = 0; i < 3; i++) {
+   for (int i = 0; i < NUM_ITEM_TYPES; i++) {
       inventory_.push_back(new SearchTree());
    }
 
@@ -56,33 +80,17 @@ ItemsManager::ItemsManager() :
 
 ItemsManager::~ItemsManager()
 {
-   for (int i = 0; i < 3; i++) {
+   for (int i = 0; i < NUM_ITEM_TYPES; i++) {
       delete inventory_[i];
    }
 }
-/*
-while we are not at the end of the file do
-store first char as a string
 
-use that string to get a dummy collectible from the factory
-if nullptr is returned
-throw an invalid errorand keep processing
-else
-try
-call the collectibles create method on the remainder of
-the string
 
-catch
-the exceptionand go to the next line of the file
-
-if the collectible is in the store
-increase the count
-else
-add call insert to add it to the inventory
-*/
 void ItemsManager::fillInventory(std::ifstream& inFile)
 {
    std::string curItem = "";
+   bool itemError = false;
+   int lineItem = 1;
    while (inFile.peek() != EOF) {
 
       std::getline(inFile, curItem);
@@ -93,33 +101,84 @@ void ItemsManager::fillInventory(std::ifstream& inFile)
 
       //try
       // creates a itemShell (does not create memory)
-      const Collectible* itemShell = makeCollectibles_.create(collectibleType);
-      //catch
+      const Collectible* itemShell = nullptr;
+      try {
+         itemShell = getItemShell(collectibleType);
+      }
+      catch (CollectiblesStoreError err) {
+         std::cout << "Inventory Line item " << lineItem << " "
+                   << err.what() << std::endl;
+         lineItem++;
+         continue;
+      }
+      
+      int inventoryAmount = 0;
+      try {
+         inventoryAmount = getInventoryAmount(curItem);
+      }
+      catch (CollectiblesStoreError err) {
+         std::cout << "Inventory Line item " << lineItem << " "
+            << err.what() << std::endl;
+         lineItem++;
+         continue;
+      }
 
-      // try
-      int makeCopies = getQuantity(curItem);
-      // catch
-
-      // try
-      const Collectible* itemToAdd = itemShell->create(curItem);
-      // catch
+      const Collectible* itemToAdd = nullptr;
+      try {
+         itemToAdd = itemShell->create(curItem);
+      }
+      catch (CollectiblesStoreError err) {
+         delete itemToAdd;
+         std::cout << "Inventory Line item " << lineItem << " "
+            << err.what() << std::endl;
+         lineItem++;
+         continue;
+      }
+      
       int numAdded = 0;
 
       const Comparable* comparableToAdd = static_cast<const Comparable*>(itemToAdd);
-      while (numAdded < makeCopies) {
+
+      bool alreadyInInventory = false;
+
+      while (numAdded < inventoryAmount) {
 
          if (itemToAdd->getID() == "M") {
-            
+            if (numAdded == 0) {
+               if (inventory_[0]->retrieve(*comparableToAdd) != nullptr) {
+                  alreadyInInventory = true;
+               }
+            }
+
             inventory_[0]->insert(comparableToAdd);
+
          }
          else if (itemToAdd->getID() == "C") {
+            if (numAdded == 0) {
+               if (inventory_[1]->retrieve(*comparableToAdd) != nullptr) {
+                  alreadyInInventory = true;
+               }
+            }
+
             inventory_[1]->insert(comparableToAdd);
          }
          else if (itemToAdd->getID() == "S") {
+            if (numAdded == 0) {
+               if (inventory_[2]->retrieve(*comparableToAdd) != nullptr) {
+                  alreadyInInventory = true;
+               }
+            }
+
             inventory_[2]->insert(comparableToAdd);
          }
          numAdded++;
       }
+      // insert will not add the memeory twice free it
+      if (alreadyInInventory) {
+         delete itemToAdd;
+      }
+
+      lineItem++;
    }
 }
 
@@ -130,27 +189,33 @@ const Collectible* ItemsManager::manageSelling(std::string collectible)
    std::string collectibleType = getItemType(collectible);
    // we know the first is the customer number
 
-   //try
-   // creates a itemShell (does not create memory)
-   const Collectible* itemShell = makeCollectibles_.create(collectibleType);
-   //catch
 
-   // try
-   const Collectible* itemToSell = itemShell->create(collectibleType);
-   // catch
+   const Collectible* itemShell = makeCollectibles_.create(collectibleType);
+   if (itemShell == nullptr) {
+      throw CollectiblesStoreError("Cannot Process Sale, Item cannot be Sold");
+   }
+
+   // this statement will throw bc create throws
+   const Collectible* itemToSell = itemShell->create(collectible);
 
    const Comparable* comparableToSell = static_cast<const Comparable*>(itemToSell);
 
    if (itemToSell->getID() == "M") {
       // if its already present free the memory as it isn't added
+      // keeps the memory owned by the items manager -- hence retrieve call
       if (!inventory_[0]->insert(comparableToSell)) {
          const Comparable* actedOn = inventory_[0]->retrieve(*comparableToSell);
          delete itemToSell;
          return static_cast<const Collectible*>(actedOn);
       }
       else {
+         /*
+         * 
+         * GETTING RID OF THIS BC Same pointer would be in the table
          const Comparable* actedOn = inventory_[0]->retrieve(*comparableToSell);
          return static_cast<const Collectible*>(actedOn);
+         */
+         return itemToSell;
       }
    }
    else if (itemToSell->getID() == "C") {
@@ -161,8 +226,11 @@ const Collectible* ItemsManager::manageSelling(std::string collectible)
          return static_cast<const Collectible*>(actedOn);
       }
       else {
+         /*
          const Comparable* actedOn = inventory_[1]->retrieve(*comparableToSell);
          return static_cast<const Collectible*>(actedOn);
+         */
+         return itemToSell;
       }
    }
    else if (itemToSell->getID() == "S") {
@@ -173,8 +241,11 @@ const Collectible* ItemsManager::manageSelling(std::string collectible)
          return static_cast<const Collectible*>(actedOn);
       }
       else {
+         /*
          const Comparable* actedOn = inventory_[2]->retrieve(*comparableToSell);
          return static_cast<const Collectible*>(actedOn);
+         */
+         return itemToSell;
       }
    }
 
@@ -183,6 +254,7 @@ const Collectible* ItemsManager::manageSelling(std::string collectible)
 
 const Collectible* ItemsManager::manageBuying(std::string collectible)
 {
+   std::string err1 = "Cannot Process Purchase";
    // we have the type
    std::string collectibleType = getItemType(collectible);
    // we know the first is the customer number
@@ -191,28 +263,42 @@ const Collectible* ItemsManager::manageBuying(std::string collectible)
    // creates a itemShell (does not create memory)
    const Collectible* itemShell = makeCollectibles_.create(collectibleType);
    //catch
+   if (itemShell == nullptr) {
 
-   // try
+      throw CollectiblesStoreError(err1+" Invalid Item Type");
+   }
+ 
+   // throws its own errors
    const Collectible* itemToBuy = itemShell->create(collectible);
-   // catch
 
    const Comparable* comparableToBuy = static_cast<const Comparable*>(itemToBuy);
 
    if (itemToBuy->getID() == "M") {
       // if false throw 
       const Comparable* actedOn = inventory_[0]->retrieve(*comparableToBuy);
+      if (actedOn == nullptr) {
+         throw CollectiblesStoreError(err1 + " Item Not Currently in Store");
+      }
       inventory_[0]->remove(*comparableToBuy);
       return static_cast<const Collectible*>(actedOn);
    }
    else if (itemToBuy->getID() == "C") {
-      // if false throw
+      
       const Comparable* actedOn = inventory_[1]->retrieve(*comparableToBuy);
+      if (actedOn == nullptr) {
+         throw CollectiblesStoreError(err1 + " Item Not Currently in Store");
+      }
       inventory_[1]->remove(*comparableToBuy);
       return static_cast<const Collectible*>(actedOn);
    }
    else if (itemToBuy->getID() == "S") {
-      // if false throw
+      
       const Comparable* actedOn = inventory_[2]->retrieve(*comparableToBuy);
+
+      if (actedOn == nullptr) {
+         throw CollectiblesStoreError(err1 + " Item Not Currently in Store");
+      }
+
       inventory_[2]->remove(*comparableToBuy);
       return static_cast<const Collectible*>(actedOn);
    }
@@ -222,11 +308,12 @@ const Collectible* ItemsManager::manageBuying(std::string collectible)
 
 void ItemsManager::showInventory() const
 {
-   // make this FACTORY_SIZE
-   for (int i = 0; i < 3; i++) {
-      std::cout << *inventory_[i] << std::endl;
-   }
 
+   for (int i = 0; i < NUM_ITEM_TYPES; i++) {
+      if (!inventory_[i]->isEmpty()) {
+         std::cout << *inventory_[i] << std::endl;
+      }
+   }
 }
 
 /*

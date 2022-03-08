@@ -9,6 +9,7 @@
 #pragma once
 #include "HashableObject.h"
 #include "Comparable.h"
+#include "CollectiblesStoreError.h"
 
 
 /*

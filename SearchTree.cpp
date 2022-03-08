@@ -580,6 +580,11 @@ int SearchTree::height(const Comparable& toFind) const
    }
 }
 
+bool SearchTree::isEmpty() const
+{
+    return root_ == nullptr;
+}
+
 
 //-------------------------- StreamInorder ------------------------------------
 // Recursively traverses the calling tree in order streaming out the comparable

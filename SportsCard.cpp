@@ -65,42 +65,48 @@ bool SportsCard::operator!=(const Comparable& right) const
 
 bool SportsCard::operator>(const Comparable& right) const
 {
-   const SportsCard& toCheck = static_cast<const SportsCard&>(right);
+   if (*this == right) {
+      return false;
+   }
+   else {
 
-   bool greaterThan = true;
-   if (static_cast<int>(player_.compare(toCheck.player_)) < 0) {
+      const SportsCard& toCheck = static_cast<const SportsCard&>(right);
+
+      if (static_cast<int>(player_.compare(toCheck.player_)) < 0) {
+         return false;
+      }
+      if (year_ <= toCheck.year_) {
+         return false;
+      }
+      if (static_cast<int>(manufacturer_.compare(toCheck.manufacturer_)) < 0) {
+         return false;
+      }
+      if (static_cast<int>(grade_.compare(toCheck.grade_)) < 0) {
+         return false;
+      }
       return false;
    }
-   if (year_ < toCheck.year_) {
-      return false;
-   }
-   if (static_cast<int>(manufacturer_.compare(toCheck.manufacturer_)) < 0) {
-      return false;
-   }
-   if (static_cast<int>(grade_.compare(toCheck.grade_)) < 0) {
-      return false;
-   }
-   return greaterThan;
 }
 
 bool SportsCard::operator<(const Comparable& right) const
 {
-   const SportsCard& toCheck = static_cast<const SportsCard&>(right);
-   bool lessThan = true;
-   if (static_cast<int>(player_.compare(toCheck.player_)) > 0) {
+   if (*this == right) {
       return false;
    }
-   if (year_ < toCheck.year_) {
-      return false;
-   }
-   if (static_cast<int>(manufacturer_.compare(toCheck.manufacturer_)) > 0) {
-      return false;
-   }
-   if (static_cast<int>(grade_.compare(toCheck.grade_)) > 0) {
-      return false;
-   }
+   else {
+      const SportsCard& toCheck = static_cast<const SportsCard&>(right);
 
-   return lessThan;
+      if (static_cast<int>(player_.compare(toCheck.player_)) > 0) {
+         return false;
+      }
+      if (static_cast<int>(manufacturer_.compare(toCheck.manufacturer_)) > 0) {
+         return false;
+      }
+      if (static_cast<int>(grade_.compare(toCheck.grade_)) > 0) {
+         return false;
+      }
+      return true;
+   }
 }
 
 int SportsCard::hash() const

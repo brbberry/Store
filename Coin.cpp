@@ -38,13 +38,13 @@ const Coin* Coin::create(std::string toMakeFrom) const
    dummy->year_ = std::stoi(Collectible::processConstruction(toMakeFrom));
 
    if (dummy->year_ < 1000 || dummy->year_ > 2022) {
-      //throw error
+      throw CollectiblesStoreError("Invalid Coin Year");
    }
 
    // assumes grade comes second
    dummy->grade_ = std::stoi(Collectible::processConstruction(toMakeFrom));
    if (dummy->grade_ < 0) {
-      //throw error
+      throw CollectiblesStoreError("Invalid Coin Grade");
    }
 
    // assumes type comes last
@@ -82,41 +82,49 @@ bool Coin::operator!=(const Comparable& right) const
 
 bool Coin::operator>(const Comparable& right) const
 {
+   if (*this == right) {
+      return false;
+   }
+   else {
+      const Coin& toCheck = static_cast<const Coin&>(right);
+      bool greaterThan = true;
+      if (type_ < toCheck.type_) {
+         return false;
+      }
+      // a lesser year is greater
+      if (year_ < toCheck.year_) {
+         return false;
+      }
+      // a higher grade is greater
+      if (grade_ > toCheck.grade_) {
+         return false;
+      }
 
-   const Coin& toCheck = static_cast<const Coin&>(right);
-   bool greaterThan = true;
-   if (type_ < toCheck.type_) {
-      return false;
+      return greaterThan;
    }
-   // a lesser year is greater
-   if (year_ < toCheck.year_) {
-      return false;
-   }
-   // a higher grade is greater
-   if (grade_ > toCheck.grade_) {
-      return false;
-   }
-
-   return greaterThan;
 }
 
 bool Coin::operator<(const Comparable& right) const
 {
-
-   const Coin& toCheck = static_cast<const Coin&>(right);
-   bool lessThan = true;
-   if (type_ > toCheck.type_) {
+   if (*this == right) {
       return false;
    }
-   // a smaller year is greater
-   if (year_ < toCheck.year_) {
-      return false;
+   else {
+      const Coin& toCheck = static_cast<const Coin&>(right);
+      bool lessThan = true;
+      if (type_ > toCheck.type_) {
+         return false;
+      }
+      // a smaller year is greater
+      if (year_ < toCheck.year_) {
+         return false;
+      }
+      // a higher grade is greater
+      if (grade_ > toCheck.grade_) {
+         return false;
+      }
+      return lessThan;
    }
-   // a higher grade is greater
-   if (grade_ > toCheck.grade_) {
-      return false;
-   }
-   return lessThan;
 }
  
 int Coin::hash() const

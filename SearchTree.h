@@ -283,6 +283,9 @@ public:
    int height(const Comparable& toFind) const;
 
 
+   bool isEmpty() const;
+
+
    //-------------------------- operator<< ---------------------------------------
    // Streams the tree out listing the comarables and their counts in sorted order
    // Preconditions : The output must be defined and the tree to be streamed must

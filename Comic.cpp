@@ -15,6 +15,7 @@ Comic::~Comic()
 {
 }
 
+//assumes valid grade title and publisher
 const Comic* Comic::create(std::string toMakeFrom) const
 {
    Comic* dummy = new Comic();
@@ -23,16 +24,10 @@ const Comic* Comic::create(std::string toMakeFrom) const
    dummy->year_ = std::stoi(Collectible::processConstruction(toMakeFrom));
 
    if (dummy->year_ < 1000 || dummy->year_ > 2022) {
-      //throw error
+      throw CollectiblesStoreError("Invalid Comic Year");
    }
 
-   // assumes grade comes second
    dummy->grade_ = Collectible::processConstruction(toMakeFrom);
-   /*
-   if (dummy->grade_ < 0) {
-      //throw error
-   }
-   */
 
    dummy->title_ = Collectible::processConstruction(toMakeFrom);
 
@@ -67,40 +62,50 @@ bool Comic::operator!=(const Comparable& right) const
 
 bool Comic::operator>(const Comparable& right) const
 {
-   const Comic& toCheck = static_cast<const Comic&>(right);
-   bool greaterThan = true;
-   if (static_cast<int>(publisher_.compare(toCheck.publisher_)) < 0) {
+   if (*this == right) {
       return false;
    }
-   if (static_cast<int>(title_.compare(toCheck.title_)) < 0) {
-      return false;
+   else {
+      const Comic& toCheck = static_cast<const Comic&>(right);
+      bool greaterThan = true;
+      if (static_cast<int>(publisher_.compare(toCheck.publisher_)) < 0) {
+         return false;
+      }
+      if (static_cast<int>(title_.compare(toCheck.title_)) < 0) {
+         return false;
+      }
+      if (year_ < toCheck.year_) {
+         return false;
+      }
+      if (static_cast<int>(grade_.compare(toCheck.grade_)) < 0) {
+         return false;
+      }
+      return greaterThan;
    }
-   if (year_ < toCheck.year_) {
-      return false;
-   }
-   if (static_cast<int>(grade_.compare(toCheck.grade_)) < 0) {
-      return false;
-   }
-   return greaterThan;
 }
 
 bool Comic::operator<(const Comparable& right) const
 {
-   const Comic& toCheck = static_cast<const Comic&>(right);
-   bool lessThan = true;
-   if (static_cast<int>(publisher_.compare(toCheck.publisher_)) > 0) {
+   if (*this == right) {
       return false;
    }
-   if (static_cast<int>(title_.compare(toCheck.title_)) > 0) {
-      return false;
+   else {
+      const Comic& toCheck = static_cast<const Comic&>(right);
+      bool lessThan = true;
+      if (static_cast<int>(publisher_.compare(toCheck.publisher_)) > 0) {
+         return false;
+      }
+      if (static_cast<int>(title_.compare(toCheck.title_)) > 0) {
+         return false;
+      }
+      if (year_ > toCheck.year_) {
+         return false;
+      }
+      if (static_cast<int>(grade_.compare(toCheck.grade_)) > 0) {
+         return false;
+      }
+      return lessThan;
    }
-   if (year_ > toCheck.year_) {
-      return false;
-   }
-   if (static_cast<int>(grade_.compare(toCheck.grade_)) > 0) {
-      return false;
-   }
-   return lessThan;
 }
 
 // possibly define hashable at the comparable level becuase 

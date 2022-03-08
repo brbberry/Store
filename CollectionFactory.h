@@ -63,7 +63,7 @@ public:
    //-------------------------- create ----------------------------------------
    // From a given key a value is returned if it exists
    // Postconditions: a constant Hashable object pointer is returned from a key
-   const Collectible* create(std::string key);
+   const Collectible* create(std::string key) const;
    // PSUEDOCODE
    /*
       creates a collectible from the given ID

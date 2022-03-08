@@ -33,7 +33,7 @@ void CommandSell::execute(TransactionManager*& tManager, ItemsManager*& iManager
    }
 
    // gets rid of "XXX, "
-   command.erase(0, 4);
+   command.erase(0, 5);
 
    const Customer* customer = cManager->findCustomer(custNum);
 

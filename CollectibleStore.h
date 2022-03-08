@@ -16,6 +16,7 @@
 #include "CommandSell.h"
 #include "CommandDisplay.h"
 #include "CommandCustomer.h"
+#include "CollectiblesStoreError.h"
 #include <vector>
 #include <string>
 

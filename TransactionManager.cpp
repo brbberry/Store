@@ -55,8 +55,9 @@ void TransactionManager::displayCustomersHistroy(const Customer*& responsible) c
    const Comparable* toMatch = static_cast<const Comparable*>(&dummyToSearch);
    const Comparable* found = transactionHistory_->retrieve(*toMatch);
    if (found == nullptr) {
-      // throw error
-      std::cout << "error" << std::endl;
+      
+      std::string name = responsible->getName();
+      std::cout << name + " has not made any transactions" << std::endl;
    }
    else {
       std::cout << *found << std::endl;
