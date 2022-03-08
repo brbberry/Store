@@ -134,6 +134,13 @@ public:
    //                 attempted to be purchased
    const Collectible* manageBuying(std::string collectible);
 
+
+   //-------------------------- showInventory ---------------------------------
+   // Shows the inventory in a specified ordered, coins, comics, then 
+   // sports cards
+   // Preconditions : the search tree and comparables must be printable
+   // 
+   // Postconditions: prints the items to the console in the above order.
    void showInventory() const;
 };
 

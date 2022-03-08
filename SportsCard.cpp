@@ -1,5 +1,17 @@
+// Blake Berry
+// 03/08/2022
+// Homework 4
+// This file is an implimentation for the SportsCard class. The SportsCard 
+// class Inherited from the collectible interface. The Comic class represents
+//   an item that can exist at a collectible store
+//-----------------------------------------------------------------------------
+
 #include "SportsCard.h"
 
+
+//-------------------------- Constructor -----------------------------------
+// Creates a completely empty SportsCard with empty fields
+// Postconditions: an empty SportsCard is created
 SportsCard::SportsCard(std::string key) :
    Collectible(key),
    player_(""),
@@ -9,10 +21,22 @@ SportsCard::SportsCard(std::string key) :
 {
 }
 
+
+//-------------------------- destructor -----------------------------------
+// Frees any dynamic memory associated with the SportsCard
+// Postconditions: The SportsCard is freed of any dynamic memory
 SportsCard::~SportsCard()
 {
 }
 
+
+//-------------------------- Create --------------------------------------
+// Parses a given string and created a SportsCard from a given string 
+// returning  itself
+// PreConditions : The SportsCard data must be formatted correctly in the
+//                 string
+// Postconditions: returns a constant pointer to the created SportsCard
+//                 throws an exception if any of the information is invalid
 const SportsCard* SportsCard::create(std::string toMakeFrom) const
 {
    SportsCard* dummy = new SportsCard();
@@ -39,6 +63,12 @@ const SportsCard* SportsCard::create(std::string toMakeFrom) const
    return dummy;
 }
 
+
+//-------------------------- operator== ------------------------------------
+// Checks if two SportsCards are equivilent. Equivilance is defined as each 
+// Comic having the same player, manufacturer, year, and grade
+// Postconditions: Returns true if both SportsCards are equivilent
+//                 Returns false if the SportsCards are not equivilent.
 bool SportsCard::operator==(const Comparable& right) const
 {
    const SportsCard& toCheck = static_cast<const SportsCard&>(right);
@@ -58,11 +88,25 @@ bool SportsCard::operator==(const Comparable& right) const
    return equiv;
 }
 
+
+//-------------------------- operator!= --------------------------------------
+// Checks if two SportsCards are not equivilent. Equivilance is defined as each 
+// Comic having the same player, manufacturer, year, and grade
+// Postconditions: Returns true if both SportsCards are not equivilent
+//                 Returns false if the SportsCards are equivilent.
 bool SportsCard::operator!=(const Comparable& right) const
 {
    return !((*this) == right);
 }
 
+
+//-------------------------- operator> -------------------------------------
+// Checks if two SportsCards have a greater than relationship. SportsCards
+//  are weighted such that we first consider them by player, then by
+// manufacturer, then by year, then by grade. 
+// The fields are compared using defined >
+// Postconditions: Returns true if the right hand side SportsCard is smaller
+//                 than the left hand side. Otherwise, false is returned
 bool SportsCard::operator>(const Comparable& right) const
 {
    if (*this == right) {
@@ -88,6 +132,14 @@ bool SportsCard::operator>(const Comparable& right) const
    }
 }
 
+
+//-------------------------- operator< --------------------------------------
+// Checks if two SportsCards have a less than relationship. SportsCards
+//  are weighted such that we first consider them by player, then by
+// manufacturer, then by year, then by grade. 
+// The fields are compared using defined <
+// Postconditions: Returns true if the right hand side SportsCard is larger
+//                 than the left hand side. Otherwise, false is returned
 bool SportsCard::operator<(const Comparable& right) const
 {
    if (*this == right) {
@@ -110,13 +162,23 @@ bool SportsCard::operator<(const Comparable& right) const
 }
 
 
-
+//-------------------------- print ----------------------------------------
+// Prints the SportsCard player, manufacturer, year, and grade on one line
+// Postconditions: prints to the console a representation of the SportsCard
 void SportsCard::print() const
 {
    std::cout << "Sports Card : " << year_ << ", " << grade_ << ", " + manufacturer_
       << ", " + player_;
 }
 
+
+//-------------------------- copy ------------------------------------------
+// creates a deep copy of the current coin and returns a non-modifyable
+// pointer to it
+// preconditions : The caller must means to deallocate the memory
+//                 associated
+// Postconditions: returns a constant pointer deep copy of the current
+//                 coin
 const SportsCard* SportsCard::copy() const
 {
    const SportsCard* copied = new SportsCard(*this);

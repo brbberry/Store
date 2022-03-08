@@ -1,6 +1,6 @@
 // Blake Berry
-// 02/22/2022
-// Homework 4 design
+// 03/08/2022
+// Homework 4
 // This file is an interface for the Store class. The Store class is an
 // abstract base class that defines basic behavior for a general store.
 // The store class mandates a store has specific managers and a command factory
@@ -28,11 +28,10 @@ protected:
 
    CustomerManager*     cManager_; // manages the list of customers
 
-   // the commands will take in all three managers as we dont know
-   // which command is needed to execute
+
    Command** generateCommand_; // processes store commands
 
-   static const int NUM_COMMANDS = 26;
+   static const int NUM_COMMANDS = 26; // cannot be fewer than 1
 
    //------------------------ initalizeItemsManager ---------------------------
    // Creates the stores inventory from a file of items.
@@ -60,6 +59,11 @@ protected:
    //                 customerlist
    virtual void initalizeCustomerManager(std::ifstream& readCustomers) = 0;
 
+
+   //-------------------- hashCommands ----------------------------
+   // Each store must decide how it hashes its own commands
+   // PreConditions : the key needs to be a string
+   // Postconditions: an integer hash is produced
    virtual int hashCommands(std::string key) const = 0;
 
 public:

@@ -1,6 +1,6 @@
 // Blake Berry
-// 02/22/2022
-// Homework 4 Design
+// 03/08/2022
+// Homework 4
 // This file is an interface for the TransactionLogEntry class. The 
 // TransactionLogEntry class is a sortable class that sorts based upon the
 // customer name. The TransactionLogEntry class couples a customer with a list
@@ -100,6 +100,13 @@ public:
    // Postconditions:  adds the transaction to the end of the customers log
    bool addTransaction(Transaction& toAdd) const;
 
-   virtual const Comparable* copy() const;
 
+   //-------------------------- copy ------------------------------------------
+   // creates a deep copy of the current entry and returns a non-modifyable
+   // pointer to it
+   // preconditions : The caller must means to deallocate the memory
+   //                 associated
+   // Postconditions: returns a constant pointer deep copy of the current
+   //                 entry
+   virtual const Comparable* copy() const;
 };

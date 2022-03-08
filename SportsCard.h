@@ -1,6 +1,6 @@
 // Blake Berry
-// 02/22/2022
-// Homework 4 Design
+// 03/08/2022
+// Homework 4
 // This file is an interface for the SportsCard class. The SportsCard class
 // Inherited from the collectible interface. The Comic class represents an item
 //  that can exist at a collectible store
@@ -26,10 +26,12 @@ public:
    // Postconditions: an empty SportsCard is created
    SportsCard(std::string key = "S");
 
+
    //-------------------------- destructor -----------------------------------
    // Frees any dynamic memory associated with the SportsCard
    // Postconditions: The SportsCard is freed of any dynamic memory
    virtual ~SportsCard();
+
 
    //-------------------------- Create --------------------------------------
    // Parses a given string and created a SportsCard from a given string 
@@ -77,14 +79,19 @@ public:
    virtual bool operator<(const Comparable& right) const;
 
 
-
-
-
    //-------------------------- print ----------------------------------------
    // Prints the SportsCard player, manufacturer, year, and grade on one line
    // Postconditions: prints to the console a representation of the SportsCard
    virtual void print() const;
 
+
+   //-------------------------- copy ------------------------------------------
+   // creates a deep copy of the current coin and returns a non-modifyable
+   // pointer to it
+   // preconditions : The caller must means to deallocate the memory
+   //                 associated
+   // Postconditions: returns a constant pointer deep copy of the current
+   //                 coin
    virtual const SportsCard* copy() const;
 };
 

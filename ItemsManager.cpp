@@ -118,6 +118,15 @@ ItemsManager::ItemsManager() :
    }
 }
 
+
+//-------------------------- Destructor -----------------------------------
+// Frees any dynamic memory associated with the items manager class
+// Preconditions : The factory must be capable to freeing its dynamic memory
+//                   
+//                 the items inventory must be capable of freeing its 
+//                 dynamic memory
+// 
+// Postconditions: frees the memory associated with the items manager
 ItemsManager::~ItemsManager()
 {
    for (int i = 0; i < NUM_ITEM_TYPES; i++) {
@@ -129,6 +138,16 @@ ItemsManager::~ItemsManager()
 }
 
 
+
+//-------------------------- FillInventory ---------------------------------
+// Fills the inventory from a file, Coins are index 0, Comics are index 2, 
+// and SportsCards are index 3
+// Preconditions : The factory must be initialized
+// 
+//                 The file must be formatted correctly
+// 
+// Postconditions: The ItemManagers inventory is filled, exceptions are 
+//                 thrown if invalid data is attempted
 void ItemsManager::fillInventory(std::ifstream& inFile)
 {
    std::string curItem = "";
@@ -208,6 +227,18 @@ void ItemsManager::fillInventory(std::ifstream& inFile)
    }
 }
 
+
+//-------------------------- ManageBuying ---------------------------------
+// Given the ID of an item them method handles the purchase of an item
+// if the item is present its inventory count is decrimented appropriately
+// Preconditions : the hashable object frees its own dynamically allocated
+//                 memory
+// 
+//                 The factory must be initalized
+// 
+// Postconditions: An item is sold and the inventory is updated and true
+//                 is returned. Throws an error if an invalid item is
+//                 attempted to be purchased
 const Collectible* ItemsManager::manageBuying(std::string collectible)
 {
 
@@ -239,6 +270,18 @@ const Collectible* ItemsManager::manageBuying(std::string collectible)
    
 }
 
+
+//-------------------------- ManageSelling ---------------------------------
+// Given the ID of an item them method handles the sale of an item
+// if the item is present its inventory count is incrimented appropriately
+// Preconditions : the hashable object frees its own dynamically allocated
+//                 memory
+// 
+//                 The factory must be initalized
+// 
+// Postconditions: An item is sold and the inventory is updated and true
+//                 is returned. Throws an error if an invalid item is
+//                 attempted to be sold
 const Collectible* ItemsManager::manageSelling(std::string collectible)
 {
    std::string origin = collectible;
@@ -276,6 +319,13 @@ const Collectible* ItemsManager::manageSelling(std::string collectible)
 
 }
 
+
+//-------------------------- showInventory ---------------------------------
+// Shows the inventory in a specified ordered, coins, comics, then 
+// sports cards
+// Preconditions : the search tree and comparables must be printable
+// 
+// Postconditions: prints the items to the console in the above order.
 void ItemsManager::showInventory() const
 {
    std::vector<Collectible*> printInOrder;

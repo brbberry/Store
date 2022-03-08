@@ -1,3 +1,13 @@
+// Blake Berry
+// 03/08/2022
+// Homework 4
+// This file is an interface for the TransactionManager class. The 
+//  TransactionManager stores customers and their purchase history for the 
+// collectibles store. The transactionManager does not own the memory to the
+// customer or the items in the transaction it simply logs and can provide
+// hisotrical information about a csutomers or the stores transaction history
+//-----------------------------------------------------------------------------
+
 #include "TransactionManager.h"
 #include "ItemsManager.h"
 #include "CustomerManager.h"
@@ -5,17 +15,35 @@
 #include <iostream>
 
 
+
+//-------------------------- TransactionManager ----------------------------
+// creates a transaction manager that is empty of transaction to manage
+// Postconditions: creates a transaction manager that is empty of 
+//                 transactions
 TransactionManager::TransactionManager() :
    transactionHistory_(nullptr)
 {
    transactionHistory_ = new SearchTree();
 }
 
+
+//------------------------- Destructor ----------------------------
+// Frees the transactionHistory tree of its nodes
+// Preconditions : Assumes that the collectibles and customers free their
+//                 own dynamic memory
+// Postconditions: Frees the memory associated with the transactionManager
 TransactionManager::~TransactionManager()
 {
    delete transactionHistory_;
 }
 
+
+//------------------------- logTransaction ----------------------------
+// Given a customer, item, and transaction type a transaction object is 
+// created and stored in the transaction history
+// Preconditions : Assumes that the collectibles and customers free their
+//                 own dynamic memory
+// Postconditions: Frees the memory associated with the transactionManager
 bool TransactionManager::logTransaction(const Customer*& responsible, 
                                         const Collectible*& item, 
                                         std::string transactionType)
@@ -47,6 +75,15 @@ bool TransactionManager::logTransaction(const Customer*& responsible,
 }
 
 
+
+//------------------------- DisplayTransactionHistory ----------------------
+// Traverses the transaction history tree and prints out all of the 
+// customers in alphebtic order and prints their transaction in chrological
+// order
+// Preconditions : Assumes that the print method exists for TransactionEntry
+// Postconditions: prints to the console the transaction history for each 
+//                 customer. Each transaction will appear on one line
+//                 indented by a tab under the customers name
 void TransactionManager::displayTransactionHistory() const
 {
 
@@ -54,6 +91,17 @@ void TransactionManager::displayTransactionHistory() const
 
 }
 
+
+//------------------------- DisplayCustomerHistory -------------------------
+// Traverses the tree looking for a given customer. If found the customers
+// transaction history is displayed in chronological order
+// Preconditions : Assumes that the print method exists for TransactionEntry
+// Postconditions: prints to the console the transaction history for the 
+//                 customer. Each transaction will appear on one line
+//                 indented by a tab under the customers name
+//                  
+//                 if the customer has not made a transaction an exception
+//                 is thrown
 void TransactionManager::displayCustomersHistroy(const Customer*& responsible) const
 {
    TransactionLogEntry dummyToSearch(responsible);
@@ -69,31 +117,3 @@ void TransactionManager::displayCustomersHistroy(const Customer*& responsible) c
    }
 
 }
-
-/*
-int main() {
-
-   ItemsManager* mgrI = new ItemsManager();
-   CustomerManager* mgrC = new CustomerManager();
-   TransactionManager* mgrT = new TransactionManager();
-   std::ifstream inv("C:/Users/Trident/source/repos/StoreTesting/StoreTesting/Text1.txt");
-   std::ifstream cus("C:/Users/Trident/source/repos/StoreTesting/StoreTesting/Text.txt");
-   mgrI->fillInventory(inv);
-   mgrC->fillCustomerLog(cus);
-
-   // not new'd
-   const Customer* toUse = mgrC->findCustomer("999");
-   // not new'd
-   const Collectible* item = mgrI->manageBuying("C, 1938, Mint, Superman, DC");
-
-   mgrT->logTransaction(toUse, item, "B");
-   const Collectible* item2 = mgrI->manageBuying("C, 1938, Mint, Superman, DC");
-   mgrT->logTransaction(toUse, item2, "B");
-   mgrT->displayCustomersHistroy(toUse);
-   mgrT->displayTransactionHistory();
-   mgrI->showInventory();
-   delete mgrI, mgrC, mgrT;
-
-   return 0;
-}
-*/

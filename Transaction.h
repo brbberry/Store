@@ -1,6 +1,6 @@
 // Blake Berry
-// 02/22/2022
-// Homework 4 Design
+// 03/08/2022
+// Homework 4
 // This file is an interface for the Transaction class. The Transaction class
 // wraps a item transacted upon and stores a representation of the transaction
 // type. This class then produces a pointer to itself for refrence by other
@@ -27,9 +27,17 @@ public:
    //                 the item
    Transaction(const Collectible*& item, std::string type);
 
+
+   //------------------------ getItemTransacted -------------------------------
+   // returns the item transacted
+   // Postconditions: a constant pointer to that item is returned
    const Collectible* getItemTransacted() const;
 
 
+   //------------------------ getTransactionType ------------------------------
+   // returns the type of transaction done on the item
+   // Postconditions: returns a string representation of the transaction type
+   //                 on the item
    std::string getTransactionType() const;
 
    //------------------------- Destructor -------------------------------------

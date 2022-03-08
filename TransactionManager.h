@@ -1,6 +1,6 @@
 // Blake Berry
-// 02/22/2022
-// Homework 4 design
+// 03/08/2022
+// Homework 4
 // This file is an interface for the TransactionManager class. The 
 //  TransactionManager stores customers and their purchase history for the 
 // collectibles store. The transactionManager does not own the memory to the
@@ -49,19 +49,6 @@ public:
                        const Collectible*& item, 
                        std::string transactionType);
 
-   //PSUEDOCODE
-   /*
-      store the pointer from a Call the search trees retrieve method
-      if the pointer is nullptr
-         create a new transaction
-         create a new TransactionLogEntry
-         insert that into the tree using the BST insert method
-      else
-         create a new transaction
-         cast the comparable pointer to a TransactionLogEntry
-         call the transitionLogEntries add transaction method to log it
-   */
-
 
    //------------------------- DisplayTransactionHistory ----------------------
    // Traverses the transaction history tree and prints out all of the 
@@ -85,16 +72,5 @@ public:
    //                 if the customer has not made a transaction an exception
    //                 is thrown
    void displayCustomersHistroy(const Customer*& responsible) const;
-   //PSUEDOCODE
-   /*
-      create a dummy transitionLogEntry give the customer
-      searches the tree to see if the customer is in the tree
-
-      if the search is successful
-         print the transaction
-      else
-         throw an error that that customer has not transacted
-   */
-
 };
 
