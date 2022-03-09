@@ -119,11 +119,11 @@ bool SportsCard::operator>(const Comparable& right) const
       if (year_ > toCheck.year_) {
          return true;
       }
-      else if (year_ == year_) {
+      else if (year_ == toCheck.year_) {
          if (manufacturer_ > toCheck.manufacturer_) {
             return true;
          }
-         else {
+         else if(manufacturer_ == toCheck.manufacturer_){
             if (grade_ >toCheck.grade_) {
                return true;
             }
@@ -153,7 +153,7 @@ bool SportsCard::operator<(const Comparable& right) const
       if (year_ < toCheck.year_) {
          return true;
       }
-      else if (year_ == year_) {
+      else if (year_ == toCheck.year_) {
          if (manufacturer_ < toCheck.manufacturer_) {
             return true;
          }
