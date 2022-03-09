@@ -102,26 +102,29 @@ bool Comic::operator!=(const Comparable& right) const
 //                 than the left hand side. Otherwise, false is returned
 bool Comic::operator>(const Comparable& right) const
 {
-   if (*this == right) {
-      return false;
+
+   const Comic& toCheck = static_cast<const Comic&>(right);
+
+   if (publisher_ > toCheck.publisher_) {
+      return true;
    }
-   else {
-      const Comic& toCheck = static_cast<const Comic&>(right);
-      bool greaterThan = true;
-      if (static_cast<int>(publisher_.compare(toCheck.publisher_)) < 0) {
-         return false;
+   else if (publisher_ == toCheck.publisher_) {
+      if (title_ > toCheck.title_) {
+         return true;
       }
-      if (static_cast<int>(title_.compare(toCheck.title_)) < 0) {
-         return false;
+      else if (title_ == toCheck.title_) {
+         if (year_ > toCheck.year_) {
+            return true;
+         }
+         else if (year_ == toCheck.year_) {
+            if (grade_ > toCheck.grade_) {
+               return true;
+            }
+         }
       }
-      if (year_ < toCheck.year_) {
-         return false;
-      }
-      if (static_cast<int>(grade_.compare(toCheck.grade_)) < 0) {
-         return false;
-      }
-      return greaterThan;
    }
+
+   return false;
 }
 
 
@@ -133,26 +136,28 @@ bool Comic::operator>(const Comparable& right) const
 //                 than the left hand side. Otherwise, false is returned
 bool Comic::operator<(const Comparable& right) const
 {
-   if (*this == right) {
-      return false;
+
+   const Comic& toCheck = static_cast<const Comic&>(right);
+   if (publisher_ < toCheck.publisher_) {
+      return true;
    }
-   else {
-      const Comic& toCheck = static_cast<const Comic&>(right);
-      bool lessThan = true;
-      if (static_cast<int>(publisher_.compare(toCheck.publisher_)) > 0) {
-         return false;
+   else if (publisher_ == toCheck.publisher_) {
+      if (title_ < toCheck.title_) {
+         return true;
       }
-      if (static_cast<int>(title_.compare(toCheck.title_)) > 0) {
-         return false;
+      else if (title_ == toCheck.title_) {
+         if (year_ < toCheck.year_) {
+            return true;
+         }
+         else if (year_ == toCheck.year_) {
+            if (grade_ < toCheck.grade_) {
+               return true;
+            }
+         }
       }
-      if (year_ > toCheck.year_) {
-         return false;
-      }
-      if (static_cast<int>(grade_.compare(toCheck.grade_)) > 0) {
-         return false;
-      }
-      return lessThan;
    }
+
+   return false;
 }
 
 

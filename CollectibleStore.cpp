@@ -123,8 +123,8 @@ CollectibleStore::CollectibleStore()
 //                 associated
 CollectibleStore::~CollectibleStore()
 {
-   delete iManager_;
    delete tManager_;
+   delete iManager_;
    delete cManager_;
 
    // clearing out the command factory

@@ -49,5 +49,4 @@ const Collectible* Transaction::getItemTransacted() const
 // Postconditions: frees any dynamic memory associated with the transaction
 Transaction::~Transaction()
 {
-   itemTransacted_ = nullptr;
 }

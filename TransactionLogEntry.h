@@ -21,7 +21,7 @@ class TransactionLogEntry: public Comparable
 private:
 
    const Customer* customer_; // the customer making the transaction
-   mutable std::vector<Transaction> transactionLog_; // a chronological order of
+   mutable std::vector<Transaction*> transactionLog_; // a chronological order of
                                              // the customers transactions
 
 public:
@@ -37,7 +37,7 @@ public:
    // Creates a log entry given a customer and an initial transaction
    // Postconditions: Creates an entry for a given customer and logs the
    //                 transaction
-   TransactionLogEntry(const Customer*& cust, Transaction& initialTransaction);
+   TransactionLogEntry(const Customer*& cust, Transaction*& initialTransaction);
 
    
    //-------------------------- Constructor -----------------------------------
@@ -52,7 +52,7 @@ public:
    // by the customer Manager
    // Postconditions: frees any deynamic memory associated with the 
    //                 transactionLogEntry
-   ~TransactionLogEntry();
+   virtual ~TransactionLogEntry();
 
    //-------------------------- operator== ------------------------------------
    // Checks if two transactionLogEntries are equivilent. Equivilance is 
@@ -98,7 +98,7 @@ public:
    // Preconditions:   Assumes that the transaction is valid and that the
    //                  customer is valid
    // Postconditions:  adds the transaction to the end of the customers log
-   bool addTransaction(Transaction& toAdd) const;
+   bool addTransaction(Transaction* toAdd) const;
 
 
    //-------------------------- copy ------------------------------------------

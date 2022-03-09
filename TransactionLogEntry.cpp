@@ -18,7 +18,7 @@
 // transition log
 TransactionLogEntry::TransactionLogEntry() :
    customer_(nullptr),
-   transactionLog_(std::vector<Transaction>())
+   transactionLog_(std::vector<Transaction*>())
 {
 }
 
@@ -27,9 +27,9 @@ TransactionLogEntry::TransactionLogEntry() :
 // Creates a log entry given a customer and an initial transaction
 // Postconditions: Creates an entry for a given customer and logs the
 //                 transaction
-TransactionLogEntry::TransactionLogEntry(const Customer*& cust, Transaction& initialTransaction) :
+TransactionLogEntry::TransactionLogEntry(const Customer*& cust, Transaction*& initialTransaction) :
    customer_(cust),
-   transactionLog_(std::vector<Transaction>())
+   transactionLog_(std::vector<Transaction*>())
 {
    transactionLog_.push_back(initialTransaction);
 }
@@ -41,7 +41,7 @@ TransactionLogEntry::TransactionLogEntry(const Customer*& cust, Transaction& ini
 // Postconditions: Creates an entry for a given customer
 TransactionLogEntry::TransactionLogEntry(const Customer*& cust) :
    customer_(cust),
-   transactionLog_(std::vector<Transaction>())
+   transactionLog_(std::vector<Transaction*>())
 {
 }
 
@@ -55,11 +55,13 @@ TransactionLogEntry::TransactionLogEntry(const Customer*& cust) :
 //                 transactionLogEntry
 TransactionLogEntry::~TransactionLogEntry()
 {
-
-   transactionLog_.clear();
-   // bc does not own the memory for customer
-   customer_ = nullptr;
+   int size = transactionLog_.size();
+   for (int i = 0; i < size; i++) {
+      delete transactionLog_[i];
+      transactionLog_[i] = nullptr;
+   }
 }
+
 
 
 //-------------------------- operator== ------------------------------------
@@ -71,20 +73,11 @@ bool TransactionLogEntry::operator==(const Comparable& right) const
 {
 
    const TransactionLogEntry& rightHandSide = static_cast<const TransactionLogEntry&>(right);
-
-   if (customer_ != rightHandSide.customer_) {
-      return false;
-   }
-   // there will never be one without this customer name
-   /*
-   // may not need this case as it is unlikely to show up
-   else if (transactionLog_ != rightHandSide.transactionLog_) {
-      return false;
-   }
-   */
-   else {
+   // if they have the same customer they're the same entry
+   if (customer_ == rightHandSide.customer_) {
       return true;
    }
+   return false;
 }
 
 
@@ -110,16 +103,21 @@ bool TransactionLogEntry::operator>(const Comparable& right) const
 
    std::string toCompCustName = rightHandSide.customer_->getName();
 
-   if (customer_->getName() < toCompCustName) {
-      return false;
-   }
-   // the size of the transaction log
-   else if (transactionLog_.size() < rightHandSide.transactionLog_.size()) {
-      return false;
-   }
-   else {
+   if (customer_->getName() > toCompCustName) {
       return true;
    }
+   else if (customer_->getName() == toCompCustName) {
+      int curLogSize = transactionLog_.size();
+      int compLogSize = rightHandSide.transactionLog_.size();
+      if (curLogSize > compLogSize) {
+         return true;
+      }
+      else if (curLogSize == compLogSize) {
+         // compare memaddress // arbitrary order at this point
+         return customer_ > rightHandSide.customer_;
+      }
+   }
+   return false;
 }
 
 
@@ -133,17 +131,21 @@ bool TransactionLogEntry::operator<(const Comparable& right) const
    const TransactionLogEntry& rightHandSide = static_cast<const TransactionLogEntry&>(right);
 
    std::string toCompCustName = rightHandSide.customer_->getName();
-
-   if (customer_->getName() > toCompCustName) {
-      return false;
-   }
-   // the size of the transaction log
-   else if (transactionLog_.size() > rightHandSide.transactionLog_.size()) {
-      return false;
-   }
-   else {
+   if (customer_->getName() < toCompCustName) {
       return true;
    }
+   else if (customer_->getName() == toCompCustName) {
+      int curLogSize = transactionLog_.size();
+      int compLogSize = rightHandSide.transactionLog_.size();
+      if (curLogSize < compLogSize) {
+         return true;
+      }
+      else if (curLogSize == compLogSize) {
+         // compare memaddress // arbitrary order at this point
+         return customer_ < rightHandSide.customer_;
+      }
+   }
+   return false;
 }
 
 
@@ -158,8 +160,8 @@ void TransactionLogEntry::print() const
 
    for (int i = 0; i < size; i++) {
 
-      const Collectible* item = transactionLog_[i].getItemTransacted();
-      std::string transactionType = transactionLog_[i].getTransactionType();
+      const Collectible* item = transactionLog_[i]->getItemTransacted();
+      std::string transactionType = transactionLog_[i]->getTransactionType();
 
       // bc friend access
       //const Comparable* toPrint = static_cast<const Comparable*>(item);
@@ -182,7 +184,7 @@ void TransactionLogEntry::print() const
 // Preconditions:   Assumes that the transaction is valid and that the
 //                  customer is valid
 // Postconditions:  adds the transaction to the end of the customers log
-bool TransactionLogEntry::addTransaction(Transaction& toAdd) const
+bool TransactionLogEntry::addTransaction(Transaction* toAdd) const
 {
    transactionLog_.push_back(toAdd);
 

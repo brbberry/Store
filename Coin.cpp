@@ -105,28 +105,26 @@ bool Coin::operator!=(const Comparable& right) const
 //                 than the left hand side. Otherwise, false is returned
 bool Coin::operator>(const Comparable& right) const
 {
-   if (*this == right) {
-      return false;
-   }
-   else {
-      const Coin& toCheck = static_cast<const Coin&>(right);
-      bool greaterThan = true;
 
-      // uses string compare
-      if (type_ < toCheck.type_) {
-         return false;
+   const Coin& toCheck = static_cast<const Coin&>(right);
+   if (type_ > toCheck.type_) {
+      return true;
+   }
+   else if (type_ == toCheck.type_) {
+      // a smaller year is greater
+      if (year_ > toCheck.year_) {
+         return true;
       }
-      // a lesser year is greater
-      if (year_ < toCheck.year_) {
-         return false;
+      else if (grade_ == toCheck.grade_) {
+         if (grade_ > toCheck.grade_) {
+            return true;
+         }
       }
       // a higher grade is greater
-      if (grade_ > toCheck.grade_) {
-         return false;
-      }
-
-      return greaterThan;
    }
+
+   return false;
+   
 }
 
 
@@ -138,27 +136,26 @@ bool Coin::operator>(const Comparable& right) const
 //                 than the left hand side. Otherwise, true is returned
 bool Coin::operator<(const Comparable& right) const
 {
-   if (*this == right) {
-      return false;
-   }
-   else {
-      const Coin& toCheck = static_cast<const Coin&>(right);
-      bool lessThan = true;
 
-      // uses string compare
-      if (type_ > toCheck.type_) {
-         return false;
-      }
+   const Coin& toCheck = static_cast<const Coin&>(right);
+    
+   if (type_ < toCheck.type_) {
+      return true;
+   }
+   else if (type_ == toCheck.type_) {
       // a smaller year is greater
       if (year_ < toCheck.year_) {
-         return false;
+         return true;
+      }
+      else if (grade_ == toCheck.grade_) {
+         if (grade_ < toCheck.grade_) {
+            return true;
+         }
       }
       // a higher grade is greater
-      if (grade_ > toCheck.grade_) {
-         return false;
-      }
-      return lessThan;
    }
+   return false;
+
 }
  
 

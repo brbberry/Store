@@ -69,15 +69,26 @@ void SearchTree::emptyTreeHelper(STNode*& root)
 
    emptyTreeHelper(root->left_);
    emptyTreeHelper(root->right_);
-
+   delete root->held_;
+   root->held_ = nullptr;
+   delete root;
+   root = nullptr;
+   /*
    // if we are not at the calling trees root, free the memory completely
    if (root != root_) {
+      //--
       const Comparable* compToDel = root->held_;
       STNode* nodeToDel = root;
       root->held_ = nullptr;
       root = nullptr;
       delete compToDel;
       delete nodeToDel;
+      //--
+      delete root->held_;
+      root->held_ = nullptr;
+      delete root;
+      root = nullptr;
+  
    }
    // if we are at the calling tree's root, just free the held and
    // reset the count
@@ -86,6 +97,7 @@ void SearchTree::emptyTreeHelper(STNode*& root)
       root->held_ = nullptr;
       root->count_ = 0;
    }
+   */
    return;
 }
 
@@ -215,6 +227,7 @@ bool SearchTree::operator!=(const SearchTree& right) const
 SearchTree::STNode* SearchTree::insertHelper(STNode* root,
    const Comparable& toFind) const
 {
+   // not in tree
    if (root == nullptr) {
       return nullptr;
    }

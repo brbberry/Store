@@ -109,27 +109,29 @@ bool SportsCard::operator!=(const Comparable& right) const
 //                 than the left hand side. Otherwise, false is returned
 bool SportsCard::operator>(const Comparable& right) const
 {
-   if (*this == right) {
-      return false;
-   }
-   else {
 
-      const SportsCard& toCheck = static_cast<const SportsCard&>(right);
+   const SportsCard& toCheck = static_cast<const SportsCard&>(right);
 
-      if (static_cast<int>(player_.compare(toCheck.player_)) < 0) {
-         return false;
-      }
-      if (year_ <= toCheck.year_) {
-         return false;
-      }
-      if (static_cast<int>(manufacturer_.compare(toCheck.manufacturer_)) < 0) {
-         return false;
-      }
-      if (static_cast<int>(grade_.compare(toCheck.grade_)) < 0) {
-         return false;
-      }
-      return false;
+   if (player_ > toCheck.player_) {
+      return true;
    }
+   else if (player_ == toCheck.player_) {
+      if (year_ > toCheck.year_) {
+         return true;
+      }
+      else if (year_ == year_) {
+         if (manufacturer_ > toCheck.manufacturer_) {
+            return true;
+         }
+         else {
+            if (grade_ >toCheck.grade_) {
+               return true;
+            }
+         }
+      }
+   }
+
+   return false; 
 }
 
 
@@ -142,23 +144,29 @@ bool SportsCard::operator>(const Comparable& right) const
 //                 than the left hand side. Otherwise, false is returned
 bool SportsCard::operator<(const Comparable& right) const
 {
-   if (*this == right) {
-      return false;
-   }
-   else {
-      const SportsCard& toCheck = static_cast<const SportsCard&>(right);
 
-      if (static_cast<int>(player_.compare(toCheck.player_)) > 0) {
-         return false;
-      }
-      if (static_cast<int>(manufacturer_.compare(toCheck.manufacturer_)) > 0) {
-         return false;
-      }
-      if (static_cast<int>(grade_.compare(toCheck.grade_)) > 0) {
-         return false;
-      }
+   const SportsCard& toCheck = static_cast<const SportsCard&>(right);
+   if (player_ < toCheck.player_) {
       return true;
    }
+   else if (player_ == toCheck.player_) {
+      if (year_ < toCheck.year_) {
+         return true;
+      }
+      else if (year_ == year_) {
+         if (manufacturer_ < toCheck.manufacturer_) {
+            return true;
+         }
+         else if(manufacturer_ == toCheck.manufacturer_){
+            if (grade_ < toCheck.grade_) {
+               return true;
+            }
+         }
+      }
+   }
+
+   return false;
+
 }
 
 

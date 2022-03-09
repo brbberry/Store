@@ -132,6 +132,7 @@ CustomerManager::CustomerManager() :
 CustomerManager::~CustomerManager()
 {
    for (int i = 0; i < NUM_CUSTOMERS; i++) {
+
       delete customerLog_[i];
       customerLog_[i] = nullptr;
    }

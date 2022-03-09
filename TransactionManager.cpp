@@ -53,9 +53,13 @@ bool TransactionManager::logTransaction(const Customer*& responsible,
       // throw an error
       return false;
    }
-   Transaction newTransaction(item, transactionType);
 
+   // make new transaction with refrence to the true memory
+   Transaction* newTransaction = new Transaction(item, transactionType);
+   // make a new transaction log 
    TransactionLogEntry* transactionEntry = new TransactionLogEntry(responsible, newTransaction);
+
+   // cast it
    const Comparable* toAdd = static_cast<const Comparable*>(transactionEntry);
 
    // insert returns false if the entry is already present
@@ -65,8 +69,7 @@ bool TransactionManager::logTransaction(const Customer*& responsible,
       const Comparable* entryToAddTo = transactionHistory_->retrieve(*toAdd);
       const TransactionLogEntry* addHere = static_cast<const TransactionLogEntry*>(entryToAddTo);
       // possibly change to make a copy rather than in the method
-      addHere->addTransaction(newTransaction);
-
+      addHere->addTransaction(new Transaction(*newTransaction));
       // becauase it was already presesnt delete the log entry
       delete transactionEntry;
    }

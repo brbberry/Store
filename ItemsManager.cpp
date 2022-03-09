@@ -131,6 +131,7 @@ ItemsManager::~ItemsManager()
 {
    for (int i = 0; i < NUM_ITEM_TYPES; i++) {
 
+
       delete betterInventory_[i];
       betterInventory_[i] = nullptr;
    }
@@ -187,6 +188,7 @@ void ItemsManager::fillInventory(std::ifstream& inFile)
 
       const Collectible* itemToAdd = nullptr;
       try {
+         // new memory
          itemToAdd = itemShell->create(curItem);
       }
       catch (CollectiblesStoreError err) {
@@ -201,26 +203,14 @@ void ItemsManager::fillInventory(std::ifstream& inFile)
 
       const Comparable* comparableToAdd = static_cast<const Comparable*>(itemToAdd);
 
-      bool alreadyInInventory = false;
-
       while (numAdded < inventoryAmount) {
 
          // promised to be accurate in that we can create it so there is an index no checking needed
          int inventoryIndex = hashStoreInventory(itemToAdd->getID());
-         if (numAdded == 0) {
-            
-            if (betterInventory_[inventoryIndex]->retrieve(*comparableToAdd) != nullptr) {
-               alreadyInInventory = true;
-            }
-         }
 
          betterInventory_[inventoryIndex]->insert(comparableToAdd);
 
          numAdded++;
-      }
-      // insert will not add the memeory twice free it
-      if (alreadyInInventory) {
-         delete itemToAdd;
       }
 
       lineItem++;
@@ -252,19 +242,20 @@ const Collectible* ItemsManager::manageBuying(std::string collectible)
       throw CollectiblesStoreError("Cannot Process Purchase, Item cannot be Bought");
    }
 
-   // this statement will throw bc create throws
+   // this statement will throw bc create throws makes new
    const Collectible* itemToBuy = itemShell->create(collectible);
 
    const Comparable* comparableToBuy = static_cast<const Comparable*>(itemToBuy);
 
    // assured to be valid
    int inventoryIndex = hashStoreInventory(itemToBuy->getID());
-   if (!betterInventory_[inventoryIndex]->insert(comparableToBuy)) {
+   if (!(betterInventory_[inventoryIndex]->insert(comparableToBuy))) {
       const Comparable* actedOn = betterInventory_[inventoryIndex]->retrieve(*comparableToBuy);
       delete itemToBuy;
       return static_cast<const Collectible*>(actedOn);
    }
    else {
+      
       return itemToBuy;
    }
    
