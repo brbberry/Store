@@ -8,10 +8,7 @@
 //------------------------------------------------------------------------------
 
 #pragma once
-#include "ItemsManager.h"
-#include "TransactionManager.h"
-#include "CustomerManager.h"
-#include "Command.h"
+
 #include <iostream>
 #include <fstream>
 
@@ -20,16 +17,16 @@ class Store
 
 protected:
 
-   ItemsManager*        iManager_; // manages the stores invetory
+   //ItemsManager*        iManager_; // manages the stores invetory
                                   // and the items associated
 
-   TransactionManager*  tManager_; // manages the transactions
+   //TransactionManager*  tManager_; // manages the transactions
                                   // and the transaction history
 
-   CustomerManager*     cManager_; // manages the list of customers
+   //CustomerManager*     cManager_; // manages the list of customers
 
 
-   Command** generateCommand_; // processes store commands
+   //Command** generateCommand_; // processes store commands
 
    static const int NUM_COMMANDS = 26; // cannot be fewer than 1
 

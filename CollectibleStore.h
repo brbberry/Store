@@ -11,6 +11,10 @@
 
 #pragma once
 #include "Store.h"
+#include "ItemsManager.h"
+#include "TransactionManager.h"
+#include "CustomerManager.h"
+#include "Command.h"
 #include "CommandBuy.h"
 #include "CommandHistory.h"
 #include "CommandSell.h"
@@ -23,6 +27,18 @@
 class CollectibleStore : public Store
 {
 private:
+
+   ItemsManager*        iManager_; // manages the stores invetory
+                               // and the items associated
+
+   TransactionManager*  tManager_; // manages the transactions
+                                  // and the transaction history
+
+   CustomerManager*     cManager_; // manages the list of customers
+
+
+   Command** generateCommand_; // processes store commands
+
 
    //------------------------ getCommandType ---------------------------------
    // takes a string and abstracts the command type 
