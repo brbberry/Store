@@ -57,7 +57,8 @@ bool TransactionManager::logTransaction(const Customer*& responsible,
    // make new transaction with refrence to the true memory
    Transaction* newTransaction = new Transaction(item, transactionType);
    // make a new transaction log 
-   TransactionLogEntry* transactionEntry = new TransactionLogEntry(responsible, newTransaction);
+   TransactionLogEntry* transactionEntry = nullptr;
+   transactionEntry = new TransactionLogEntry(responsible, newTransaction);
 
    // cast it
    const Comparable* toAdd = static_cast<const Comparable*>(transactionEntry);
@@ -67,7 +68,8 @@ bool TransactionManager::logTransaction(const Customer*& responsible,
    if (!transactionHistory_->insert(toAdd)) {
       // if the entry was already in the table the count was increased but we need to add the transaction
       const Comparable* entryToAddTo = transactionHistory_->retrieve(*toAdd);
-      const TransactionLogEntry* addHere = static_cast<const TransactionLogEntry*>(entryToAddTo);
+      const TransactionLogEntry* addHere = nullptr;
+      addHere = static_cast<const TransactionLogEntry*>(entryToAddTo);
       // possibly change to make a copy rather than in the method
       addHere->addTransaction(new Transaction(*newTransaction));
       // becauase it was already presesnt delete the log entry
@@ -89,7 +91,9 @@ bool TransactionManager::logTransaction(const Customer*& responsible,
 //                 indented by a tab under the customers name
 void TransactionManager::displayTransactionHistory() const
 {
-
+   std::string boarder2 = "------------------------";
+   std::string boarder = "--------------";
+   std::cout << boarder + " Transaction History " + boarder2 << std::endl;
    std::cout << *transactionHistory_ << std::endl;
 
 }
@@ -105,8 +109,13 @@ void TransactionManager::displayTransactionHistory() const
 //                  
 //                 if the customer has not made a transaction an exception
 //                 is thrown
-void TransactionManager::displayCustomersHistroy(const Customer*& responsible) const
+void TransactionManager::displayCustomersHistroy(const Customer*& responsible)
+const
 {
+   std::string boarder1 = "------------- ";
+   std::string boarder2 = "-----------------------";
+   std::cout << boarder1 << responsible->getName() << " Transaction History"
+      + boarder2 << std::endl;
    TransactionLogEntry dummyToSearch(responsible);
    const Comparable* toMatch = static_cast<const Comparable*>(&dummyToSearch);
    const Comparable* found = transactionHistory_->retrieve(*toMatch);

@@ -111,7 +111,7 @@ private:
    // Postconditions:  The node with the next greatest comparable is found copied 
    //                  and returned. The node found with the next greatest 
    //                  comparable is deleted from the tree.
-   STNode* getNextGreatest(STNode*& root);
+   STNode* getNextGreatest(STNode*& root) const;
 
 
    //-------------------------- max --------------------------------------

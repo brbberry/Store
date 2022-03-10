@@ -77,6 +77,9 @@ bool TransactionLogEntry::operator==(const Comparable& right) const
    if (customer_ == rightHandSide.customer_) {
       return true;
    }
+   else if (customer_->getID() == rightHandSide.customer_->getID()) {
+      return true;
+   }
    return false;
 }
 
@@ -102,19 +105,15 @@ bool TransactionLogEntry::operator>(const Comparable& right) const
    const TransactionLogEntry& rightHandSide = static_cast<const TransactionLogEntry&>(right);
 
    std::string toCompCustName = rightHandSide.customer_->getName();
+   std::string toCompCustID = rightHandSide.customer_->getID();
 
    if (customer_->getName() > toCompCustName) {
       return true;
    }
    else if (customer_->getName() == toCompCustName) {
-      int curLogSize = transactionLog_.size();
-      int compLogSize = rightHandSide.transactionLog_.size();
-      if (curLogSize > compLogSize) {
+
+      if (customer_->getID() > toCompCustID) {
          return true;
-      }
-      else if (curLogSize == compLogSize) {
-         // compare memaddress // arbitrary order at this point
-         return customer_ > rightHandSide.customer_;
       }
    }
    return false;
@@ -128,23 +127,20 @@ bool TransactionLogEntry::operator>(const Comparable& right) const
 //                 than the left hand side. Otherwise, true is returned
 bool TransactionLogEntry::operator<(const Comparable& right) const
 {
-   const TransactionLogEntry& rightHandSide = static_cast<const TransactionLogEntry&>(right);
+   const TransactionLogEntry& rightHandSide = static_cast
+                                           <const TransactionLogEntry&>(right);
 
+   std::string toCompCustID = rightHandSide.customer_->getID();
    std::string toCompCustName = rightHandSide.customer_->getName();
    if (customer_->getName() < toCompCustName) {
       return true;
    }
    else if (customer_->getName() == toCompCustName) {
-      int curLogSize = transactionLog_.size();
-      int compLogSize = rightHandSide.transactionLog_.size();
-      if (curLogSize < compLogSize) {
+      if (customer_->getID() < toCompCustID) {
          return true;
       }
-      else if (curLogSize == compLogSize) {
-         // compare memaddress // arbitrary order at this point
-         return customer_ < rightHandSide.customer_;
-      }
    }
+
    return false;
 }
 
@@ -173,7 +169,8 @@ void TransactionLogEntry::print() const
          transactionType = "Sold";
       }
 
-      std::cout << "\t" << transactionType << " " << *item << std::endl;
+      std::cout << "\t" << transactionType << " " << *item;
+      std::cout <<  "\n\t\t" << std::endl;
    }
 }
 

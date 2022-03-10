@@ -73,31 +73,7 @@ void SearchTree::emptyTreeHelper(STNode*& root)
    root->held_ = nullptr;
    delete root;
    root = nullptr;
-   /*
-   // if we are not at the calling trees root, free the memory completely
-   if (root != root_) {
-      //--
-      const Comparable* compToDel = root->held_;
-      STNode* nodeToDel = root;
-      root->held_ = nullptr;
-      root = nullptr;
-      delete compToDel;
-      delete nodeToDel;
-      //--
-      delete root->held_;
-      root->held_ = nullptr;
-      delete root;
-      root = nullptr;
-  
-   }
-   // if we are at the calling tree's root, just free the held and
-   // reset the count
-   else {
-      delete root->held_;
-      root->held_ = nullptr;
-      root->count_ = 0;
-   }
-   */
+
    return;
 }
 
@@ -402,7 +378,7 @@ void SearchTree::deleteRoot(STNode*& root)
 // Preconditions:   The right child of the root to be deleted must be passed in
 // Postconditions:  The node with the next greatest comparable is found copied 
 //                  and returned.
-SearchTree::STNode* SearchTree::getNextGreatest(STNode*& root)
+SearchTree::STNode* SearchTree::getNextGreatest(STNode*& root) const
 {
    if (root->left_ == nullptr) {
 
@@ -610,7 +586,7 @@ void SearchTree::streamInorder(STNode* root, std::ostream& output) const
    streamInorder(root->left_, output);
    // changed to use print
    root->held_->print();
-   output << " " << root->count_ << std::endl;
+   output << " -- Quantity " << root->count_ << "x" << std::endl;
    streamInorder(root->right_, output);
 }
 

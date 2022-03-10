@@ -175,8 +175,8 @@ bool SportsCard::operator<(const Comparable& right) const
 // Postconditions: prints to the console a representation of the SportsCard
 void SportsCard::print() const
 {
-   std::cout << "Sports Card : " << year_ << ", " << grade_ << ", " + manufacturer_
-      << ", " + player_;
+   std::cout << "Sports Card : " << year_ << ", " << grade_ 
+             << ", " + manufacturer_ << ", " + player_;
 }
 
 

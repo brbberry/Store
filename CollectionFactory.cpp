@@ -94,7 +94,6 @@ CollectionFactory::~CollectionFactory()
 // Postconditions: a constant Hashable object pointer is returned from a key
 const Collectible* CollectionFactory::create(std::string key) const
 {
-   // possibly make a get type method -- just takes the first Char M so its ", " formatted still
 
    int collectibleIndex = hashCollectible(key);
    if (validCollectibleHash(collectibleIndex)) {
