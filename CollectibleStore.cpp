@@ -174,7 +174,10 @@ void CollectibleStore::runStore(std::ifstream& readCommands)
                toDo->execute(tManager_, iManager_, cManager_, curCommand);
             }
             catch (CollectiblesStoreError err) {
-               std::cout << err.what() << std::endl;
+               std::cout << "\n-----------------";
+               std::cout << "An Error Occured During Transaction";
+               std::cout << "-----------------" << std::endl;
+               std::cout << err.what() << "\n" << std::endl;
                continue;
             }
          }

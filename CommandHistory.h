@@ -9,6 +9,7 @@
 
 #pragma once
 #include "Command.h"
+
 class CommandHistory : public Command
 {
 public:

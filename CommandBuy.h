@@ -1,6 +1,6 @@
 // Blake Berry
-// 02/22/2022
-// Homework 4 Design
+// 03/08/2022
+// Homework 4
 // This file is an interface for the CommandBuy class. The CommandBuy class
 // class inherits from the command interface. The command buy class is 
 // responsible for the end - to - end execution of a purchase from a 

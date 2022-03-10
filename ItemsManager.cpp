@@ -163,9 +163,7 @@ void ItemsManager::fillInventory(std::ifstream& inFile)
 
       // we have the type
       std::string collectibleType = getItemType(curItem);
-      // we know the first is the customer number
 
-      //try
       // creates a itemShell (does not create memory)
       const Collectible* itemShell = nullptr;
       try {
@@ -213,6 +211,7 @@ void ItemsManager::fillInventory(std::ifstream& inFile)
       const Comparable* comparableToAdd = nullptr;
       comparableToAdd = static_cast<const Comparable*>(itemToAdd);
 
+      // add the item to the invetory to meet quanitity
       while (numAdded < inventoryAmount) {
 
          int inventoryIndex = hashStoreInventory(itemToAdd->getID());
@@ -224,6 +223,7 @@ void ItemsManager::fillInventory(std::ifstream& inFile)
 
       lineItem++;
    }
+   // if there are errors print
    if (errorFound) {
       std::string boarder1 = "------------";
       std::string boarder2 = "-------------------";

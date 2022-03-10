@@ -156,7 +156,6 @@ void CustomerManager::fillCustomerLog(std::ifstream& readFrom)
       
       std::getline(readFrom, curCust);
       std::string customerNumberString = processCustomer(curCust);
-      // we know the first is the customer number
       int customerNumber;
       try {
          validCustomerNumber(customerNumberString);
@@ -183,7 +182,7 @@ void CustomerManager::fillCustomerLog(std::ifstream& readFrom)
       HashableObject* newCustomer = new Customer(customerNumber, custName);
       customerLog_[custIndex] = newCustomer;
    }
-
+   // if errors print them
    if (custError) {
       std::string boarder1 = "------------";
       std::string boarder2 = "-------------------";

@@ -13,6 +13,9 @@ class Comparable
 
 public:
 
+   //-------------------------- destructor --------------------------------------
+   // Frees any comparable dynamic memory
+   // Postconditions: frees the comparable of any dynamic memory
    virtual ~Comparable() {};
 
    //-------------------------- operator== --------------------------------------
@@ -51,7 +54,13 @@ public:
    virtual bool operator<(const Comparable& right) const = 0;
 
 
-   //returns a new copy of itself
+   //-------------------------- copy ------------------------------------------
+   // creates a deep copy of the current comparable and returns a 
+   // non-modifyable pointer to it
+   // preconditions : The caller must means to deallocate the memory
+   //                 associated
+   // Postconditions: returns a constant pointer deep copy of the current
+   //                 comparable
    virtual const Comparable* copy() const = 0;
 
    //-------------------------- print --------------------------------------

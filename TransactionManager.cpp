@@ -60,19 +60,22 @@ bool TransactionManager::logTransaction(const Customer*& responsible,
    TransactionLogEntry* transactionEntry = nullptr;
    transactionEntry = new TransactionLogEntry(responsible, newTransaction);
 
-   // cast it
    const Comparable* toAdd = static_cast<const Comparable*>(transactionEntry);
 
    // insert returns false if the entry is already present
-   // that is an entry with that exact customer is already present still need to add transaction
+   // that is an entry with that exact customer is already present still 
+   // need to add transaction
    if (!transactionHistory_->insert(toAdd)) {
-      // if the entry was already in the table the count was increased but we need to add the transaction
+      // if the entry was already in the table the count was increased but 
+      // we need to add the transaction
       const Comparable* entryToAddTo = transactionHistory_->retrieve(*toAdd);
       const TransactionLogEntry* addHere = nullptr;
       addHere = static_cast<const TransactionLogEntry*>(entryToAddTo);
-      // possibly change to make a copy rather than in the method
+
+      // add the transaction
       addHere->addTransaction(new Transaction(*newTransaction));
-      // becauase it was already presesnt delete the log entry
+
+      // clear the already present entry -- deletes origional transaction
       delete transactionEntry;
    }
 
@@ -127,5 +130,4 @@ const
    else {
       std::cout << *found << std::endl;
    }
-
 }

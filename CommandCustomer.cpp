@@ -1,5 +1,13 @@
-#include "CommandCustomer.h"
+// Blake Berry
+// 03/08/2022
+// Homework 4
+// This file is an interface for the CommandCustomerclass. The CommandCustomer
+// class inherits from the command interface. The CommandCustomer class
+// is responsible for the end - to - end execution of displaying a customers
+// transaction history with the store
+//-----------------------------------------------------------------------------
 
+#include "CommandCustomer.h"
 
 //-------------------------- constructor -----------------------------------
 // creates a CommandCustomer with a given string Indicator
@@ -9,6 +17,10 @@ CommandCustomer::CommandCustomer(std::string type) :
 {
 }
 
+
+//-------------------------- destructor -----------------------------------
+// Frees any dynamic memory associated with the Command object
+// Postconditions: The command is freed of any dynamic memory
 CommandCustomer::~CommandCustomer()
 {
 }
