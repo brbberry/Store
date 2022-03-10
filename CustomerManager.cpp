@@ -149,7 +149,8 @@ CustomerManager::~CustomerManager()
 //                 are thrown to cout
 void CustomerManager::fillCustomerLog(std::ifstream& readFrom)
 {
-   std::string err1 = "Invalid Customer ";
+   bool custError = false;
+   std::vector<std::string> errorList;
    std::string curCust = "";
    while (readFrom.peek() != EOF) {
       
@@ -161,7 +162,8 @@ void CustomerManager::fillCustomerLog(std::ifstream& readFrom)
          validCustomerNumber(customerNumberString);
       }
       catch (CollectiblesStoreError err) {
-         std::cout << err.what() << std::endl;
+         custError = true;
+         errorList.push_back(err.what());
          continue;
       }
 
@@ -172,7 +174,8 @@ void CustomerManager::fillCustomerLog(std::ifstream& readFrom)
          custIndex = hashCustomer(customerNumberString);
       }
       catch (CollectiblesStoreError err) {
-         std::cout << err.what() << std::endl;
+         custError = true;
+         errorList.push_back(err.what());
          continue;
       }
 
@@ -180,6 +183,19 @@ void CustomerManager::fillCustomerLog(std::ifstream& readFrom)
       HashableObject* newCustomer = new Customer(customerNumber, custName);
       customerLog_[custIndex] = newCustomer;
    }
+
+   if (custError) {
+      std::string boarder1 = "------------";
+      std::string boarder2 = "-------------------";
+      std::cout << boarder1 + " Filling Customer Errors" + boarder2
+         << std::endl;
+      int size = errorList.size();
+      for (int i = 0; i < size; i++) {
+         std::cout << errorList[i] << std::endl;
+      }
+      std::cout << std::endl;
+   }
+
 }
 
 

@@ -14,6 +14,7 @@
 #include <fstream>
 #include <ctype.h>
 #include "CollectiblesStoreError.h"
+#include <vector>
 
 class CustomerManager
 {

@@ -151,9 +151,12 @@ ItemsManager::~ItemsManager()
 //                 thrown if invalid data is attempted
 void ItemsManager::fillInventory(std::ifstream& inFile)
 {
-   std::string curItem = "";
-   bool itemError = false;
-   int lineItem = 1;
+   std::vector<std::string>   errorList;
+   bool                       errorFound = false;
+   std::string                curItem    = "";
+   int                        lineItem   = 1;
+
+
    while (inFile.peek() != EOF) {
 
       std::getline(inFile, curItem);
@@ -169,8 +172,10 @@ void ItemsManager::fillInventory(std::ifstream& inFile)
          itemShell = getItemShell(collectibleType);
       }
       catch (CollectiblesStoreError err) {
-         std::cout << "Inventory Line item " << lineItem << " "
-                   << err.what() << std::endl;
+         errorFound = true;
+         std::string message = err.what();
+         std::string onLine = " on Line ";
+         errorList.push_back(err.what() + onLine + std::to_string(lineItem));
          lineItem++;
          continue;
       }
@@ -180,8 +185,10 @@ void ItemsManager::fillInventory(std::ifstream& inFile)
          inventoryAmount = getInventoryAmount(curItem);
       }
       catch (CollectiblesStoreError err) {
-         std::cout << "Inventory Line item " << lineItem << " "
-            << err.what() << std::endl;
+         errorFound = true;
+         std::string message = err.what();
+         std::string onLine = " on Line ";
+         errorList.push_back(err.what() + onLine + std::to_string(lineItem));
          lineItem++;
          continue;
       }
@@ -192,9 +199,11 @@ void ItemsManager::fillInventory(std::ifstream& inFile)
          itemToAdd = itemShell->create(curItem);
       }
       catch (CollectiblesStoreError err) {
+         errorFound = true;
          delete itemToAdd;
-         std::cout << "Inventory Line item " << lineItem << " "
-            << err.what() << std::endl;
+         std::string message = err.what();
+         std::string onLine = " on Line ";
+         errorList.push_back(err.what() + onLine + std::to_string(lineItem));
          lineItem++;
          continue;
       }
@@ -214,6 +223,18 @@ void ItemsManager::fillInventory(std::ifstream& inFile)
       }
 
       lineItem++;
+   }
+   if (errorFound) {
+      std::string boarder1 = "------------";
+      std::string boarder2 = "-------------------";
+      std::cout << boarder1 + " Filling Inventory Errors" + boarder2 
+                << std::endl;
+
+      int size = errorList.size();
+      for (int i = 0; i < size; i++) {
+         std::cout << errorList[i] << std::endl;
+      }
+      std::cout << std::endl;
    }
 }
 
