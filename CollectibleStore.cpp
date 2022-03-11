@@ -210,17 +210,40 @@ void CollectibleStore::fillStoreCustomers(std::ifstream& readCustomers)
    initalizeCustomerManager(readCustomers);
 }
 
+
+//--------------------------------- main -------------------------------
+// Creates a store, filling it with customers and items. Then operates
+// the store using a file of commands
+// PreConditions : The files must be formatted properly and all implimentations
+//                 are the handle any dynamic memory appropriately
+// Postconditions: The stores commands are displayed to the console if
+//                 applicable and any error during processing is displayed
+//                 while that input line is skipped
 int main() {
 
+   
+   // customer file
    std::ifstream custs("C:/Users/Trident/source/repos/StoreTesting/StoreTesting/Text.txt");
+
+   // inventory file
    std::ifstream items("C:/Users/Trident/source/repos/StoreTesting/StoreTesting/Text1.txt");
+
+   // commands file
    std::ifstream commands("C:/Users/Trident/source/repos/StoreTesting/StoreTesting/Text2.txt");
 
    CollectibleStore* store = new CollectibleStore();
+
+   // use items file
    store->fillStoreInventory(items);
+
+   // use customer file
    store->fillStoreCustomers(custs);
+
+   // use commands file
    store->runStore(commands);
 
+   // free store memory
    delete store;
+
    return 0;
 }
