@@ -1,4 +1,5 @@
 # Description
+
 To simulate a collectibles store a collectibles store class was created from a template store class.
 The Store has three manager classes, one to manage the transaction history and logging – called
 the TransactionManager, one to manage the list of customers and customer information – called
@@ -20,6 +21,7 @@ commands. The commands are generated from a quick look up and executed using the
 managers.
 
 *description of main:*
+
 The store initializes its customers and items from a given file. Then, while the list of commands
 the store must execute is not empty (eof), the store will use its command factory to process each
 command. An output to the console will not be made for successful transaction unless a given
@@ -30,15 +32,15 @@ command if possible
 
 
 ## Error Handeling
-*If a store attempts to sell or buy something from an individual then an error will be thrown
-*If a store attempts to sell or buy an item that is not supported by the store or has invalid
+* If a store attempts to sell or buy something from an individual then an error will be thrown
+* If a store attempts to sell or buy an item that is not supported by the store or has invalid
 properties, an error will be thrown
-*If customer history for a customer that does not exist is requested an error will be thrown
+* If customer history for a customer that does not exist is requested an error will be thrown
 
-##Input
-*The customer list and store inventory will be initialized from a file. The file is assumed to be
+## Input
+* The customer list and store inventory will be initialized from a file. The file is assumed to be
 properly formatted however may contain invalid data – the file contents are checked for
 validity
-*The commands that the store will execute are initialized from a file. The file is assumed to be
+* The commands that the store will execute are initialized from a file. The file is assumed to be
 properly formatted however may contain invalid data – the file contents are checked for
 validity
