@@ -42,6 +42,3 @@ validity
 *The commands that the store will execute are initialized from a file. The file is assumed to be
 properly formatted however may contain invalid data – the file contents are checked for
 validity
-
-## UML
-![class diagram](C:\Users\Trident\Desktop\classDiag1.jpg)
